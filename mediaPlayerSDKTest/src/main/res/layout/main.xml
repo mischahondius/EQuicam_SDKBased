@@ -76,18 +76,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
-                <AutoCompleteTextView
-                    android:id="@+id/edit_ipaddress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="0.9"
-                    android:ems="10"
-                    android:maxWidth="420dp"
-                    android:minWidth="150dp"
-                    android:singleLine="true"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-
             </LinearLayout>
 
             <LinearLayout

@@ -26,12 +26,11 @@ public final class R {
         public static final int about_info_pic=0x7f090001;
         public static final int about_info_text=0x7f090002;
         public static final int about_opensource_text=0x7f090003;
-        public static final int button_connect=0x7f09000e;
-        public static final int button_record=0x7f09000f;
-        public static final int edit_ipaddress=0x7f09000d;
+        public static final int button_connect=0x7f09000d;
+        public static final int button_record=0x7f09000e;
         public static final int led=0x7f090006;
         public static final int linearLayout1=0x7f09000c;
-        public static final int main_opt_settings=0x7f090012;
+        public static final int main_opt_settings=0x7f090011;
         public static final int main_view=0x7f090004;
         public static final int playerHwStatus=0x7f090009;
         public static final int playerStatus=0x7f09000a;
@@ -39,8 +38,8 @@ public final class R {
         public static final int playerView=0x7f090008;
         public static final int playerViewLayout=0x7f090005;
         public static final int playerViewRelativeLayout=0x7f090007;
-        public static final int videoshot_image=0x7f090011;
-        public static final int videoshot_toast_layout_id=0x7f090010;
+        public static final int videoshot_image=0x7f090010;
+        public static final int videoshot_toast_layout_id=0x7f09000f;
     }
     public static final class layout {
         public static final int about=0x7f030000;

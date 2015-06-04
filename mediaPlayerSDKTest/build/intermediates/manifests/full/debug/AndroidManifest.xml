@@ -22,7 +22,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_short_name"
         android:largeHeap="true" >
-        <activity android:name="veg.mediaplayer.sdk.test.MainActivity" >
+        <activity
+            android:name="veg.mediaplayer.sdk.test.MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

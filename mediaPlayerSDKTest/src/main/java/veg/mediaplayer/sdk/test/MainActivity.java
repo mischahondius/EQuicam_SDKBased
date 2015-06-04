@@ -1,12 +1,15 @@
 /*
  *
- * Copyright (c) 2010-2014 EVE GROUP PTE. LTD.
+ * Mischa Hondius, 6053017.
+ * University of Amsterdam
+ * SDK Used by Video Experts Group
  *
  */
 
 
 package veg.mediaplayer.sdk.test;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -109,36 +112,26 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 {
 
 	private static final String strUrl = "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
-
     private static final String TAG 	 = "EQuicamAPP";
 
 	//Record split time
 	int rec_split_time = 240;
 
-    public  static ArrayAdapter<String> edtIpAddressAdapter;
     private Button						btnConnect;
 	private Button						btnRecord;
 	private boolean						is_record = false;
-
 	private StatusProgressTask 			mProgressTask = null;
-	
 	private SharedPreferences 			settings;
     private SharedPreferences.Editor 	editor;
-
     private boolean 					playing = false;
     private MediaPlayer 				player = null;
-    //private MediaPlayer 				player_record = null;
     private MainActivity 				mthis = null;
-
     private RelativeLayout 				playerStatus = null;
     private TextView 					playerStatusText = null;
     private TextView 					playerHwStatus = null;
-    
-	public ScaleGestureDetector 		detectors = null;	
+	public ScaleGestureDetector 		detectors = null;
 	public ViewSizes 					mSurfaceSizes 	= null;
-    
     private MulticastLock multicastLock = null;
-    
 	private enum PlayerStates
 	{
 	  	Busy,
@@ -163,7 +156,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
     private Handler handler = new Handler()
     {
-        String strText = "Connecting";
+        String strText = "Verbinden";
 
         @Override
         public void handleMessage(Message msg)
@@ -173,9 +166,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
             {
                 case CP_CONNECT_STARTING:
                     if (reconnect_type == PlayerConnectType.Reconnecting)
-                        strText = "Reconnecting";
+                        strText = "Opnieuw aan het verbinden";
                     else
-                        strText = "Connecting";
+                        strText = "Verbinden";
 
                     startProgressTask(strText);
 	        		
@@ -356,11 +349,12 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	    
 		return 0;
 	}
-	
+
+    //RecordPath instellen
     public String getRecordPath()
     {
     	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-    		      Environment.DIRECTORY_DCIM), "RecordsMediaPlayer");
+    		      Environment.DIRECTORY_DCIM), "EQuicam Clips");
     	
 	    if (! mediaStorageDir.exists()){
 	        if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())){
@@ -475,6 +469,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         
     }
 
+    //Thumbnail opslaan
     private int[] mColorSwapBuf = null;                        // used by saveFrame()
     public Bitmap getFrameAsBitmap(ByteBuffer frame, int width, int height)
     {
@@ -494,8 +489,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 				return;
 
 
-			//player_record.Close();
-			
 			player.Close();
 			if (playing)
 			{
@@ -733,7 +726,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		stopProgressTask();
 	    
 	    mProgressTask = new StatusProgressTask(text);
-	    //mProgressTask.execute(text);
 	    executeAsyncTask(mProgressTask, text);
 	}
 	
