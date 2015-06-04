@@ -19,6 +19,8 @@ import android.text.util.Linkify;
 import android.graphics.Color;
 import android.widget.TextView;
 
+import EQuicamApp.R;
+
 public class AboutDialog extends Dialog
 {
 	private static Context mContext = null;

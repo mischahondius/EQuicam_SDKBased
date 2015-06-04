@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "veg.mediaplayer.sdk.test"
+        applicationId "nl.mprog.EQuicamApp"
         minSdkVersion 11
         targetSdkVersion 16
     }

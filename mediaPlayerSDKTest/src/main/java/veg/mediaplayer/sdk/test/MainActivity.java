@@ -56,6 +56,8 @@ import java.util.HashSet;
 import java.util.ArrayList;
 
 import android.preference.PreferenceManager;
+
+import EQuicamApp.R;
 import veg.mediaplayer.sdk.MediaPlayer;
 import veg.mediaplayer.sdk.MediaPlayer.MediaPlayerCallback;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerModes;

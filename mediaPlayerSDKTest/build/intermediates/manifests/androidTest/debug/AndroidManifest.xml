@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="veg.mediaplayer.sdk.test.test">
+    package="nl.mprog.EQuicamApp.test">
 
     <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="16" />
 
@@ -9,8 +9,8 @@
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="veg.mediaplayer.sdk.test"
+                     android:targetPackage="nl.mprog.EQuicamApp"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for veg.mediaplayer.sdk.test"/>
+                     android:label="Tests for nl.mprog.EQuicamApp"/>
 </manifest>
