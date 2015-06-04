@@ -29,6 +29,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -121,6 +124,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	int rec_split_time = 240;
 
     private Button						btnConnect;
+	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
 	private boolean						is_record = false;
 	private StatusProgressTask 			mProgressTask = null;
@@ -401,28 +405,32 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
         sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
+		btnHighlight = (ImageButton) findViewById(R.id.button_record_flash);
+
 		HashSet < String > tempHistory = new HashSet<String>();
         tempHistory.add("rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
 
         player.setOnTouchListener(new View.OnTouchListener() {
-                                      @Override
-                                      public boolean onTouch(View view, MotionEvent motionEvent) {
-                                          switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                                              case MotionEvent.ACTION_DOWN: {
-                                                  if (player.getState() == PlayerState.Paused)
-                                                      player.Play();
-                                                  else if (player.getState() == PlayerState.Started)
-                                                      player.Pause();
-                                              }
-                                          }
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+					case MotionEvent.ACTION_DOWN: {
+						if (player.getState() == PlayerState.Paused)
+							player.Play();
+						else if (player.getState() == PlayerState.Started)
+							player.Pause();
+					}
+				}
 
-                                          return true;
-                                      }
+				return true;
+			}
 		});
 
 		btnConnect = (Button)findViewById(R.id.button_connect);
         btnConnect.setOnClickListener(this);
-        
+
+
+        //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
         btnRecord.setOnClickListener( new OnClickListener(){
 			@Override
@@ -437,6 +445,19 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
 						player.RecordStart();
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
+
+
+
+						//knipper rec button
+						//make visible knopje
+
+						Animation mAnimation = new AlphaAnimation(0, 1);
+						mAnimation.setDuration(1000);
+						mAnimation.setInterpolator(new LinearInterpolator());
+						mAnimation.setRepeatCount(Animation.INFINITE);
+						mAnimation.setRepeatMode(Animation.REVERSE);
+						btnHighlight.startAnimation(mAnimation);
+						btnHighlight.setVisibility(View.VISIBLE);
                     }
 				}else{
 
@@ -444,12 +465,58 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 					if(player != null){
 						player.RecordStop();
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
-                    }
+						btnHighlight.clearAnimation();
+						btnHighlight.setVisibility(View.INVISIBLE);
+
+					}
 				}
 
 			}
+
         });
-        
+
+		//Highlightbuttonlistener
+		btnHighlight.setOnClickListener( new OnClickListener(){
+			@Override
+			public void onClick(View arg0) {
+				is_record = !is_record;
+
+				if(is_record){
+
+					//start opname
+					if(player != null){
+						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
+						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
+						player.RecordStart();
+						Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
+
+
+
+						//knipper rec button
+						//make visible knopje
+
+						Animation mAnimation = new AlphaAnimation(0, 1);
+						mAnimation.setDuration(1000);
+						mAnimation.setInterpolator(new LinearInterpolator());
+						mAnimation.setRepeatCount(Animation.INFINITE);
+						mAnimation.setRepeatMode(Animation.REVERSE);
+						btnHighlight.startAnimation(mAnimation);
+						btnHighlight.setVisibility(View.VISIBLE);
+					}
+				}else{
+
+					//stop opname
+					if(player != null){
+						player.RecordStop();
+						Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
+						btnHighlight.clearAnimation();
+						btnHighlight.setVisibility(View.INVISIBLE);
+
+					}
+				}
+
+			}
+		});
         
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
         layout.setOnTouchListener(new OnTouchListener() 
@@ -510,7 +577,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     	    	conf.setConnectionBufferingTime(sett.connectionBufferingTime);
     	    	conf.setDecodingType(sett.decoderType);
     	    	conf.setRendererType(sett.rendererType);
-    	    	conf.setSynchroEnable(sett.synchroEnable);
+				conf.setSynchroEnable(sett.synchroEnable);
     	    	conf.setSynchroNeedDropVideoFrames(sett.synchroNeedDropVideoFrames);
     	    	conf.setEnableColorVideo(sett.rendererEnableColorVideo);
     	    	conf.setEnableAspectRatio(aspect);
@@ -521,9 +588,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     	    	if(is_record){
     	    		int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START); //1 - auto start    	    		
     	    		conf.setRecordPath(getRecordPath());
-    	    		conf.setRecordFlags(record_flags);
+					conf.setRecordFlags(record_flags);
     	    		conf.setRecordSplitTime(0);
-    	    		conf.setRecordSplitSize(0);
+					conf.setRecordSplitSize(0);
     	    	}else{
     	    		conf.setRecordPath("");
     	    		conf.setRecordFlags(0);
