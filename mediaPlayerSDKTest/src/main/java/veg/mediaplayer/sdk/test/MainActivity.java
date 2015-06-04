@@ -108,16 +108,14 @@ class ViewSizes
 public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback, View.OnTouchListener
 {
 
-    //Set Camera Url
-    private static final String  strUrl = "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+	private static final String strUrl = "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
 
     private static final String TAG 	 = "EQuicamAPP";
 
 	//Record split time
 	int rec_split_time = 240;
 
-	public  static AutoCompleteTextView	edtIpAddress;
-	public  static ArrayAdapter<String> edtIpAddressAdapter;
+    public  static ArrayAdapter<String> edtIpAddressAdapter;
 	public  static Set<String>			edtIpAddressHistory;
 	private Button						btnConnect;
 	private Button						btnRecord;
@@ -161,24 +159,26 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 
 	// Event handler
-	
-	private Handler handler = new Handler() 
+
+// Event handler
+
+    private Handler handler = new Handler()
     {
-		String strText = getString(R.string.VerbindenString2);
-		
-		@Override
-	    public void handleMessage(Message msg) 
-	    {
-	    	PlayerNotifyCodes status = (PlayerNotifyCodes) msg.obj;
-	        switch (status) 
-	        {
-	        	case CP_CONNECT_STARTING:
-	        		if (reconnect_type == PlayerConnectType.Reconnecting)
-	        			strText = getString(R.string.OpnieuwVerbindingMaken);
-	        		else
-	        			strText = getString(R.string.VerbindenString2);
-	        			
-	        		startProgressTask(strText);
+        String strText = "Connecting";
+
+        @Override
+        public void handleMessage(Message msg)
+        {
+            PlayerNotifyCodes status = (PlayerNotifyCodes) msg.obj;
+            switch (status)
+            {
+                case CP_CONNECT_STARTING:
+                    if (reconnect_type == PlayerConnectType.Reconnecting)
+                        strText = "Reconnecting";
+                    else
+                        strText = "Connecting";
+
+                    startProgressTask(strText);
 	        		
 	        		player_state = PlayerStates.Busy;
 	    			showStatusView();
@@ -404,35 +404,31 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		
 		player = (MediaPlayer)findViewById(R.id.playerView);
 
-		player.getSurfaceView().setZOrderOnTop(true);    // necessary
-		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
-		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
+//        //Set Camera Url
+//		strUrl = settings.getString("connectionUrl", "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
 
-		HashSet<String> tempHistory = new HashSet<String>();
-		tempHistory.add("rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
+        player.getSurfaceView().setZOrderOnTop(true);    // necessary
+        SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
+        sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
-		player.setOnTouchListener(new View.OnTouchListener()
-		{
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent)
-            {
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
-                {
-                    case MotionEvent.ACTION_DOWN:
-                    {
-                    	if (player.getState() == PlayerState.Paused)
-                    		player.Play();
-                    	else
-                        	if (player.getState() == PlayerState.Started)
-                        		player.Pause();
-                    }
-                }
+		HashSet < String > tempHistory = new HashSet<String>();
+        tempHistory.add("rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
 
-	        	return true;
-            }
-        });
-		
-			
+        player.setOnTouchListener(new View.OnTouchListener() {
+                                      @Override
+                                      public boolean onTouch(View view, MotionEvent motionEvent) {
+                                          switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                                              case MotionEvent.ACTION_DOWN: {
+                                                  if (player.getState() == PlayerState.Paused)
+                                                      player.Play();
+                                                  else if (player.getState() == PlayerState.Started)
+                                                      player.Pause();
+                                              }
+                                          }
+
+                                          return true;
+                                      }
+
 //		edtIpAddressHistory = settings.getStringSet("connectionHistory", tempHistory);
 //
 //		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -455,6 +451,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 //				return false;
 //			}
 //		});
+//			}
+
+		});
 
 		btnConnect = (Button)findViewById(R.id.button_connect);
         btnConnect.setOnClickListener(this);
@@ -610,9 +609,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		super.onPause();
 
 		editor = settings.edit();
-		editor.putString("connectionUrl", edtIpAddress.getText().toString());
-
-		editor.putStringSet("connectionHistory", edtIpAddressHistory);
 		editor.commit();
 		
 		if (player != null)
@@ -731,7 +727,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 	protected void setHideControls()
 	{
-		edtIpAddress.setVisibility(View.GONE);
 		btnConnect.setVisibility(View.GONE);
 	}
 
@@ -739,7 +734,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	{
 		setTitle(R.string.app_name);
 
-		edtIpAddress.setVisibility(View.VISIBLE);
 		btnConnect.setVisibility(View.VISIBLE);
 	}
 
