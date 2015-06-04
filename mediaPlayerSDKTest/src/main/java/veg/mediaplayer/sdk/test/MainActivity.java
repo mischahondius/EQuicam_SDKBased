@@ -107,7 +107,7 @@ class ViewSizes
 
 public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback, View.OnTouchListener
 {
-    private static final String TAG 	 = "MediaPlayerTest";
+    private static final String TAG 	 = "EQuicamAPP";
 
 	//Record split time
 	int rec_split_time = 240;
@@ -399,9 +399,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		playerHwStatus 		= (TextView)findViewById(R.id.playerHwStatus);
 		
 		player = (MediaPlayer)findViewById(R.id.playerView);
-		
-		//record only
-		//player_record = new MediaPlayer(this, false);
 
 		strUrl = settings.getString("connectionUrl", "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
 		

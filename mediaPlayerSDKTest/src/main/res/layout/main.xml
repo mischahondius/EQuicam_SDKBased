@@ -13,20 +13,22 @@
             android:id="@+id/playerViewLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.04" >
+           android:layout_gravity="top"
+           android:layout_weight="0.40">
             
            <ImageView
 			    android:layout_margin="10dp"
 		        android:id="@+id/led"
 		        android:layout_width="35dp"
 		        android:layout_height="35dp"
-		        android:layout_gravity="center_vertical"
+		        android:layout_gravity="center_vertical|top"
 		        android:src="@drawable/led_green" />
 
 	        <RelativeLayout
 	            android:id="@+id/playerViewRelativeLayout"
 	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent" >
+	            android:layout_height="fill_parent"
+                android:layout_gravity="top">
 	
 	           <veg.mediaplayer.sdk.MediaPlayer
 	                android:id="@+id/playerView"
@@ -48,7 +50,8 @@
 	        <RelativeLayout
 	            android:id="@+id/playerStatus"
 	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent" >
+	            android:layout_height="fill_parent"
+                android:layout_gravity="top">
 
 	            <TextView
 	                android:id="@+id/playerStatusText"
@@ -65,7 +68,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:layout_weight="0.6">
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -74,7 +78,7 @@
 
                 <AutoCompleteTextView
                     android:id="@+id/edit_ipaddress"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="0.9"
