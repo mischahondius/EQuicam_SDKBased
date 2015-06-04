@@ -2,9 +2,18 @@
 <resources>
     <string name="app_name">EQuicamApp</string>
     <string name="app_short_name">EQuicamApp</string>
-    <string name="app_about_title">About</string>
-    <string name="action_settings">Settings</string>
-    <string name="StartRecord">Start Record</string>
-    <string name="Connect">Connect</string>
+    <string name="app_about_title">Over</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="StartRecord">Opnemen</string>
+    <string name="Connect">Verbinden</string>
+    <string name="instellingenMenuString">Instellingen</string>
+    <string name="StopOpnameString">Stop Opname</string>
+    <string name="StartOpnameString">Start Opname</string>
+    <string name="OpnameGestartString">"Opname gestart"</string>
+    <string name="OpnameGestoptString">"Opname gestopt"</string>
+    <string name="GeenVerbindingString">Geen verbinding met uw camera</string>
+    <string name="VerbindenString">Verbinden</string>
+    <string name="Slechts2MinutenOpnameString">U kunt slechts 2 minuten opnemen.</string>
+    <string name="MaakVerbindingString">MAAK VERBINDING VOOR LIVE BEELD VAN UW EQUICAM</string>
 
 </resources>

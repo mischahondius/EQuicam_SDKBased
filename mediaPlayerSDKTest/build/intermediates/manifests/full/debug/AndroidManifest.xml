@@ -29,13 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="veg.mediaplayer.sdk.test.PreferencesActivity"
-            android:noHistory="true"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-
-            <!-- android:theme="@android:style/Theme.Black.NoTitleBar" -->
-        </activity>
     </application>
 
 </manifest>

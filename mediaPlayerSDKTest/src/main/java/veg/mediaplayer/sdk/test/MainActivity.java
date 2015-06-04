@@ -112,8 +112,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	//Record split time
 	int rec_split_time = 240;
 
-
-
 	public  static AutoCompleteTextView	edtIpAddress;
 	public  static ArrayAdapter<String> edtIpAddressAdapter;
 	public  static Set<String>			edtIpAddressHistory;
@@ -200,7 +198,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	        	case PLP_CLOSE_STARTING:
 	        		player_state = PlayerStates.Busy;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+	    			playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setUIDisconnected();
 	    			break;
@@ -208,7 +206,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	        	case PLP_CLOSE_SUCCESSFUL:
 	        		player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			System.gc();
 	    			setShowControls();
@@ -218,7 +216,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	        	case PLP_CLOSE_FAILED:
 	        		player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setShowControls();
 	    			setUIDisconnected();
@@ -227,7 +225,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	        	case CP_CONNECT_FAILED:
 	        		player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setShowControls();
 	    			setUIDisconnected();
@@ -236,7 +234,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            case PLP_BUILD_FAILED:
 	            	player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setShowControls();
 	    			setUIDisconnected();
@@ -245,7 +243,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            case PLP_PLAY_FAILED:
 	            	player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setShowControls();
 	    			setUIDisconnected();
@@ -254,7 +252,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            case PLP_ERROR:
 	            	player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setShowControls();
 	    			setUIDisconnected();
@@ -263,16 +261,17 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            case CP_INTERRUPTED:
 	            	player_state = PlayerStates.ReadyForUse;
 	        		stopProgressTask();
-	    			playerStatusText.setText("Disconnected");
+                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
 	    			showStatusView();
 	    			setShowControls();
 	    			setUIDisconnected();
 	    			break;
+
 	            case CP_RECORD_STARTED:
 	            	Log.v(TAG, "=handleMessage CP_RECORD_STARTED");
 	            	{
 	            		String sFile = player.RecordGetFileName(1);
-	            		Toast.makeText(getApplicationContext(),"Record Started. File "+sFile, Toast.LENGTH_LONG).show();
+	            		Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 	            	}
 	            	break;
 
@@ -280,7 +279,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            	Log.v(TAG, "=handleMessage CP_RECORD_STOPPED");
 	            	{
 	            		String sFile = player.RecordGetFileName(0);
-	            		Toast.makeText(getApplicationContext(),"Record Stopped. File "+sFile, Toast.LENGTH_LONG).show();
+	            		Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
 	            	}
 	            	break;
 
@@ -295,7 +294,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		        		stopProgressTask();
 	            		player_state = PlayerStates.Busy;
 	            		player.Close();
-	        			playerStatusText.setText("Disconnected");
+                        playerStatusText.setText(getString(R.string.GeenVerbindingString));
 		    			showStatusView();
 		    			player_state = PlayerStates.ReadyForUse;
 		    			setShowControls();
@@ -309,12 +308,12 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            		player_state = PlayerStates.Busy;
 	            		player.Close();
 
-	        			playerStatusText.setText("Disconnected");
+                        playerStatusText.setText(getString(R.string.GeenVerbindingString));
 		    			showStatusView();
 		    			player_state = PlayerStates.ReadyForUse;
 		    			setUIDisconnected();
 	            		
-						Toast.makeText(getApplicationContext(), "Demo Version!",
+						Toast.makeText(getApplicationContext(), getString(R.string.Slechts2MinutenOpnameString),
 								   Toast.LENGTH_SHORT).show();
 						
 	            	}
@@ -413,12 +412,12 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		HashSet<String> tempHistory = new HashSet<String>();
 		tempHistory.add("rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
 	
-		player.setOnTouchListener(new View.OnTouchListener() 
+		player.setOnTouchListener(new View.OnTouchListener()
 		{
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) 
+            public boolean onTouch(View view, MotionEvent motionEvent)
             {
-                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) 
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK)
                 {
                     case MotionEvent.ACTION_DOWN:
                     {
@@ -429,7 +428,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
                         		player.Pause();
                     }
                 }
-            		
+
 	        	return true;
             }
         });
@@ -442,17 +441,17 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		edtIpAddress = (AutoCompleteTextView)findViewById(R.id.edit_ipaddress);
 		edtIpAddress.setText(strUrl);
 
-		edtIpAddress.setOnEditorActionListener(new OnEditorActionListener() 
+		edtIpAddress.setOnEditorActionListener(new OnEditorActionListener()
 		{
 			@Override
-			public boolean onEditorAction(TextView v, int actionId,	KeyEvent event) 
+			public boolean onEditorAction(TextView v, int actionId,	KeyEvent event)
 			{
-				if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) 
+				if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
 				{
 					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					in.hideSoftInputFromWindow(edtIpAddress.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 					return true;
-	
+
 				}
 				return false;
 			}
@@ -467,25 +466,10 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 			public void onClick(View arg0) {
 				is_record = !is_record;
 
-				/*if(player_record != null){
-					if(is_record){
-						//start recording
-						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
-						int rec_split_time = 30;	
-						player_record.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
-						player_record.RecordStart();
-						player_record.Play();
-					}else{
-						//stop recording
-						player_record.RecordStop();
-					}
-				}*/
-				
 				if(is_record){
 					//start recording
 					if(player != null){
 						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
-//						int rec_split_time = 30;
 						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
 						player.RecordStart();
 					}
@@ -499,7 +483,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 				ImageView ivLed  = (ImageView)findViewById(R.id.led);
 				if(ivLed != null)
 					ivLed.setImageResource( ( is_record ? R.drawable.led_red : R.drawable.led_green) ); 
-				btnRecord.setText( is_record? "Stop Record":"Start Record" );
+				btnRecord.setText( is_record? getString(R.string.StopOpnameString):getString(R.string.StartOpnameString) );
 			}
         });
         
@@ -516,7 +500,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 			}
 		});
         
-		playerStatusText.setText("DEMO VERSION");
+		playerStatusText.setText(getString(R.string.MaakVerbindingString));
 		setShowControls();
         
     }
@@ -725,32 +709,24 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		return true;
     }
 
+    //MENU Listeners
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)  
 	{
-		switch (item.getItemId())  
-		{
-			case R.id.main_opt_settings:   
-		
-				SharedSettings.getInstance().loadPrefSettings();
-
-				Intent intentSettings = new Intent(MainActivity.this, PreferencesActivity.class);     
-				startActivity(intentSettings);
-
-				break;
-
-            case R.id.main_opt_exit:
-				finish();
-				break;
-
-		}
+//		switch (item.getItemId())
+//		{
+//            case R.id.main_opt_exit:
+//				finish();
+//				break;
+//
+//		}
 		return true;
 	}
 
 	protected void setUIDisconnected()
 	{
 		setTitle(R.string.app_name);
-		btnConnect.setText("Connect");
+		btnConnect.setText(getString(R.string.VerbindenString));
 		playing = false;
 	}
 
@@ -838,7 +814,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
             {
                 if (stop) return true;
 
-                String maxText = "Disconnected.....";//strProgressTextSrc + "....";
+                String maxText = getString(R.string.GeenVerbindingString) + ".....";
                 int len = maxText.length();
             	playerStatusText.getPaint().getTextBounds(maxText, 0, len, bounds);
 
