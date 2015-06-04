@@ -7,43 +7,40 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
        <FrameLayout
             android:id="@+id/playerViewLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-           android:layout_gravity="top"
-           android:layout_weight="0.40">
-            
-           <ImageView
-			    android:layout_margin="10dp"
-		        android:id="@+id/led"
-		        android:layout_width="35dp"
-		        android:layout_height="35dp"
-		        android:layout_gravity="center_vertical|top"
-		        android:src="@drawable/led_green" />
+           android:layout_weight="0.365"
+           android:background="#ff000000"
+           android:layout_gravity="top">
 
-	        <RelativeLayout
+           <RelativeLayout
 	            android:id="@+id/playerViewRelativeLayout"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-                android:layout_gravity="top">
-	
+               android:layout_gravity="top">
+
 	           <veg.mediaplayer.sdk.MediaPlayer
 	                android:id="@+id/playerView"
 	                android:layout_width="fill_parent"
 	                android:layout_height="fill_parent"
-	                android:layout_gravity="center"
-	                android:layout_weight="1.04" />
-	            
+	                android:layout_weight="1.4"
+                   android:background="#ff000000"
+                    />
+
 	            <TextView
 	                android:id="@+id/playerHwStatus"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentRight="true"
-	                android:layout_alignParentTop="true"
-	                android:textAppearance="?android:attr/textAppearanceLarge" />
+	                android:layout_width="fill_parent"
+	                android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/playerView" />
 
 	        </RelativeLayout>
 
@@ -51,17 +48,23 @@
 	            android:id="@+id/playerStatus"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent"
-                android:layout_gravity="top">
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center">
 
 	            <TextView
 	                android:id="@+id/playerStatusText"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_centerInParent="true"
-	                android:gravity="center"
-	                android:textAppearance="?android:attr/textAppearanceLarge" />
+	                android:layout_width="fill_parent"
+	                android:layout_height="fill_parent"
+                    android:gravity="center"
+	                android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:singleLine="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_marginTop="75dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true" />
 
-	        </RelativeLayout>
+            </RelativeLayout>
 
        </FrameLayout>
 
@@ -69,7 +72,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.6">
+            android:layout_weight="0.635">
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -81,27 +84,40 @@
             <LinearLayout
             	android:layout_width="fill_parent"
             	android:layout_height="wrap_content"
-            	android:orientation="horizontal" >
+            	android:orientation="horizontal"
+                android:layout_gravity="right|top">
 
-                <Button
-                       android:id="@+id/button_connect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Connect"
-                    style="?android:attr/buttonStyleSmall"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                <Button
-                	android:id="@+id/button_record"
-                	android:layout_width="wrap_content"
-                	android:layout_height="wrap_content"
-                    android:text="@string/StartRecord"
-                	style="?android:attr/buttonStyleSmall"
-                	android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
-            
+
+            <Button
+                   android:id="@+id/button_connect"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:text="@string/Connect"
+                style="?android:attr/buttonStyleSmall"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="right"
+                android:singleLine="true"
+                android:drawableLeft="@drawable/icon" />
+
         </LinearLayout>
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_record"
+        android:src="@drawable/record_button_normal"
+        android:layout_weight="0"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible"
+        android:alpha="1"
+        android:adjustViewBounds="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:layout_marginBottom="100dp" />
+
 
 </RelativeLayout><!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/MediaPlayerSDKTest_astudio/mediaPlayerSDKTest/src/main/res/layout/main.xml -->

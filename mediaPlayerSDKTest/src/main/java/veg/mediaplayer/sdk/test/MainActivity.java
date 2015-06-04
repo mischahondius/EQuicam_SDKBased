@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.view.WindowManager;
@@ -120,7 +121,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	int rec_split_time = 240;
 
     private Button						btnConnect;
-	private Button						btnRecord;
+	private ImageButton					btnRecord;
 	private boolean						is_record = false;
 	private StatusProgressTask 			mProgressTask = null;
 	private SharedPreferences 			settings;
@@ -422,7 +423,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		btnConnect = (Button)findViewById(R.id.button_connect);
         btnConnect.setOnClickListener(this);
         
-        btnRecord = (Button) findViewById(R.id.button_record);
+        btnRecord = (ImageButton) findViewById(R.id.button_record);
         btnRecord.setOnClickListener( new OnClickListener(){
 			@Override
 			public void onClick(View arg0) {
@@ -445,11 +446,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
                     }
 				}
-				
-				ImageView ivLed  = (ImageView)findViewById(R.id.led);
-				if(ivLed != null)
-					ivLed.setImageResource( ( is_record ? R.drawable.led_red : R.drawable.led_green) ); 
-				btnRecord.setText( is_record? getString(R.string.StopOpnameString):getString(R.string.StartOpnameString) );
+
 			}
         });
         
@@ -538,9 +535,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 				// Open Player	
         	    player.Open(conf, mthis);
 
-				btnConnect.setText("Disconnect");
-				
-				
 				//record only
 				conf.setMode(PlayerModes.PP_MODE_RECORD);
 				//conf.setRecordTrimPosStart(10000); //from 10th sec
