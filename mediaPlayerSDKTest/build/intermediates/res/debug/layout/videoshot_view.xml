@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/videoshot_toast_layout_id"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp" >
+ 
+    <ImageView
+        android:id="@+id/videoshot_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+ 
+</LinearLayout>
+<!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/MediaPlayerSDKTest_astudio/mediaPlayerSDKTest/src/main/res/layout/videoshot_view.xml -->

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Equifilm\Desktop\Prog Project\MediaPlayerSDKTest_astudio\mediaPlayerSDKTest\libs\mediaplayersdk.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="798b8d29f597d9357f0f4d0369dd98de296d4adf">
+        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\MediaPlayerSDKTest_astudio\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\mediaplayersdk-76d57e69e63a8fbecf54f90832ad7fb3b5c51104.jar" />
+    </item>
+
+</items>
