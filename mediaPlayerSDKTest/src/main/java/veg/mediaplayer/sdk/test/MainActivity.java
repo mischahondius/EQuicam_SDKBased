@@ -374,7 +374,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     @Override
     public void onCreate(Bundle savedInstanceState) 
 	{
-    //		String  strUrl;
 
 		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
@@ -401,9 +400,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		
 		player = (MediaPlayer)findViewById(R.id.playerView);
 
-//        //Set Camera Url
-//		strUrl = settings.getString("connectionUrl", "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
-
         player.getSurfaceView().setZOrderOnTop(true);    // necessary
         SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
         sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
@@ -425,31 +421,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
                                           return true;
                                       }
-
-//		edtIpAddressHistory = settings.getStringSet("connectionHistory", tempHistory);
-//
-//		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-//
-//		edtIpAddress = (AutoCompleteTextView)findViewById(R.id.edit_ipaddress);
-//		edtIpAddress.setText(strUrl);
-//
-//		edtIpAddress.setOnEditorActionListener(new OnEditorActionListener()
-//		{
-//			@Override
-//			public boolean onEditorAction(TextView v, int actionId,	KeyEvent event)
-//			{
-//				if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
-//				{
-//					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//					in.hideSoftInputFromWindow(edtIpAddress.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//					return true;
-//
-//				}
-//				return false;
-//			}
-//		});
-//			}
-
 		});
 
 		btnConnect = (Button)findViewById(R.id.button_connect);
@@ -462,20 +433,20 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 				is_record = !is_record;
 
 				if(is_record){
-					//start recording
+
+					//start opname
 					if(player != null){
 						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
 						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
 						player.RecordStart();
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
-
                     }
 				}else{
-					//stop recording
+
+					//stop opname
 					if(player != null){
 						player.RecordStop();
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
-
                     }
 				}
 				
