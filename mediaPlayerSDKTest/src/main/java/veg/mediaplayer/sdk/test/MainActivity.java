@@ -274,7 +274,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            	Log.v(TAG, "=handleMessage CP_RECORD_STARTED");
 	            	{
 	            		String sFile = player.RecordGetFileName(1);
-	            		Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 	            	}
 	            	break;
 
@@ -282,7 +281,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	            	Log.v(TAG, "=handleMessage CP_RECORD_STOPPED");
 	            	{
 	            		String sFile = player.RecordGetFileName(0);
-	            		Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
 	            	}
 	            	break;
 
@@ -469,12 +467,16 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
 						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
 						player.RecordStart();
-					}
+                        Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
+
+                    }
 				}else{
 					//stop recording
 					if(player != null){
 						player.RecordStop();
-					}
+                        Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
+
+                    }
 				}
 				
 				ImageView ivLed  = (ImageView)findViewById(R.id.led);
