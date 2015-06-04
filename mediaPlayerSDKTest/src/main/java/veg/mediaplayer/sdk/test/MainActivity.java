@@ -116,8 +116,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	int rec_split_time = 240;
 
     public  static ArrayAdapter<String> edtIpAddressAdapter;
-	public  static Set<String>			edtIpAddressHistory;
-	private Button						btnConnect;
+    private Button						btnConnect;
 	private Button						btnRecord;
 	private boolean						is_record = false;
 
@@ -516,9 +515,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		SharedSettings.getInstance().loadPrefSettings();
 		if (player != null)
 		{
-			if (!edtIpAddressHistory.contains(player.getConfig().getConnectionUrl()))
-				edtIpAddressHistory.add(player.getConfig().getConnectionUrl());
-			
+
 			player.getConfig().setConnectionUrl(strUrl);
 			if (player.getConfig().getConnectionUrl().isEmpty())
 				return;
