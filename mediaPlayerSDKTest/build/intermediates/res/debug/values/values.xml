@@ -11,11 +11,13 @@
     <string name="MaakVerbindingString">MAAK VERBINDING VOOR LIVE BEELD VAN UW EQUICAM</string>
     <string name="OpnameGestartString">"Opname gestart"</string>
     <string name="OpnameGestoptString">"Opname gestopt"</string>
+    <string name="OpnieuwVerbindingMaken">Opnieuw verbinding aan het maken</string>
     <string name="Slechts2MinutenOpnameString">U kunt slechts 2 minuten opnemen.</string>
     <string name="StartOpnameString">Start Opname</string>
     <string name="StartRecord">Opnemen</string>
     <string name="StopOpnameString">Stop Opname</string>
     <string name="VerbindenString">Verbinden</string>
+    <string name="VerbindenString2">Verbinden</string>
     <string name="action_settings">Instellingen</string>
     <string name="app_about_title">Over</string>
     <string name="app_name">EQuicamApp</string>

@@ -62,16 +62,18 @@ public final class R {
         public static final int MaakVerbindingString=0x7f070002;
         public static final int OpnameGestartString=0x7f070003;
         public static final int OpnameGestoptString=0x7f070004;
-        public static final int Slechts2MinutenOpnameString=0x7f070005;
-        public static final int StartOpnameString=0x7f070006;
-        public static final int StartRecord=0x7f070007;
-        public static final int StopOpnameString=0x7f070008;
-        public static final int VerbindenString=0x7f070009;
-        public static final int action_settings=0x7f07000a;
-        public static final int app_about_title=0x7f07000b;
-        public static final int app_name=0x7f07000c;
-        public static final int app_short_name=0x7f07000d;
-        public static final int instellingenMenuString=0x7f07000e;
+        public static final int OpnieuwVerbindingMaken=0x7f070005;
+        public static final int Slechts2MinutenOpnameString=0x7f070006;
+        public static final int StartOpnameString=0x7f070007;
+        public static final int StartRecord=0x7f070008;
+        public static final int StopOpnameString=0x7f070009;
+        public static final int VerbindenString=0x7f07000a;
+        public static final int VerbindenString2=0x7f07000b;
+        public static final int action_settings=0x7f07000c;
+        public static final int app_about_title=0x7f07000d;
+        public static final int app_name=0x7f07000e;
+        public static final int app_short_name=0x7f07000f;
+        public static final int instellingenMenuString=0x7f070010;
     }
     public static final class xml {
         public static final int app_tracker=0x7f040000;

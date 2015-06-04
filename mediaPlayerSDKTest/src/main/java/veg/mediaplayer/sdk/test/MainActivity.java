@@ -107,6 +107,10 @@ class ViewSizes
 
 public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback, View.OnTouchListener
 {
+
+    //Set Camera Url
+    private static final String  strUrl = "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+
     private static final String TAG 	 = "EQuicamAPP";
 
 	//Record split time
@@ -160,7 +164,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	
 	private Handler handler = new Handler() 
     {
-		String strText = "Connecting";
+		String strText = getString(R.string.VerbindenString2);
 		
 		@Override
 	    public void handleMessage(Message msg) 
@@ -170,9 +174,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	        {
 	        	case CP_CONNECT_STARTING:
 	        		if (reconnect_type == PlayerConnectType.Reconnecting)
-	        			strText = "Reconnecting";
+	        			strText = getString(R.string.OpnieuwVerbindingMaken);
 	        		else
-	        			strText = "Connecting";
+	        			strText = getString(R.string.VerbindenString2);
 	        			
 	        		startProgressTask(strText);
 	        		
@@ -373,7 +377,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     @Override
     public void onCreate(Bundle savedInstanceState) 
 	{
-		String  strUrl;
+    //		String  strUrl;
 
 		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
@@ -400,15 +404,13 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		
 		player = (MediaPlayer)findViewById(R.id.playerView);
 
-		strUrl = settings.getString("connectionUrl", "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
-		
 		player.getSurfaceView().setZOrderOnTop(true);    // necessary
 		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
 		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
-		
+
 		HashSet<String> tempHistory = new HashSet<String>();
 		tempHistory.add("rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
-	
+
 		player.setOnTouchListener(new View.OnTouchListener()
 		{
             @Override
@@ -431,28 +433,28 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         });
 		
 			
-		edtIpAddressHistory = settings.getStringSet("connectionHistory", tempHistory);
-
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
-	
-		edtIpAddress = (AutoCompleteTextView)findViewById(R.id.edit_ipaddress);
-		edtIpAddress.setText(strUrl);
-
-		edtIpAddress.setOnEditorActionListener(new OnEditorActionListener()
-		{
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,	KeyEvent event)
-			{
-				if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
-				{
-					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					in.hideSoftInputFromWindow(edtIpAddress.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-					return true;
-
-				}
-				return false;
-			}
-		});
+//		edtIpAddressHistory = settings.getStringSet("connectionHistory", tempHistory);
+//
+//		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//
+//		edtIpAddress = (AutoCompleteTextView)findViewById(R.id.edit_ipaddress);
+//		edtIpAddress.setText(strUrl);
+//
+//		edtIpAddress.setOnEditorActionListener(new OnEditorActionListener()
+//		{
+//			@Override
+//			public boolean onEditorAction(TextView v, int actionId,	KeyEvent event)
+//			{
+//				if (event != null&& (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
+//				{
+//					InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//					in.hideSoftInputFromWindow(edtIpAddress.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//					return true;
+//
+//				}
+//				return false;
+//			}
+//		});
 
 		btnConnect = (Button)findViewById(R.id.button_connect);
         btnConnect.setOnClickListener(this);
@@ -518,7 +520,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 			if (!edtIpAddressHistory.contains(player.getConfig().getConnectionUrl()))
 				edtIpAddressHistory.add(player.getConfig().getConnectionUrl());
 			
-			player.getConfig().setConnectionUrl(edtIpAddress.getText().toString());
+			player.getConfig().setConnectionUrl(strUrl);
 			if (player.getConfig().getConnectionUrl().isEmpty())
 				return;
 
