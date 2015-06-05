@@ -64,6 +64,7 @@ NAVIGATIE
 
 **Data**
 - Hardcoded RTSP Stream url voor verbinding met Camera (kan later aanpasbaar worden en bijv. worden opgeslagen in SharedPrefs of gekoppeld aan een user account opgeslagen in een online database)
+- Opslag van MP4 clips in lokaal geheugen, DCIM/EQuicam Clips -> Unieke filenames op basis van datum en tijd
 - Evt. opslag metadata bij video's -> in SharedPrefs, koppeling op basis bestandsnaam?
 
 **Functies**
