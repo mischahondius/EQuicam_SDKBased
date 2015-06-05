@@ -45,6 +45,7 @@ Door middel van de grote rode opvallende opnameknop kan er een opname worden ges
 - 3. Opname duratie, er gaat een timer lopen (Nog in te voegen)
 - 4. Optioneel: rood lampje of REC rechtsboven in beeld videovenster
 
+<img src="/docs/LIVE_5.png" width="400">
 Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-message "Opname Gestopt".
 
 
