@@ -67,9 +67,10 @@ NAVIGATIE
 - Evt. opslag metadata bij video's -> in SharedPrefs, koppeling op basis bestandsnaam?
 
 **Functies**
-	//Is Playing/Is Recording checks
-	private boolean						is_record
-	private boolean 					playing
+
+//Is Playing/Is Recording checks
+private boolean						is_record
+private boolean 					playing
 
 
 
