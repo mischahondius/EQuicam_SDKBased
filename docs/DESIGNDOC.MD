@@ -25,7 +25,7 @@ De App zal bestaan uit slechts 2 schermen:
 1. LIVE
 2. CLIPS
 
-1. LIVE
+**1. LIVE**
 Op dit scherm kan de gebruiker het live beeld van de camera bekijken. Om ongewenst dataverbruik te voorkomen dient te gebruiker doelbewust een verbinding te maken met de camera. Op dit moment is daar een aparte knop voor. Doel is om dit te veranderen in een tik op het lege videoscherm.
 Deze zal dan de tekst "Tik op het scherm om verbinding te maken met uw EQuicam" weergeven. Een seperate knop lijkt mij hiervoor overbodig.
 
@@ -51,7 +51,7 @@ Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-me
 
 <img src="/docs/CLIPS_1.png" width="400">
 
-2. CLIPS
+**2. CLIPS**
 Een scherm waarbij een lijst van video's wordt weergegeven die met deze App zijn opgenomen. Een lijst met video inclusief thumbnails wordt weergegeven. Bovenin beeld blijft de videoplayer zichtbaar. Indien er een video wordt aangeklikt wordt deze direct geopend in de player. Doel is om hier ook Fullscreen mogelijk te maken. Ook door middel van een orientatie beweging naar landscape. 
 
 NAVIGATIE
