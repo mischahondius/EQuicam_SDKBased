@@ -6,19 +6,13 @@
  *
  */
 
-
 package veg.mediaplayer.sdk.test;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -28,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -36,38 +29,22 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
-import android.view.WindowManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.view.*;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView.OnEditorActionListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.ArrayList;
-
 import android.preference.PreferenceManager;
-
 import EQuicamApp.R;
 import veg.mediaplayer.sdk.MediaPlayer;
-import veg.mediaplayer.sdk.MediaPlayer.MediaPlayerCallback;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerModes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerNotifyCodes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerRecordFlags;
-import veg.mediaplayer.sdk.MediaPlayer.PlayerState;
 import veg.mediaplayer.sdk.MediaPlayerConfig;
 
 class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener 
@@ -120,17 +97,21 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	private static final String strUrl = "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
     private static final String TAG 	 = "EQuicamAPP";
 
-	//Record split time
+	//Record split time (meer dan de maximale opname tijd)
 	int rec_split_time = 240;
 
+	//Buttons MAINActivity
     private Button						btnConnect;
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
+
+	//Is Playing/Is Recording checks
 	private boolean						is_record = false;
+	private boolean 					playing = false;
+
 	private StatusProgressTask 			mProgressTask = null;
 	private SharedPreferences 			settings;
     private SharedPreferences.Editor 	editor;
-    private boolean 					playing = false;
     private MediaPlayer 				player = null;
     private MainActivity 				mthis = null;
     private RelativeLayout 				playerStatus = null;
@@ -405,30 +386,12 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
         sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
+		//Get Highlight flash button
 		btnHighlight = (ImageButton) findViewById(R.id.button_record_flash);
 
-		HashSet < String > tempHistory = new HashSet<String>();
-        tempHistory.add("rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4");
-
-        player.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-				switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-					case MotionEvent.ACTION_DOWN: {
-						if (player.getState() == PlayerState.Paused)
-							player.Play();
-						else if (player.getState() == PlayerState.Started)
-							player.Pause();
-					}
-				}
-
-				return true;
-			}
-		});
-
+		//Connect button listener
 		btnConnect = (Button)findViewById(R.id.button_connect);
         btnConnect.setOnClickListener(this);
-
 
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
@@ -447,16 +410,15 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 
 
-
 						//knipper rec button
-						//make visible knopje
-
 						Animation mAnimation = new AlphaAnimation(0, 1);
 						mAnimation.setDuration(1000);
 						mAnimation.setInterpolator(new LinearInterpolator());
 						mAnimation.setRepeatCount(Animation.INFINITE);
 						mAnimation.setRepeatMode(Animation.REVERSE);
 						btnHighlight.startAnimation(mAnimation);
+
+						//make visible knopje
 						btnHighlight.setVisibility(View.VISIBLE);
                     }
 				}else{
@@ -470,10 +432,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 					}
 				}
-
 			}
 
-        });
+		        });
 
 		//Highlightbuttonlistener
 		btnHighlight.setOnClickListener( new OnClickListener(){
@@ -604,25 +565,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 				//record only
 				conf.setMode(PlayerModes.PP_MODE_RECORD);
-				//conf.setRecordTrimPosStart(10000); //from 10th sec
-				//conf.setRecordTrimPosEnd(20000); //to 20th sec 
-				/*player_record.Open(conf, new MediaPlayerCallback(){
-
-					@Override
-					public int Status(int arg) {
-						Log.i(TAG, "=player_record Status arg="+arg);
-						return 0;
-					}
-
-					@Override
-					public int OnReceiveData(ByteBuffer buffer, int size,
-							long pts) {
-						// TODO Auto-generated method stub
-						return 0;
-					}
-					
-				});*/
-				
 				
 				playing = true;
 			}
