@@ -46,7 +46,19 @@ Door middel van de grote rode opvallende opnameknop kan er een opname worden ges
 - 4. Optioneel: rood lampje of REC rechtsboven in beeld videovenster
 
 <img src="/docs/LIVE_5.png" width="400">
+
 Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-message "Opname Gestopt".
+
+2. CLIPS
+Een scherm waarbij een lijst van video's wordt weergegeven die met deze App zijn opgenomen. Een lijst met video inclusief thumbnails wordt weergegeven. Bovenin beeld blijft de videoplayer zichtbaar. Indien er een video wordt aangeklikt wordt deze direct geopend in de player. Doel is om hier ook Fullscreen mogelijk te maken. Ook door middel van een orientatie beweging naar landscape. 
+
+NAVIGATIE
+- Doel is om 2 tabjes onder de actionbar weer te geven, mogelijkheid tot swipen tussen de twee hoofdschermen.
+
+**API/SDK's/Android functies**
+- De opname wordt gedaan op basis van een SDK van VideoExpertsGroup. De instabiele codec van een RTSP stream is zeer moeilijk handelbaar. Dat is voor mij niet realistisch om op korte termijn zelf te schrijven. Zover ik kan zien is dit de enige partij die hier een serieuze oplossing voor heeft geschreven. 
+-ActionBar tabs
+-Android MediaPlayer voor afspelen opgenomen MP4's. (Evt. Alsnog SDK videoplayer ivm evt instabiliteit videostreams).
 
 
 
