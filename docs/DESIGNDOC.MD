@@ -69,8 +69,11 @@ NAVIGATIE
 **Functies**
 
 //Is Playing/Is Recording checks
+
 private boolean						is_record
+
 private boolean 					playing
+
 
 
 
