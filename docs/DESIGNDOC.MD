@@ -28,7 +28,7 @@ De App zal bestaan uit slechts 2 schermen:
 Op dit scherm kan de gebruiker het live beeld van de camera bekijken. Om ongewenst dataverbruik te voorkomen dient te gebruiker doelbewust een verbinding te maken met de camera. Op dit moment is daar een aparte knop voor. Doel is om dit te veranderen in een tik op het lege videoscherm.
 Deze zal dan de tekst "Tik op het scherm om verbinding te maken met uw EQuicam" weergeven. Een seperate knop lijkt mij hiervoor overbodig.
 
-<img src="/docs/LIVE_1.png" width="400" alt="1">
+<img src="/docs/LIVE_1.png" width="400">
 
 
 Tijdens het verbinden krijgt de gebruiker feedback in de vorm van de tekst "Verbinden...", wat bevestigt aan gebruiker dat er daadwerkelijk iets gebeurt.
