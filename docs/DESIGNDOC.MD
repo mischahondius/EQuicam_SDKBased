@@ -20,6 +20,7 @@ De EQuicam App maakt het mogelijk om live videobeelden van EQuicam (ip camera) t
 - Favorieten (clips)
 
 **Schermen**
+
 De App zal bestaan uit slechts 2 schermen:
 1. LIVE
 2. CLIPS
@@ -29,11 +30,22 @@ Op dit scherm kan de gebruiker het live beeld van de camera bekijken. Om ongewen
 Deze zal dan de tekst "Tik op het scherm om verbinding te maken met uw EQuicam" weergeven. Een seperate knop lijkt mij hiervoor overbodig.
 
 <img src="/docs/LIVE_1.png" width="400">
-
+<img src="/docs/LIVE_2.png" width="400">
 
 Tijdens het verbinden krijgt de gebruiker feedback in de vorm van de tekst "Verbinden...", wat bevestigt aan gebruiker dat er daadwerkelijk iets gebeurt.
 
 Na dat er een verbinding is gelegd wordt in het videovenster live beeld weergegeven.
+
+<img src="/docs/LIVE_3.png" width="400">
+<img src="/docs/LIVE_4.png" width="400">
+
+Door middel van de grote rode opvallende opnameknop kan er een opname worden gestart. Opname wordt bevestigt op meerdere manieren:
+1. Toast message
+2. Gloeiende opnameknop
+3. Opname duratie, er gaat een timer lopen (Nog in te voegen)
+4. Optioneel: rood lampje of REC rechtsboven in beeld videovenster
+
+
 
 
 
