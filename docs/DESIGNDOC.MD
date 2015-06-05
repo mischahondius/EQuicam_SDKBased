@@ -40,10 +40,13 @@ Na dat er een verbinding is gelegd wordt in het videovenster live beeld weergege
 <img src="/docs/LIVE_4.png" width="400">
 
 Door middel van de grote rode opvallende opnameknop kan er een opname worden gestart. Opname wordt bevestigt op meerdere manieren:
-1. Toast message
-2. Gloeiende opnameknop
-3. Opname duratie, er gaat een timer lopen (Nog in te voegen)
-4. Optioneel: rood lampje of REC rechtsboven in beeld videovenster
+- 1. Toast message
+- 2. Gloeiende opnameknop
+- 3. Opname duratie, er gaat een timer lopen (Nog in te voegen)
+- 4. Optioneel: rood lampje of REC rechtsboven in beeld videovenster
+
+Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-message "Opname Gestopt".
+
 
 
 
