@@ -49,6 +49,8 @@ Door middel van de grote rode opvallende opnameknop kan er een opname worden ges
 
 Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-message "Opname Gestopt".
 
+<img src="/docs/CLIPS_1.png" width="400">
+
 2. CLIPS
 Een scherm waarbij een lijst van video's wordt weergegeven die met deze App zijn opgenomen. Een lijst met video inclusief thumbnails wordt weergegeven. Bovenin beeld blijft de videoplayer zichtbaar. Indien er een video wordt aangeklikt wordt deze direct geopend in de player. Doel is om hier ook Fullscreen mogelijk te maken. Ook door middel van een orientatie beweging naar landscape. 
 
@@ -59,6 +61,10 @@ NAVIGATIE
 - De opname wordt gedaan op basis van een SDK van VideoExpertsGroup. De instabiele codec van een RTSP stream is zeer moeilijk handelbaar. Dat is voor mij niet realistisch om op korte termijn zelf te schrijven. Zover ik kan zien is dit de enige partij die hier een serieuze oplossing voor heeft geschreven. 
 -ActionBar tabs
 -Android MediaPlayer voor afspelen opgenomen MP4's. (Evt. Alsnog SDK videoplayer ivm evt instabiliteit videostreams).
+
+**Data**
+- Hardcoded RTSP Stream url voor verbinding met Camera (kan later aanpasbaar worden en bijv. worden opgeslagen in SharedPrefs of gekoppeld aan een user account opgeslagen in een online database)
+- Evt. opslag metadata bij video's -> in SharedPrefs, koppeling op basis bestandsnaam?
 
 
 
