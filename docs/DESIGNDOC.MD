@@ -34,7 +34,7 @@ Deze zal dan de tekst "Tik op het scherm om verbinding te maken met uw EQuicam" 
 
 Tijdens het verbinden krijgt de gebruiker feedback in de vorm van de tekst "Verbinden...", wat bevestigt aan gebruiker dat er daadwerkelijk iets gebeurt.
 
-Na dat er een verbinding is gelegd wordt in het videovenster live beeld weergegeven.
+Na dat er een verbinding is gelegd wordt in het videovenster live beeld weergegeven..
 
 <img src="/docs/LIVE_3.png" width="400">
 <img src="/docs/LIVE_4.png" width="400">
@@ -65,6 +65,7 @@ NAVIGATIE
 **Data**
 - Hardcoded RTSP Stream url voor verbinding met Camera (kan later aanpasbaar worden en bijv. worden opgeslagen in SharedPrefs of gekoppeld aan een user account opgeslagen in een online database)
 - Evt. opslag metadata bij video's -> in SharedPrefs, koppeling op basis bestandsnaam?
+
 
 
 
