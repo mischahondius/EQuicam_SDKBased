@@ -66,7 +66,10 @@ NAVIGATIE
 - Hardcoded RTSP Stream url voor verbinding met Camera (kan later aanpasbaar worden en bijv. worden opgeslagen in SharedPrefs of gekoppeld aan een user account opgeslagen in een online database)
 - Evt. opslag metadata bij video's -> in SharedPrefs, koppeling op basis bestandsnaam?
 
-
+**Functies**
+	//Is Playing/Is Recording checks
+	private boolean						is_record
+	private boolean 					playing
 
 
 
