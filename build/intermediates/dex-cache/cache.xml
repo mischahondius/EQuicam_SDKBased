@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Equifilm\Desktop\Prog Project\MediaPlayerSDKTest_astudio\mediaPlayerSDKTest\libs\mediaplayersdk.jar"
+        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\libs\mediaplayersdk.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="798b8d29f597d9357f0f4d0369dd98de296d4adf">
-        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\MediaPlayerSDKTest_astudio\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\mediaplayersdk-76d57e69e63a8fbecf54f90832ad7fb3b5c51104.jar" />
+        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\mediaplayersdk-e9c654875e41cac32eaed9f84d7a9d27a69f2b02.jar" />
     </item>
 
 </items>

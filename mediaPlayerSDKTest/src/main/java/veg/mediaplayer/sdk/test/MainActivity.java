@@ -94,7 +94,7 @@ class ViewSizes
 public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback, View.OnTouchListener
 {
 
-	private static final String strUrl = "rtsp://equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+	private static final String strUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
     private static final String TAG 	 = "EQuicamAPP";
 
 	//Record split time (meer dan de maximale opname tijd)
@@ -124,13 +124,13 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	{
 	  	Busy,
 	  	ReadyForUse
-	};
+	}
 
     private enum PlayerConnectType
 	{
 	  	Normal,
 	  	Reconnecting
-	};
+	}
     
 	private Object waitOnMe = new Object();
 	private PlayerStates player_state = PlayerStates.ReadyForUse; 
@@ -780,7 +780,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
                	strProgressText = strProgressTextSrc + "...";
                 
-            	Runnable uiRunnable = null;
+            	Runnable uiRunnable;
                 uiRunnable = new Runnable()
                 {
                     public void run()
@@ -840,7 +840,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
               	
             	while(!isCancelled());
             } 
-            catch (Exception e) 
+            catch (Exception e)
             {
             }
             return true;

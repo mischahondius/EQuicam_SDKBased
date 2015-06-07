@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MediaPlayerSDKTest_astudio.iml" filepath="$PROJECT_DIR$/MediaPlayerSDKTest_astudio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EQuicam_SDKBased.iml" filepath="$PROJECT_DIR$/EQuicam_SDKBased.iml" />
       <module fileurl="file://$PROJECT_DIR$/mediaPlayerSDKTest/mediaPlayerSDKTest.iml" filepath="$PROJECT_DIR$/mediaPlayerSDKTest/mediaPlayerSDKTest.iml" />
     </modules>
   </component>

@@ -1,4 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/main_opt_settings"
           android:title="@string/instellingenMenuString" />
-</menu><!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/MediaPlayerSDKTest_astudio/mediaPlayerSDKTest/src/main/res/menu/menu.xml -->
+</menu><!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/src/main/res/menu/menu.xml -->
