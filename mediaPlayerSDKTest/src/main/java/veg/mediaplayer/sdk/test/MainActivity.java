@@ -93,8 +93,10 @@ class ViewSizes
 
 public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback, View.OnTouchListener
 {
+	//Equicam URL
+	private static final String camUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
 
-	private static final String strUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+    //tag voor logs
     private static final String TAG 	 = "EQuicamAPP";
 
 	//Record split time (meer dan de maximale opname tijd)
@@ -368,7 +370,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 		
-		setContentView(R.layout.main);
+		setContentView(R.layout.live);
 		mthis = this;
 		
 		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -511,7 +513,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		if (player != null)
 		{
 
-			player.getConfig().setConnectionUrl(strUrl);
+			player.getConfig().setConnectionUrl(camUrl);
 			if (player.getConfig().getConnectionUrl().isEmpty())
 				return;
 
