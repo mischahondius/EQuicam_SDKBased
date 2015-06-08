@@ -10,6 +10,7 @@ package veg.mediaplayer.sdk.test;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -104,6 +105,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 	//Buttons MAINActivity
     private Button						btnConnect;
+	private Button						btnClips;
+
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
 
@@ -340,7 +343,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		return 0;
 	}
 
-    //RecordPath instellen
+    //RecordPath Ophalen
     public String getRecordPath()
     {
     	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
@@ -394,6 +397,23 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		//Connect button listener
 		btnConnect = (Button)findViewById(R.id.button_connect);
         btnConnect.setOnClickListener(this);
+
+        //Clips button listener
+        btnClips = (Button)findViewById(R.id.button_clips);
+        btnClips.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                //Openen van Clips View
+                Intent i = new Intent(getApplicationContext(), Clips.class);
+
+                //Put recordpath
+                i.putExtra("Record Path", getRecordPath());
+
+                startActivity(i);
+            }
+        });
+
 
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
