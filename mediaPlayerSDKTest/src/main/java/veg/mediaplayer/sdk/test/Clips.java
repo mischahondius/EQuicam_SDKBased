@@ -57,7 +57,12 @@ public class Clips extends ListActivity{
       ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
       Bitmap bmThumbnail;
       bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + videoFileArray.get(position), Thumbnails.MINI_KIND);
-      imageThumbnail.setImageBitmap(bmThumbnail);
+
+      //check of niet leeg, als leeg, equifilm thumb
+      if (bmThumbnail != null)
+      {
+        imageThumbnail.setImageBitmap(bmThumbnail);
+      }
 
       return row;
     }
