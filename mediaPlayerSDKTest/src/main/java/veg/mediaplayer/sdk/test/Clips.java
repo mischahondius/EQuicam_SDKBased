@@ -77,20 +77,15 @@ public class Clips extends ListActivity{
 
       //Create and set thumbnails
       ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
-//      Bitmap bmThumbnail;
-//      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(position), Thumbnails.MINI_KIND);
-
-//        bmThumbnail = cacheBitmap.get(position);
 
       //check of niet leeg, als leeg, equifilm thumb
-//      if (bmThumbnail != null)
-//      {
+      if (cacheBitmap.get(sortedVideoArrayList.get(position)) != null)
+      {
         imageThumbnail.setImageBitmap(cacheBitmap.get(sortedVideoArrayList.get(position)));
-//      }
+      }
 
       return row;
     }
-
   }
 
 //Oncreate
