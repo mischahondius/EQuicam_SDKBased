@@ -35,28 +35,28 @@ public class Clips extends ListActivity{
 
   public String videoDirectory;
   public ArrayList <String> videoArrayList;
-    public ArrayList<String> sortedVideoArrayList;
-    public String [] videoArray;
-    public HashMap<String,Bitmap> cacheBitmap;
+  public ArrayList<String> sortedVideoArrayList;
+  public String [] videoArray;
+  public HashMap<String,Bitmap> cacheBitmap;
 
 
-  public class MyThumbnaildapter extends ArrayAdapter<String> {
+  public class MyVideoListAdapter extends ArrayAdapter<String> {
 
-      public MyThumbnaildapter(Context context, int textViewResourceId, ArrayList objects) {
+      public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList fileNames) {
 
 
-          super(context, textViewResourceId, objects);
+          super(context, textViewResourceId, fileNames);
 
           //Initialize cachebitmap hashmap
-          cacheBitmap = new HashMap<String, Bitmap>(sortedVideoArrayList.size());
+          cacheBitmap = new HashMap<String, Bitmap>(fileNames.size());
 
-          initCacheBitmap();
+          initCacheBitmap(fileNames.size());
       }
 
 
       //Thumbnail Cache aanmaken - Method
-      private void initCacheBitmap() {
-          for (int i = 0; i < sortedVideoArrayList.size(); i++) {
+      public void initCacheBitmap(int size) {
+          for (int i = 0; i < size; i++) {
               cacheBitmap.put(sortedVideoArrayList.get(i), ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(i), Thumbnails.MINI_KIND));
           }
       }
@@ -67,23 +67,26 @@ public class Clips extends ListActivity{
 
       View row = convertView;
       if(row==null){
-        LayoutInflater inflater=getLayoutInflater();
-        row=inflater.inflate(R.layout.videoitemfragment, parent, false);
+        LayoutInflater inflater = getLayoutInflater();
+        row = inflater.inflate(R.layout.videoitemfragment, parent, false);
       }
 
+      //Get and set filename textview
       TextView textfilePath = (TextView)row.findViewById(R.id.FilePath);
       textfilePath.setText(sortedVideoArrayList.get(position));
 
       //Create and set thumbnails
       ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
-      Bitmap bmThumbnail;
-      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(position), Thumbnails.MINI_KIND);
+//      Bitmap bmThumbnail;
+//      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(position), Thumbnails.MINI_KIND);
+
+//        bmThumbnail = cacheBitmap.get(position);
 
       //check of niet leeg, als leeg, equifilm thumb
-      if (bmThumbnail != null)
-      {
-        imageThumbnail.setImageBitmap(bmThumbnail);
-      }
+//      if (bmThumbnail != null)
+//      {
+        imageThumbnail.setImageBitmap(cacheBitmap.get(sortedVideoArrayList.get(position)));
+//      }
 
       return row;
     }
@@ -123,7 +126,7 @@ public class Clips extends ListActivity{
       sortedVideoArrayList = new ArrayList<String>(Arrays.asList(videoArray));
 
       //SetListAdapter
-      setListAdapter(new MyThumbnaildapter(Clips.this, R.layout.videoitemfragment, sortedVideoArrayList));
+      setListAdapter(new MyVideoListAdapter(Clips.this, R.layout.videoitemfragment, sortedVideoArrayList));
 
   }
 }
