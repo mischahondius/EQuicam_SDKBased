@@ -53,10 +53,11 @@ public class Clips extends ListActivity{
       TextView textfilePath = (TextView)row.findViewById(R.id.FilePath);
       textfilePath.setText(videoFileArray.get(position));
 
-//      ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
-//      Bitmap bmThumbnail;
-//      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoFileArray[position], Thumbnails.MICRO_KIND);
-//      imageThumbnail.setImageBitmap(bmThumbnail);
+      //Create and set thumbnails
+      ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
+      Bitmap bmThumbnail;
+      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + videoFileArray.get(position), Thumbnails.MINI_KIND);
+      imageThumbnail.setImageBitmap(bmThumbnail);
 
       return row;
     }
@@ -75,11 +76,11 @@ public class Clips extends ListActivity{
       videoDirectory = intent.getStringExtra("Record Path");
 
       //Get files from directory
-      Log.d("Files", "Path: " + videoDirectory);
       File f = new File(videoDirectory);
       File file[] = f.listFiles();
       Log.d("Files", "Size: "+ file.length);
 
+    //iterate over files heen
       for (int i=0; i < file.length; i++)
       {
           Log.d("Files", "FileName:" + file[i].getName());
