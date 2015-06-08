@@ -24,28 +24,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import EQuicamApp.R;
 
 public class Clips extends ListActivity{
 
   String videoDirectory;
+  ArrayList <String> videoFileArray;
 
-  String[] videoFileList = {
-          "/sdcard/Video/Android 2.0 Official Video_low.mp4",
-          "/sdcard/Video/Android 2.2 Official Video_low.mp4",
-          "/sdcard/Video/Android 2.3 Official Video_low.mp4",
-          "/sdcard/Video/Android 3.0 Preview_low.mp4",
-          "/sdcard/Video/Android Demo_low.mp4",
-          "/sdcard/Video/Android in Spaaaaaace!.mp4",
-          "/sdcard/Video/Android in Spaaaaaace!_low.mp4",
-          "/sdcard/Video/What is an Android phone-_low.mp4"
-  };
 
   public class MyThumbnaildapter extends ArrayAdapter<String>{
 
     public MyThumbnaildapter(Context context, int textViewResourceId,
-                             String[] objects) {
+                             ArrayList objects) {
       super(context, textViewResourceId, objects);
     }
 
@@ -59,12 +51,12 @@ public class Clips extends ListActivity{
       }
 
       TextView textfilePath = (TextView)row.findViewById(R.id.FilePath);
-      textfilePath.setText(videoFileList[position]);
-      ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
+      textfilePath.setText(videoFileArray.get(position));
 
-      Bitmap bmThumbnail;
-      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoFileList[position], Thumbnails.MICRO_KIND);
-      imageThumbnail.setImageBitmap(bmThumbnail);
+//      ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
+//      Bitmap bmThumbnail;
+//      bmThumbnail = ThumbnailUtils.createVideoThumbnail(videoFileArray[position], Thumbnails.MICRO_KIND);
+//      imageThumbnail.setImageBitmap(bmThumbnail);
 
       return row;
     }
@@ -76,7 +68,9 @@ public class Clips extends ListActivity{
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-      //GET recordpth from intent
+    videoFileArray = new ArrayList<String>();
+
+      //GET recordpath from intent
       Intent intent = getIntent();
       videoDirectory = intent.getStringExtra("Record Path");
 
@@ -85,12 +79,13 @@ public class Clips extends ListActivity{
       File f = new File(videoDirectory);
       File file[] = f.listFiles();
       Log.d("Files", "Size: "+ file.length);
+
       for (int i=0; i < file.length; i++)
       {
           Log.d("Files", "FileName:" + file[i].getName());
+          videoFileArray.add(file[i].getName());
       }
 
-
-      setListAdapter(new MyThumbnaildapter(Clips.this, R.layout.row, videoFileList));
+      setListAdapter(new MyThumbnaildapter(Clips.this, R.layout.row, videoFileArray));
   }
 }
