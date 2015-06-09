@@ -7,7 +7,8 @@ android:orientation="horizontal"
     android:paddingTop="3dp"
     android:paddingRight="5dp"
     android:paddingBottom="3dp"
-    android:showDividers="none">
+    android:showDividers="none"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"

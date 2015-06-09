@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,6 +30,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -120,6 +122,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
+	private Chronometer					timer;
 
     public Bitmap tmpThumbNail;
     public String tmpRecordFileName;
@@ -416,6 +419,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         //Get and save Record path
         videoDirectory = getRecordPath();
 
+		//Get timer
+		timer = (Chronometer) findViewById(R.id.timerView);
+
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
         btnRecord.setOnClickListener( new OnClickListener(){
@@ -443,6 +449,11 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 						//make visible knopje
 						btnHighlight.setVisibility(View.VISIBLE);
+
+						//start timer
+						timer.setBase(SystemClock.elapsedRealtime());
+						timer.start();
+
                     }
 				}else{
 
@@ -460,6 +471,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
                         //Call make thumbnail functie
 //                        saveThumbnail(tmpRecordFileName);
 
+						//stop timer
+						timer.stop();
+						timer.getBase();
 					}
 				}
 			}
@@ -492,6 +506,10 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 						mAnimation.setRepeatMode(Animation.REVERSE);
 						btnHighlight.startAnimation(mAnimation);
 						btnHighlight.setVisibility(View.VISIBLE);
+
+						//start timer
+						timer.setBase(SystemClock.elapsedRealtime());
+						timer.start();
 					}
 				} else {
 
@@ -508,6 +526,10 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 						//Call make thumbnail functie
 //                        saveThumbnail(tmpRecordFileName);
+
+						//stop timer
+						timer.stop();
+						timer.getBase();
 
 					}
 				}

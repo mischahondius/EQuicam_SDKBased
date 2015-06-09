@@ -104,6 +104,13 @@ android:layout_alignParentBottom="false"
                 android:background="@null"
                 android:layout_marginBottom="100dp" />
 
+            <Chronometer
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timerView"
+                android:layout_gravity="center_horizontal|bottom"
+                android:enabled="false" />
+
         </FrameLayout>
 
     </LinearLayout>

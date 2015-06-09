@@ -12,7 +12,10 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
@@ -22,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,7 +48,6 @@ public class Clips extends ListActivity{
 
       public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList fileNames) {
 
-
           super(context, textViewResourceId, fileNames);
 
           //Initialize cachebitmap hashmap
@@ -60,6 +63,21 @@ public class Clips extends ListActivity{
               cacheBitmap.put(sortedVideoArrayList.get(i), ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(i), Thumbnails.MINI_KIND));
           }
       }
+
+      //TODO itemlistener
+      //onvideoclick method
+//        public void onVideoClick (int position) {
+//
+//            setContentView(R.layout.fullscreen_video_player);
+//
+//            final VideoView videoView =
+//                    (VideoView) findViewById(R.id.fullScreenView);
+//
+//            videoView.setVideoPath(
+//                    videoDirectory + "/" + sortedVideoArrayList.get(position));
+//
+//            videoView.start();
+//        }
 
 
     @Override
