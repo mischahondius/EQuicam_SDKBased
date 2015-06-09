@@ -472,7 +472,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 						btnHighlight.setVisibility(View.INVISIBLE);
 
                         //Call make thumbnail functie
-                        saveThumbnail(tmpRecordFileName);
+//                        saveThumbnail(tmpRecordFileName);
 
 					}
 				}
@@ -522,7 +522,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
                         btnHighlight.setVisibility(View.INVISIBLE);
 
                         //Call make thumbnail functie
-                        saveThumbnail(tmpRecordFileName);
+//                        saveThumbnail(tmpRecordFileName);
 
                     }
 				}
@@ -547,42 +547,42 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         
     }
 
-    //Thumbnail opslaan
-    public void saveThumbnail(String filename)
-    {
-
-        //TODO sleep for 5 seconds test
-        try {
-            Thread.sleep(10000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-
-
-        //Create thumbnail
-        tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Video.Thumbnails.MINI_KIND);
-        Log.d("Yo", "" + tmpThumbNail);
-        Log.d("Filename", "" + filename);
-
-
-        //replace .mp4 with .jpg
-        if (filename.endsWith(".mp4")) {
-            filename = filename.substring(0, filename.length() - 4) + ".jpg";
-        }
-
-		//TODO Save file to thumbnails folder
-        try {
-            FileOutputStream out = new FileOutputStream (filename);
-            tmpThumbNail.compress(Bitmap.CompressFormat.JPEG, 60, out);
-            out.flush();
-            out.close();
-        } catch(Exception e) {
-
-            Log.v(TAG, "EXEPTION=" + e);
-
-        }
-
-    }
+//    //Thumbnail opslaan
+//    public void saveThumbnail(String filename)
+//    {
+//
+////        //TODO sleep for 5 seconds test
+////        try {
+////            Thread.sleep(10000);
+////        } catch(InterruptedException ex) {
+////            Thread.currentThread().interrupt();
+////        }
+////
+////
+////        //TODO Create thumbnail
+////        tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Video.Thumbnails.MINI_KIND);
+////        Log.d("Yo", "" + tmpThumbNail);
+////        Log.d("Filename", "" + filename);
+////
+////
+////        //replace .mp4 with .jpg
+////        if (filename.endsWith(".mp4")) {
+////            filename = filename.substring(0, filename.length() - 4) + ".jpg";
+////        }
+////
+////		//TODO Save file to thumbnails folder
+////        try {
+////            FileOutputStream out = new FileOutputStream (filename);
+////            tmpThumbNail.compress(Bitmap.CompressFormat.JPEG, 60, out);
+////            out.flush();
+////            out.close();
+////        } catch(Exception e) {
+////
+////            Log.v(TAG, "EXEPTION=" + e);
+////
+////        }
+//
+//    }
     
     public void onClick(View v) 
 	{
