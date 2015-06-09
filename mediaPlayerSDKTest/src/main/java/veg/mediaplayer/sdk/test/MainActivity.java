@@ -11,6 +11,7 @@ package veg.mediaplayer.sdk.test;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.ThumbnailUtils;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +40,10 @@ import android.graphics.Rect;
 import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import android.preference.PreferenceManager;
 import EQuicamApp.R;
@@ -97,6 +102,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	//Equicam URL
 	private static final String camUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
 
+    //Record path
+    public String videoDirectory;
+
     //tag voor logs
     private static final String TAG 	 = "EQuicamAPP";
 
@@ -109,6 +117,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
+
+    public Bitmap tmpThumbNail;
+    public String tmpRecordFileName;
 
 	//Is Playing/Is Recording checks
 	private boolean						is_record = false;
@@ -414,6 +425,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
             }
         });
 
+        //Get and save Record path
+        videoDirectory = getRecordPath();
 
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
@@ -448,9 +461,16 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 					//stop opname
 					if(player != null){
 						player.RecordStop();
+                        String tmpRecordFileName = player.RecordGetFileName(1);
+
+                        Log.v(TAG, "Record filename=" + tmpRecordFileName);
+
                         Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
 						btnHighlight.clearAnimation();
 						btnHighlight.setVisibility(View.INVISIBLE);
+
+                        //Call make thumbnail functie
+                        saveThumbnail(tmpRecordFileName);
 
 					}
 				}
@@ -488,14 +508,21 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 					}
 				}else{
 
-					//stop opname
-					if(player != null){
-						player.RecordStop();
-						Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
-						btnHighlight.clearAnimation();
-						btnHighlight.setVisibility(View.INVISIBLE);
+                    //stop opname
+                    if(player != null){
+                        player.RecordStop();
+                        String tmpRecordFileName = player.RecordGetFileName(1);
 
-					}
+                        Log.v(TAG, "Record filename=" + tmpRecordFileName);
+
+                        Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
+                        btnHighlight.clearAnimation();
+                        btnHighlight.setVisibility(View.INVISIBLE);
+
+                        //Call make thumbnail functie
+                        saveThumbnail(tmpRecordFileName);
+
+                    }
 				}
 
 			}
@@ -519,12 +546,30 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     }
 
     //Thumbnail opslaan
-    private int[] mColorSwapBuf = null;                        // used by saveFrame()
-    public Bitmap getFrameAsBitmap(ByteBuffer frame, int width, int height)
+    public void saveThumbnail(String filename)
     {
-        Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        bmp.copyPixelsFromBuffer(frame);
-        return bmp;
+
+        //Create thumbnail
+        tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Video.Thumbnails.MINI_KIND);
+        Log.d("Yo", "" + tmpThumbNail);
+
+        //replace .mp4 with .jpg
+        if (filename.endsWith(".mp4")) {
+            filename = filename.substring(0, filename.length() - 4) + ".jpg";
+        }
+
+		//TODO Save file to thumbnails folder
+        try {
+            FileOutputStream out = new FileOutputStream (filename);
+            tmpThumbNail.compress(Bitmap.CompressFormat.JPEG, 60, out);
+            out.flush();
+            out.close();
+        } catch(Exception e) {
+
+            Log.v(TAG, "EXEPTION=" + e);
+
+        }
+
     }
     
     public void onClick(View v) 
