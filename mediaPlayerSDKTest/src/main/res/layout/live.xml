@@ -101,17 +101,6 @@
                 android:singleLine="true"
                 android:drawableLeft="@drawable/icon" />
 
-            <Button
-                android:id="@+id/button_clips"
-                android:layout_width="149dp"
-                android:layout_height="wrap_content"
-                android:text="Clips"
-                style="?android:attr/buttonStyleSmall"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_gravity="right"
-                android:singleLine="true"
-                android:drawableLeft="@drawable/icon" />
-
         </LinearLayout>
     </LinearLayout>
 

@@ -115,7 +115,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 	//Buttons MAINActivity
     private Button						btnConnect;
-	private Button						btnClips;
 
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
@@ -404,28 +403,12 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
         SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
         sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
+		//Get BtnConnect button
+		btnConnect = (Button) findViewById(R.id.button_connect);
+		btnConnect.setOnClickListener(this);
+
 		//Get Highlight flash button
 		btnHighlight = (ImageButton) findViewById(R.id.button_record_flash);
-
-		//Connect button listener
-		btnConnect = (Button)findViewById(R.id.button_connect);
-        btnConnect.setOnClickListener(this);
-
-        //Clips button listener
-        btnClips = (Button)findViewById(R.id.button_clips);
-        btnClips.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-                //Openen van Clips View
-                Intent i = new Intent(getApplicationContext(), Clips.class);
-
-                //Put recordpath
-                i.putExtra("Record Path", getRecordPath());
-
-                startActivity(i);
-            }
-        });
 
         //Get and save Record path
         videoDirectory = getRecordPath();
@@ -481,20 +464,19 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		        });
 
 		//Highlightbuttonlistener
-		btnHighlight.setOnClickListener( new OnClickListener(){
+		btnHighlight.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				is_record = !is_record;
 
-				if(is_record){
+				if (is_record) {
 
 					//start opname
-					if(player != null){
+					if (player != null) {
 						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
 						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
 						player.RecordStart();
-						Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
-
+						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 
 
 						//knipper rec button
@@ -508,23 +490,23 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 						btnHighlight.startAnimation(mAnimation);
 						btnHighlight.setVisibility(View.VISIBLE);
 					}
-				}else{
+				} else {
 
-                    //stop opname
-                    if(player != null){
-                        player.RecordStop();
-                        String tmpRecordFileName = player.RecordGetFileName(1);
+					//stop opname
+					if (player != null) {
+						player.RecordStop();
+						String tmpRecordFileName = player.RecordGetFileName(1);
 
-                        Log.v(TAG, "Record filename=" + tmpRecordFileName);
+						Log.v(TAG, "Record filename=" + tmpRecordFileName);
 
-                        Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
-                        btnHighlight.clearAnimation();
-                        btnHighlight.setVisibility(View.INVISIBLE);
+						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
+						btnHighlight.clearAnimation();
+						btnHighlight.setVisibility(View.INVISIBLE);
 
-                        //Call make thumbnail functie
+						//Call make thumbnail functie
 //                        saveThumbnail(tmpRecordFileName);
 
-                    }
+					}
 				}
 
 			}
@@ -755,13 +737,20 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)  
 	{
-//		switch (item.getItemId())
-//		{
-//            case R.id.main_opt_exit:
-//				finish();
-//				break;
-//
-//		}
+		switch (item.getItemId())
+		{
+            case R.id.ClipsMenuBtn:
+				//Openen van Clips View
+				Intent i = new Intent(getApplicationContext(), Clips.class);
+
+				//Put recordpath
+				i.putExtra("Record Path", getRecordPath());
+
+				startActivity(i);
+				finish();
+				break;
+
+		}
 		return true;
 	}
 

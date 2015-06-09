@@ -17,5 +17,6 @@
     <string name="MaakVerbindingString">MAAK VERBINDING VOOR LIVE BEELD VAN UW EQUICAM</string>
     <string name="OpnieuwVerbindingMaken">Opnieuw verbinding aan het maken</string>
     <string name="ClipsTitleStr">Clips</string>
+    <string name="ClipsMenuBtnString">Clips</string>
 
 </resources>
