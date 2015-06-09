@@ -29,6 +29,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
@@ -115,6 +116,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 	//Buttons MAINActivity
     private Button						btnConnect;
+	private FrameLayout					recordCntrlsArea;
 
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
@@ -404,6 +406,9 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		//Get BtnConnect button
 		btnConnect = (Button) findViewById(R.id.button_connect);
 		btnConnect.setOnClickListener(this);
+
+		//Get recordCntrlsArea layout area
+		recordCntrlsArea = (FrameLayout) findViewById(R.id.recordCntrlsArea);
 
 		//Get Highlight flash button
 		btnHighlight = (ImageButton) findViewById(R.id.button_record_flash);
@@ -767,6 +772,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	protected void setHideControls()
 	{
 		btnConnect.setVisibility(View.GONE);
+		recordCntrlsArea.setVisibility(View.VISIBLE);
 	}
 
 	protected void setShowControls()
@@ -774,6 +780,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		setTitle(R.string.app_name);
 
 		btnConnect.setVisibility(View.VISIBLE);
+		recordCntrlsArea.setVisibility(View.INVISIBLE);
+
 	}
 
 	private void showStatusView() 
@@ -782,7 +790,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		playerStatusText.setVisibility(View.INVISIBLE);
 		//player.setAlpha(0.0f);
 		playerStatusText.setVisibility(View.VISIBLE);
-		
+
+
 	}
 	
 	private void showVideoView() 
