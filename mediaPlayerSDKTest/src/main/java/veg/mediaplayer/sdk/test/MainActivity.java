@@ -314,10 +314,10 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		    			showStatusView();
 		    			player_state = PlayerStates.ReadyForUse;
 		    			setUIDisconnected();
-	            		
+
 						Toast.makeText(getApplicationContext(), getString(R.string.Slechts2MinutenOpnameString),
 								   Toast.LENGTH_SHORT).show();
-						
+
 	            	}
 	                break;
 	            default:

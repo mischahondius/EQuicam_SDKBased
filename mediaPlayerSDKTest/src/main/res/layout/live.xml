@@ -108,8 +108,10 @@ android:layout_alignParentBottom="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/timerView"
-                android:layout_gravity="center_horizontal|bottom"
-                android:enabled="false" />
+                android:layout_gravity="center_horizontal|top"
+                android:enabled="false"
+                android:textStyle="bold"
+                android:textSize="80sp" />
 
         </FrameLayout>
 
