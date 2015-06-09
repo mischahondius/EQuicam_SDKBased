@@ -11,12 +11,13 @@
     <string name="StartOpnameString">Start Opname</string>
     <string name="OpnameGestartString">"Opname gestart"</string>
     <string name="OpnameGestoptString">"Opname gestopt"</string>
-    <string name="GeenVerbindingString">Geen verbinding met uw camera</string>
+    <string name="GeenVerbindingString">Tik om te verbinden</string>
     <string name="VerbindenString">Verbinden</string>
     <string name="Slechts2MinutenOpnameString">U kunt slechts 2 minuten opnemen.</string>
-    <string name="MaakVerbindingString">MAAK VERBINDING VOOR LIVE BEELD VAN UW EQUICAM</string>
-    <string name="OpnieuwVerbindingMaken">Opnieuw verbinding aan het maken</string>
+    <string name="MaakVerbindingString">Tik om te verbinden</string>
+    <string name="OpnieuwVerbindingMaken">Aan het verbinden...</string>
     <string name="ClipsTitleStr">Clips</string>
     <string name="ClipsMenuBtnString">Clips</string>
+    <string name="liveMenuBtnString">Live</string>
 
 </resources>

@@ -131,12 +131,10 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     private SharedPreferences.Editor 	editor;
     private MediaPlayer 				player = null;
     private MainActivity 				mthis = null;
-    private RelativeLayout 				playerStatus = null;
     private TextView 					playerStatusText = null;
-    private TextView 					playerHwStatus = null;
 	public ScaleGestureDetector 		detectors = null;
 	public ViewSizes 					mSurfaceSizes 	= null;
-    private MulticastLock multicastLock = null;
+    private MulticastLock 				multicastLock = null;
 	private enum PlayerStates
 	{
 	  	Busy,
@@ -388,15 +386,15 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		setContentView(R.layout.live);
 		mthis = this;
 		
+		//Get SharedPrefs
 		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-
 		SharedSettings.getInstance(this).loadPrefSettings();
 		SharedSettings.getInstance().savePrefSettings();
-		
-		playerStatus 		= (RelativeLayout)findViewById(R.id.playerStatus);
+
+		//Get Player status textview
 		playerStatusText 	= (TextView)findViewById(R.id.playerStatusText);
-		playerHwStatus 		= (TextView)findViewById(R.id.playerHwStatus);
-		
+
+		//Get Player
 		player = (MediaPlayer)findViewById(R.id.playerView);
 
         player.getSurfaceView().setZOrderOnTop(true);    // necessary
@@ -513,10 +511,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		});
         
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
-        layout.setOnTouchListener(new OnTouchListener() 
-		{
-			public boolean onTouch(View v, MotionEvent event) 
-			{
+        layout.setOnTouchListener(new OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
 				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				if (getWindow() != null && getWindow().getCurrentFocus() != null && getWindow().getCurrentFocus().getWindowToken() != null)
 					inputManager.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
@@ -524,7 +520,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 			}
 		});
         
-		playerStatusText.setText(getString(R.string.MaakVerbindingString));
 		setShowControls();
         
     }
@@ -739,14 +734,22 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	{
 		switch (item.getItemId())
 		{
-            case R.id.ClipsMenuBtn:
+			case R.id.ClipsMenuBtn:
 				//Openen van Clips View
-				Intent i = new Intent(getApplicationContext(), Clips.class);
+				Intent a = new Intent(getApplicationContext(), Clips.class);
 
 				//Put recordpath
-				i.putExtra("Record Path", getRecordPath());
+				a.putExtra("Record Path", getRecordPath());
 
-				startActivity(i);
+				startActivity(a);
+				finish();
+				break;
+
+			case R.id.liveMenuBtn:
+				//Openen van Live View
+				Intent b = new Intent(getApplicationContext(), MainActivity.class);
+
+				startActivity(b);
 				finish();
 				break;
 
@@ -776,17 +779,17 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	private void showStatusView() 
 	{
 		player.setVisibility(View.INVISIBLE);
-		playerHwStatus.setVisibility(View.INVISIBLE);
+		playerStatusText.setVisibility(View.INVISIBLE);
 		//player.setAlpha(0.0f);
-		playerStatus.setVisibility(View.VISIBLE);
+		playerStatusText.setVisibility(View.VISIBLE);
 		
 	}
 	
 	private void showVideoView() 
 	{
-        playerStatus.setVisibility(View.INVISIBLE);
+        playerStatusText.setVisibility(View.INVISIBLE);
  		player.setVisibility(View.VISIBLE);
-		playerHwStatus.setVisibility(View.VISIBLE);
+		playerStatusText.setVisibility(View.VISIBLE);
 
  		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
 		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
@@ -862,7 +865,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     	           		
     	           		layoutParams.width = bounds.width();
     	           		playerStatusText.setLayoutParams(layoutParams);        	
-    	            	playerStatusText.setGravity(Gravity.NO_GRAVITY);
+//    	            	playerStatusText.setGravity(Gravity.NO_GRAVITY);
     	            	
                         synchronized(this) { this.notify(); }
                     }

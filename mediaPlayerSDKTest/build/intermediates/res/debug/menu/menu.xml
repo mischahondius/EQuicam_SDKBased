@@ -1,4 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/liveMenuBtn"
+        android:title="@string/liveMenuBtnString" />
     <item android:id="@+id/ClipsMenuBtn"
         android:title="@string/ClipsMenuBtnString" />
     <item android:id="@+id/main_opt_settings"
