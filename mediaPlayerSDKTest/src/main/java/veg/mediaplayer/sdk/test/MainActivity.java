@@ -45,6 +45,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
+import java.util.concurrent.TimeUnit;
+
 import android.preference.PreferenceManager;
 import EQuicamApp.R;
 import veg.mediaplayer.sdk.MediaPlayer;
@@ -549,9 +551,19 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     public void saveThumbnail(String filename)
     {
 
+        //TODO sleep for 5 seconds test
+        try {
+            Thread.sleep(10000);
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+
         //Create thumbnail
         tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Video.Thumbnails.MINI_KIND);
         Log.d("Yo", "" + tmpThumbNail);
+        Log.d("Filename", "" + filename);
+
 
         //replace .mp4 with .jpg
         if (filename.endsWith(".mp4")) {
