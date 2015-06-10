@@ -24,7 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.File;
@@ -64,26 +66,11 @@ public class Clips extends ListActivity{
           }
       }
 
-      //TODO itemlistener
-      //onvideoclick method
-//        public void onVideoClick (int position) {
-//
-//            setContentView(R.layout.fullscreen_video_player);
-//
-//            final VideoView videoView =
-//                    (VideoView) findViewById(R.id.fullScreenView);
-//
-//            videoView.setVideoPath(
-//                    videoDirectory + "/" + sortedVideoArrayList.get(position));
-//
-//            videoView.start();
-//        }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-      View row = convertView;
+        View row = convertView;
       if(row==null){
         LayoutInflater inflater = getLayoutInflater();
         row = inflater.inflate(R.layout.videoitemfragment, parent, false);
@@ -101,6 +88,19 @@ public class Clips extends ListActivity{
       {
         imageThumbnail.setImageBitmap(cacheBitmap.get(sortedVideoArrayList.get(position)));
       }
+
+        //Geen idee waarom, maar dit was nodig
+        //Wat een gekloot zeg
+        final int tmpPosition = position;
+
+        row.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"you chose:" + sortedVideoArrayList.get(tmpPosition), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
       return row;
     }
