@@ -19,5 +19,6 @@
     <string name="ClipsTitleStr">Clips</string>
     <string name="ClipsMenuBtnString">Clips</string>
     <string name="liveMenuBtnString">Live</string>
+    <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
 
 </resources>

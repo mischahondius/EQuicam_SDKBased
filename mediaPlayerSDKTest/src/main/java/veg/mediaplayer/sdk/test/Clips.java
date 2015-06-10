@@ -97,7 +97,16 @@ public class Clips extends ListActivity{
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"you chose:" + sortedVideoArrayList.get(tmpPosition), Toast.LENGTH_SHORT).show();
+
+                //Set fulscreen View
+                Intent i = new Intent(getApplicationContext(), FullScreenVideoPlayer.class);
+
+                //Put recordpath
+                i.putExtra("VideoLocation", videoDirectory + "/" + sortedVideoArrayList.get(tmpPosition));
+
+                startActivity(i);
+                finish();
+
 
             }
         });

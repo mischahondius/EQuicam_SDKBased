@@ -24,6 +24,12 @@
             android:label="@string/ClipsTitleStr"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="veg.mediaplayer.sdk.test.FullScreenVideoPlayer"
+            android:label="@string/fullScreenVideoPlNameStr"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 	<uses-sdk

@@ -158,7 +158,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	private int mOldMsg = 0;
 
 
-	// Event handler
 
 // Event handler
 
@@ -372,8 +371,11 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	    }
 	    return mediaStorageDir.getPath();
     }
-	
-    @Override
+
+	public String getVideoDirectory(){return videoDirectory;}
+
+
+	@Override
     public void onCreate(Bundle savedInstanceState) 
 	{
 
