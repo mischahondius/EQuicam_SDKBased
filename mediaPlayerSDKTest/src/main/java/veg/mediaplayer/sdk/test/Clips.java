@@ -93,6 +93,7 @@ public class Clips extends ListActivity{
         //Wat een gekloot zeg
         final int tmpPosition = position;
 
+        //setonClickListener voor rij
         row.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -105,9 +106,6 @@ public class Clips extends ListActivity{
                 i.putExtra("VideoLocation", videoDirectory + "/" + sortedVideoArrayList.get(tmpPosition));
 
                 startActivity(i);
-                finish();
-
-
             }
         });
 

@@ -11,7 +11,6 @@ package veg.mediaplayer.sdk.test;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.ThumbnailUtils;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -20,7 +19,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,13 +41,8 @@ import android.graphics.Rect;
 import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
-import java.util.concurrent.TimeUnit;
-
 import android.preference.PreferenceManager;
 import EQuicamApp.R;
 import veg.mediaplayer.sdk.MediaPlayer;
@@ -157,10 +150,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	private PlayerConnectType reconnect_type = PlayerConnectType.Normal;
 	private int mOldMsg = 0;
 
-
-
-// Event handler
-
+	// Event handler
     private Handler handler = new Handler()
     {
         String strText = "Verbinden";
@@ -332,9 +322,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		Log.e(TAG, "Form Native Player OnReceiveData: size: " + size + ", pts: " + pts);
 		return 0;
 	}
-    
 
-	// All event are sent to event handlers    
+	// All events are sent to event handlers
 	@Override
 	public int Status(int arg)
 	{
@@ -371,9 +360,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	    }
 	    return mediaStorageDir.getPath();
     }
-
-	public String getVideoDirectory(){return videoDirectory;}
-
 
 	@Override
     public void onCreate(Bundle savedInstanceState) 
@@ -482,6 +468,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 
 		        });
 
+		//TODO dubbele code
 		//Highlightbuttonlistener
 		btnHighlight.setOnClickListener(new OnClickListener() {
 			@Override
@@ -539,7 +526,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 			}
 		});
         
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
+        //TODO kan weg?
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
         layout.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -771,7 +759,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 				a.putExtra("Record Path", getRecordPath());
 
 				startActivity(a);
-				finish();
 				break;
 
 			case R.id.liveMenuBtn:
