@@ -69,9 +69,36 @@ public class Clips extends ListActivity{
         row = inflater.inflate(R.layout.videoitemfragment, parent, false);
       }
 
-      //Get and set filename textview
-      TextView textfilePath = (TextView)row.findViewById(R.id.FilePath);
-      textfilePath.setText(sortedVideoArrayList.get(position));
+        //TODO
+      //Get and set dATE AND TIME textview
+      TextView textfilePath = (TextView)row.findViewById(R.id.dateTime);
+
+      //GET FILENAME
+        String tmpFileName = sortedVideoArrayList.get(position);
+
+        //Gooi eind weg
+        tmpFileName = tmpFileName.substring(0, Math.min(tmpFileName.length(), 14));
+
+        //gooi underscores weg
+        tmpFileName = tmpFileName.replace('_', ' ');
+
+        //Voeg : toe aan tijd
+        tmpFileName = tmpFileName.substring(0, 12) + ":" + tmpFileName.substring(12, tmpFileName.length());
+
+        //Voeg "tijd :" toe
+        tmpFileName = tmpFileName.substring(0, 9) + "\nTijd: " + tmpFileName.substring(9, tmpFileName.length());
+
+        //voeg uur toe
+        tmpFileName = tmpFileName.substring(0, 22) + " uur" + tmpFileName.substring(22, tmpFileName.length());
+
+        //Voeg "Datum :" toe
+        tmpFileName = tmpFileName.substring(0, 0) + "Datum: " + tmpFileName.substring(0, tmpFileName.length());
+
+        //Voeg "/" toe
+        tmpFileName = tmpFileName.substring(0, 12) + "/" + tmpFileName.substring(12, tmpFileName.length());
+        tmpFileName = tmpFileName.substring(0, 15) + "/" + tmpFileName.substring(15, tmpFileName.length());
+
+        textfilePath.setText(tmpFileName);
 
       //Create and set thumbnails
       ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);

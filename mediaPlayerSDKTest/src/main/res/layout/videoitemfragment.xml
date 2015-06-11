@@ -50,21 +50,21 @@ android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Geen Titel"
+                android:text="Salinero"
                 android:id="@+id/textView"
                 android:layout_weight="0.2"
                 android:gravity="bottom|left" />
 
             <TextView
-        android:id="@+id/FilePath"
+        android:id="@+id/dateTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
             android:layout_weight="0.20"
             android:padding="5dp"
             android:textStyle="normal"
             android:textSize="10dp"
-            android:text="Geen bestandslocatie"
-                android:singleLine="true"
+            android:text="Datum en tijd"
+                android:singleLine="false"
                 android:gravity="left|top" />
         </LinearLayout>
 
