@@ -8,7 +8,6 @@
 
 package veg.mediaplayer.sdk.test;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
@@ -19,6 +18,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,52 +52,9 @@ import veg.mediaplayer.sdk.MediaPlayer.PlayerNotifyCodes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerRecordFlags;
 import veg.mediaplayer.sdk.MediaPlayerConfig;
 
-class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener 
+public class MainActivity extends FragmentActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback
 {
-	public static final float MIN_ZOOM = 0.7f;
-	public static final float MAX_ZOOM = 1.0f;
-	public float scaleFactor = 1.0f;
-	public boolean zoom = false;
-	
-	@Override
-	public boolean onScale(ScaleGestureDetector detector) 
-	{
-		scaleFactor *= detector.getScaleFactor();
-		scaleFactor = Math.max(MIN_ZOOM, Math.min(scaleFactor, MAX_ZOOM));
-		Log.e("Player", "onScale " + scaleFactor);
-		return true;
-	}
-	@Override
-	 public boolean onScaleBegin(ScaleGestureDetector detector) 
-	{
-		Log.e("Player", "onScaleBegin");
-		zoom = true;
-		return true;
-	 }
 
-	 @Override
-	 public void onScaleEnd(ScaleGestureDetector detector) 
-	 {
-		Log.e("Player", "onScaleEnd");
-		zoom = false;
-	 }
-	
-}
-
-class ViewSizes
-{
-	public float dx = 0;
-	public float dy = 0;
-	
-	public float orig_width = 0;
-	public float orig_height = 0;
-	
-	public ScaleListener listnrr = null;
-	
-}
-
-public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback, View.OnTouchListener
-{
 	//Equicam URL
 	private static final String camUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
 
@@ -117,8 +75,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 	private ImageButton					btnRecord;
 	private Chronometer					timer;
 
-    public Bitmap tmpThumbNail;
-    public String tmpRecordFileName;
+//    public Bitmap tmpThumbNail;
+//    public String tmpRecordFileName;
 
 	//Is Playing/Is Recording checks
 	private boolean						is_record = false;
@@ -131,7 +89,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     private MainActivity 				mthis = null;
     private TextView 					playerStatusText = null;
 	public ScaleGestureDetector 		detectors = null;
-	public ViewSizes 					mSurfaceSizes 	= null;
     private MulticastLock 				multicastLock = null;
 	private enum PlayerStates
 	{
@@ -378,7 +335,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		
 		setContentView(R.layout.live);
 		mthis = this;
-		
+
 		//Get SharedPrefs
 		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		SharedSettings.getInstance(this).loadPrefSettings();
@@ -526,7 +483,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 			}
 		});
         
-        //TODO kan weg?
+        //Dit moet blijven staan om te kunnen klikken op scherm
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
         layout.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -536,7 +493,7 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 				return true;
 			}
 		});
-        
+
 		setShowControls();
         
     }
@@ -956,44 +913,6 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
     		task.execute(params);
     	}
     }  
-	
-	@Override
-	public boolean onTouch(View view, MotionEvent event) 
-	{
-		if (detectors != null)
-			detectors.onTouchEvent(event);
-		
-	    switch (event.getAction()) 
-	    {
-	        case MotionEvent.ACTION_DOWN:
-	        	mSurfaceSizes.dx =  event.getX();
-	        	mSurfaceSizes.dy =  event.getY();
-	            break;
-	
-	        case MotionEvent.ACTION_MOVE:
-	            float x =  event.getX();
-	            float y =  event.getY();
-	            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) view.getLayoutParams();
-	            float left = lp.leftMargin + (x - mSurfaceSizes.dx); 
-	            float top = lp.topMargin + (y - mSurfaceSizes.dy);
-	            if (mSurfaceSizes.listnrr != null && mSurfaceSizes.listnrr.zoom)
-	            {
-	            	int srcw = lp.width;
-	            	int srch = lp.height;
-	            	
-		    		int left_offset = (int) (mSurfaceSizes.orig_width - (mSurfaceSizes.orig_width * mSurfaceSizes.listnrr.scaleFactor));
-		    		int top_offset = (int) (mSurfaceSizes.orig_height - (mSurfaceSizes.orig_height * mSurfaceSizes.listnrr.scaleFactor));
-		    		Log.e("Player", "ACTION_MOVE2 " + left_offset + "," + top_offset);
-		    		
-	                lp.leftMargin = left_offset;
-	                lp.topMargin  = top_offset;
-	                lp.rightMargin = left_offset;
-	                lp.bottomMargin  = top_offset;
-	            }
-	            view.setLayoutParams(lp);
-	            break;
-	    }	    
-	    return true;
-	}
-	
+
 }
+

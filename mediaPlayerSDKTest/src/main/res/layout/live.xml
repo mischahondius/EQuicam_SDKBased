@@ -9,64 +9,64 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-       <FrameLayout
+        <FrameLayout
             android:id="@+id/playerViewLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-           android:layout_weight="0.365"
-           android:background="#ff000000"
-           android:layout_gravity="top">
+            android:layout_weight="0.365"
+            android:background="#ff000000"
+            android:layout_gravity="top">
 
-           <RelativeLayout
-	            android:id="@+id/playerViewRelativeLayout"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-               android:layout_gravity="top"
-               android:gravity="top">
+            <RelativeLayout
+                android:id="@+id/playerViewRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="top">
 
-               <veg.mediaplayer.sdk.MediaPlayer
-	                android:id="@+id/playerView"
-	                android:layout_width="fill_parent"
-	                android:layout_height="fill_parent"
-	                android:layout_weight="1.4"
-                   android:background="#ff000000"
+                <veg.mediaplayer.sdk.MediaPlayer
+                    android:id="@+id/playerView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.4"
+                    android:background="#ff000000"
                     />
 
-               <ImageView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:id="@+id/imageView2"
-                   android:src="@drawable/playstream"
-                   android:layout_centerInParent="true" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView2"
+                    android:src="@drawable/playstream"
+                    android:layout_centerInParent="true" />
 
-               <TextView
-                   android:id="@+id/playerStatusText"
-                   android:layout_width="fill_parent"
-                   android:layout_height="fill_parent"
-                   android:textAppearance="?android:attr/textAppearanceLarge"
-android:singleLine="true"
-android:layout_alignParentRight="false"
-                   android:layout_alignParentTop="false"
-android:layout_centerHorizontal="true"
-android:layout_alignParentBottom="false"
-                   android:text="Tik om te verbinden"
-                   android:gravity="center_horizontal|bottom"
-                   android:paddingBottom="35dp" />
+                <TextView
+                    android:id="@+id/playerStatusText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:singleLine="true"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="false"
+                    android:text="Tik om te verbinden"
+                    android:gravity="center_horizontal|bottom"
+                    android:paddingBottom="35dp" />
 
-               <Button
-                      android:id="@+id/button_connect"
-                   android:layout_width="fill_parent"
-                   android:layout_height="fill_parent"
-                   android:layout_gravity="right"
-                   android:singleLine="false"
-                   android:visibility="invisible"
-                   android:enabled="true"
-                   android:textSize="0dp"
-                   android:background="@null" />
+                <Button
+                    android:id="@+id/button_connect"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="right"
+                    android:singleLine="false"
+                    android:visibility="invisible"
+                    android:enabled="true"
+                    android:textSize="0dp"
+                    android:background="@null" />
 
-           </RelativeLayout>
+            </RelativeLayout>
 
-       </FrameLayout>
+        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
