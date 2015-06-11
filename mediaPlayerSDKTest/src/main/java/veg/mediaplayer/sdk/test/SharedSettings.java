@@ -1,13 +1,12 @@
 /*
  *
- * Copyright (c) 2010-2014 EVE GROUP PTE. LTD.
+ * Mischa Hondius, 6053017.
+ * University of Amsterdam
+ * SDK Used by Video Experts Group
  *
  */
 
-
 package veg.mediaplayer.sdk.test;
-
-import java.util.concurrent.CountDownLatch;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,19 +41,12 @@ public class SharedSettings
 	// synchro
 	public  int 	synchroEnable = 1;				// enable audio video synchro
 	public  int 	synchroNeedDropVideoFrames = 1;	// drop video frames if it older
-	
-	
+
 	public  long	OpenAdLastTime = 0;
-	
 	private  Context m_Context = null;
 	private  SharedPreferences settings = null;
 	private  SharedPreferences.Editor editor = null;
-	
 	private static volatile SharedSettings _inst = null;
-	private SharedSettings()
-	{
-		m_Context = null;
-	}
 
 	private SharedSettings(final Context mContext)
 	{
@@ -141,115 +133,4 @@ public class SharedSettings
 		editor.commit();
 		Log.e("TV Player", "SharedSettings: Save settings.");
 	}
-	
- 	public void loadOpenAdLastTime() 
-	{
-		// load preferences settings to local variables
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
- 		OpenAdLastTime = settings.getLong("OpenAdLastTime", 0);
-	}
-
-	public void saveOpenAdLastTime(final long value) 
-	{
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		// save preferences settings
- 		if (editor == null)
- 			editor = settings.edit();
-
- 		OpenAdLastTime = value;
- 		editor.putLong("OpenAdLastTime", OpenAdLastTime);
-		editor.commit();
-	}
-
-	public boolean getBooleanValueForKey(final String key) 
-	{
- 		if (key.isEmpty())
- 			return false;
- 		
-		// load preferences settings to local variables
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		Log.e("TV Player", "SharedSettings: getBooleanValueForKey " + key + ":" + settings.getBoolean(key, false));
-		return settings.getBoolean(key, false);
-	}
-	
- 	public void setBooleanValueForKey(final String key, final boolean value) 
-	{
- 		if (key.isEmpty())
- 			return;
- 		
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		// save preferences settings
- 		if (editor == null)
- 			editor = settings.edit();
-
- 		editor.putBoolean(key, value);
-		editor.commit();
-	}
-
- 	public long getLongValueForKey(final String key) 
-	{
- 		if (key.isEmpty())
- 			return 0;
- 		
-		// load preferences settings to local variables
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		Log.e("TV Player", "SharedSettings: getLongValueForKey " + key + ":" + settings.getLong(key, 0));
-		return settings.getLong(key, 0);
-	}
-	
- 	public void setLongValueForKey(final String key, final long value) 
-	{
- 		if (key.isEmpty())
- 			return;
- 		
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		// save preferences settings
- 		if (editor == null)
- 			editor = settings.edit();
-
- 		editor.putLong(key, value);
-		editor.commit();
-	}
- 	
- 	public int getIntValueForKey(final String key) 
-	{
- 		if (key.isEmpty())
- 			return 0;
- 		
-		// load preferences settings to local variables
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		Log.e("TV Player", "SharedSettings: getIntValueForKey " + key + ":" + settings.getInt(key, 0));
-		return settings.getInt(key, 0);
-	}
-	
- 	public void setIntValueForKey(final String key, final int value) 
-	{
- 		if (key.isEmpty())
- 			return;
- 		
- 		if (settings == null)
- 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
- 		
-		// save preferences settings
- 		if (editor == null)
- 			editor = settings.edit();
-
- 		editor.putInt(key, value);
-		editor.commit();
-	}
-	
 }

@@ -12,10 +12,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
@@ -24,11 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +46,7 @@ public class Clips extends ListActivity{
           super(context, textViewResourceId, fileNames);
 
           //Initialize cachebitmap hashmap
-          cacheBitmap = new HashMap<String, Bitmap>(fileNames.size());
+          cacheBitmap = new HashMap<>(fileNames.size());
 
           initCacheBitmap(fileNames.size());
       }
@@ -118,7 +111,7 @@ public class Clips extends ListActivity{
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
 
-    videoArrayList = new ArrayList<String>();
+    videoArrayList = new ArrayList<>();
 
       //GET recordpath from intent
       Intent intent = getIntent();
@@ -130,10 +123,9 @@ public class Clips extends ListActivity{
       Log.d("Files", "Size: "+ file.length);
 
     //iterate over files heen
-      for (int i=0; i < file.length; i++)
-      {
-          Log.d("Files", "FileName:" + file[i].getName());
-          videoArrayList.add(file[i].getName());
+      for (File aFile : file) {
+          Log.d("Files", "FileName:" + aFile.getName());
+          videoArrayList.add(aFile.getName());
       }
 
       //ArrayLijst omzetten naar Array
@@ -143,7 +135,7 @@ public class Clips extends ListActivity{
       Arrays.sort(videoArray, Collections.reverseOrder());
 
       //Array back to arraylist
-      sortedVideoArrayList = new ArrayList<String>(Arrays.asList(videoArray));
+      sortedVideoArrayList = new ArrayList<>(Arrays.asList(videoArray));
 
       //SetListAdapter
       setListAdapter(new MyVideoListAdapter(Clips.this, R.layout.videoitemfragment, sortedVideoArrayList));

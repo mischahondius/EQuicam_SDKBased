@@ -70,7 +70,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 	//Buttons MAINActivity
     private Button						btnConnect;
 	private FrameLayout					recordCntrlsArea;
-
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
 	private Chronometer					timer;
@@ -88,7 +87,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     private MediaPlayer 				player = null;
     private MainActivity 				mthis = null;
     private TextView 					playerStatusText = null;
-	public ScaleGestureDetector 		detectors = null;
     private MulticastLock 				multicastLock = null;
 	private enum PlayerStates
 	{
@@ -102,8 +100,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 	  	Reconnecting
 	}
     
-	private Object waitOnMe = new Object();
-	private PlayerStates player_state = PlayerStates.ReadyForUse; 
+	private PlayerStates player_state = PlayerStates.ReadyForUse;
 	private PlayerConnectType reconnect_type = PlayerConnectType.Normal;
 	private int mOldMsg = 0;
 
@@ -915,4 +912,3 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
     }  
 
 }
-
