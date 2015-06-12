@@ -69,7 +69,7 @@ public class Clips extends ListActivity{
         row = inflater.inflate(R.layout.videoitemfragment, parent, false);
       }
 
-        //TODO
+      //TODO evt datum nog weergeven in woord en volgorde aanpassen
       //Get and set dATE AND TIME textview
       TextView textfilePath = (TextView)row.findViewById(R.id.dateTime);
 
