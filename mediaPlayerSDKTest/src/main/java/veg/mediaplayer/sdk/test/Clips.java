@@ -23,10 +23,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import EQuicamApp.R;
 
@@ -97,6 +103,35 @@ public class Clips extends ListActivity{
         //Voeg "/" toe
         tmpFileName = tmpFileName.substring(0, 12) + "/" + tmpFileName.substring(12, tmpFileName.length());
         tmpFileName = tmpFileName.substring(0, 15) + "/" + tmpFileName.substring(15, tmpFileName.length());
+
+        //sla datum op in aparte string
+        String datum = tmpFileName.substring(7, 18);
+
+
+
+        //TODO datum naar woord?
+        DateFormat format = new SimpleDateFormat(" yyyy/MM/dd", Locale.ENGLISH);
+        Date date = new Date();
+        try {
+            date = format.parse(datum);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //datum back to string
+        datum = date.toString();
+
+        Log.d("Files", "datum: " + datum);
+
+
+        //Gooi tijd weg
+        datum = "" + datum.substring(0, 10) + ", " + datum.substring(datum.length()-4, datum.length());
+        Log.d("Files", "datum zonder tijd: " + datum);
+
+        //voeg datum in tmpfilename
+        tmpFileName = tmpFileName.substring(0, 6) + " " + datum + tmpFileName.substring(18, tmpFileName.length());
+        Log.d("Files", "alles bij elkaar: " + tmpFileName);
+
 
         textfilePath.setText(tmpFileName);
 
