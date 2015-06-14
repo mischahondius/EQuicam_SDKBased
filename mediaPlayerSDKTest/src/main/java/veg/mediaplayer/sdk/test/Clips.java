@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -121,7 +122,7 @@ public class Clips extends ListActivity{
             long m = (tmpDuratieInt - h * 3600) / 60;
             long s = tmpDuratieInt - (h * 3600 + m * 60);
 
-            tmpDuratie = "Lengte: " + m + " min " + s + " sec";
+            tmpDuratie = "Lengte: " + m + " minuten " + s + " seconden";
 
             //set duratie
             duratieTV.setText(tmpDuratie);

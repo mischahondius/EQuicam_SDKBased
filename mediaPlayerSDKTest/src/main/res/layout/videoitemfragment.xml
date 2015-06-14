@@ -76,7 +76,7 @@ android:orientation="horizontal"
                 android:textStyle="normal"
                 android:textSize="10dp"
                 android:text="Duratie"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:gravity="left|top" />
         </LinearLayout>
 
