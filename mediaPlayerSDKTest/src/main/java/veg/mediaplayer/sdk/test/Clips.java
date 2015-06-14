@@ -12,7 +12,10 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
@@ -33,7 +36,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-
 import EQuicamApp.R;
 
 public class Clips extends ListActivity{
@@ -43,6 +45,7 @@ public class Clips extends ListActivity{
   public ArrayList<String> sortedVideoArrayList;
   public String [] videoArray;
   public HashMap<String,Bitmap> cacheBitmap;
+  public HashMap<String,String> durationCache;
 
 
   public class MyVideoListAdapter extends ArrayAdapter<String> {
@@ -53,8 +56,11 @@ public class Clips extends ListActivity{
 
           //Initialize cachebitmap hashmap
           cacheBitmap = new HashMap<>(fileNames.size());
-
           initCacheBitmap(fileNames.size());
+
+          //Initialize durationCache hashmap
+          durationCache = new HashMap<>(fileNames.size());
+          initDurationCache(fileNames.size());
       }
 
 
@@ -64,6 +70,25 @@ public class Clips extends ListActivity{
               cacheBitmap.put(sortedVideoArrayList.get(i), ThumbnailUtils.createVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(i), Thumbnails.MINI_KIND));
           }
       }
+
+      //Duration Cache aanmaken - Method
+      public void initDurationCache(int size) {
+          for (int i = 0; i < size; i++) {
+
+            //Get metadata on duration
+            durationCache.put(sortedVideoArrayList.get(i), getDuration(videoDirectory + "/" + sortedVideoArrayList.get(i)) );
+
+
+          }
+      }
+
+
+//      //Thumbnail Cache aanmaken - Method
+//      public void initCacheBitmap(int size) {
+//          for (int i = 0; i < size; i++) {
+//              cacheBitmap.put(sortedVideoArrayList.get(i), getVideoThumbnail(videoDirectory + "/" + sortedVideoArrayList.get(i)));
+//          }
+//      }
 
 
     @Override
@@ -203,4 +228,33 @@ public class Clips extends ListActivity{
       setListAdapter(new MyVideoListAdapter(Clips.this, R.layout.videoitemfragment, sortedVideoArrayList));
 
   }
+
+    public String getDuration(String path) {
+        Log.d("Files", "GetDuration functie aangeroepen met path:" + path);
+
+        MediaMetadataRetriever MetaDataOphaler = new MediaMetadataRetriever();
+        String durationStr = new String();
+
+        try {
+            Log.d("Files", "Datasource path:" + path);
+
+            MetaDataOphaler.setDataSource(path);
+            durationStr = MetaDataOphaler.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+
+            if (durationStr != null) {
+                Log.d("Files", "Duration get succesvol, duration =" + durationStr);
+            }
+
+            if (durationStr == null) {
+                Log.d("Files", "Duration get NIET succesvol, duration =" + durationStr);
+            }
+        } catch (Exception e) {
+            durationStr = "0";
+            Log.d("Files", "Exception e");
+
+        } finally {
+            MetaDataOphaler.release();
+        }
+        return durationStr;
+    }
 }

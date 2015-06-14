@@ -9,6 +9,13 @@
         <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\mediaplayersdk-e9c654875e41cac32eaed9f84d7a9d27a69f2b02.jar" />
     </item>
     <item
+        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\exploded-aar\com.github.wseemann\FFmpegMediaMetadataRetriever\1.0.1\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e3237df151110a7f4e0f28d1b5ca5483bba2a1b2">
+        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\classes-674cfeee56941a9473846996e7401cd9267b784e.jar" />
+    </item>
+    <item
         jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\libs\internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="21.1.2"
