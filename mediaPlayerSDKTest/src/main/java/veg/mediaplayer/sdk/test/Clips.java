@@ -122,7 +122,14 @@ public class Clips extends ListActivity{
             long m = (tmpDuratieInt - h * 3600) / 60;
             long s = tmpDuratieInt - (h * 3600 + m * 60);
 
-            tmpDuratie = "Lengte: " + m + " minuten " + s + " seconden";
+            if (m == 1){
+                tmpDuratie = "Lengte: " + m + " minuut " + s + " seconden";
+            }
+
+            else {
+                tmpDuratie = "Lengte: " + m + " minuten " + s + " seconden";
+            }
+
 
             //set duratie
             duratieTV.setText(tmpDuratie);
