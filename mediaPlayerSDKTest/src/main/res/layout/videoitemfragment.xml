@@ -66,6 +66,18 @@ android:orientation="horizontal"
             android:text="Datum en tijd"
                 android:singleLine="false"
                 android:gravity="left|top" />
+
+            <TextView
+                android:id="@+id/duratieTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:padding="5dp"
+                android:textStyle="normal"
+                android:textSize="10dp"
+                android:text="Duratie"
+                android:singleLine="false"
+                android:gravity="left|top" />
         </LinearLayout>
 
     </FrameLayout>

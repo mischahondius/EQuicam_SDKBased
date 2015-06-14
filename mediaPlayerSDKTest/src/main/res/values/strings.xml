@@ -20,5 +20,6 @@
     <string name="ClipsMenuBtnString">Clips</string>
     <string name="liveMenuBtnString">Live</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
+    <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
 
 </resources>

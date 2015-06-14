@@ -25,5 +25,6 @@
     <string name="app_short_name">EQuicamApp</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
     <string name="instellingenMenuString">Instellingen</string>
+    <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
     <string name="liveMenuBtnString">Live</string>
 </resources>

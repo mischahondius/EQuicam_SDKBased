@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 import EQuicamApp.R;
 
 public class Clips extends ListActivity{
@@ -100,7 +102,36 @@ public class Clips extends ListActivity{
         row = inflater.inflate(R.layout.videoitemfragment, parent, false);
       }
 
-      //TODO evt datum nog weergeven in woord en volgorde aanpassen
+      //TODO datum in Nederlands en dagnummer op andere plek
+      //Get duratie Textvie
+      TextView duratieTV = (TextView)row.findViewById(R.id.duratieTV);
+
+      //get duratie
+      String tmpDuratie = durationCache.get(sortedVideoArrayList.get(position));
+
+
+
+        if (tmpDuratie != null) {
+
+            //omzetten naar minuten en seconden
+            int tmpDuratieInt = Integer.parseInt(tmpDuratie);
+            tmpDuratieInt = tmpDuratieInt/1000;
+
+            long h = tmpDuratieInt / 3600;
+            long m = (tmpDuratieInt - h * 3600) / 60;
+            long s = tmpDuratieInt - (h * 3600 + m * 60);
+
+            tmpDuratie = "Lengte: " + m + " min " + s + " sec";
+
+            //set duratie
+            duratieTV.setText(tmpDuratie);
+
+        }
+        else{
+            tmpDuratie = getString(R.string.lengteNietBeschikbaarStr);
+        }
+
+
       //Get and set dATE AND TIME textview
       TextView textfilePath = (TextView)row.findViewById(R.id.dateTime);
 
