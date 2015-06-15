@@ -354,8 +354,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		addDrawerItems();
 		setupDrawer();
 
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 
 		//Get SharedPrefs
 		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -556,9 +556,42 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 //
 //    }
 
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		// Activate the navigation drawer toggle
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
-		String[] osArray = { "LIVE", "CLIPS", "CAMERA'S"};
+		String[] osArray = { "Live", "Clips", "Camera's"};
 		mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
 		mDrawerList.setAdapter(mAdapter);
 
@@ -609,14 +642,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-//				getSupportActionBar().setTitle("Navigation!");
+				getSupportActionBar().setTitle(getString(R.string.hoofMenuStr));
 				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 
 			/** Called when a drawer has settled in a completely closed state. */
 			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
-//				getSupportActionBar().setTitle(mActivityTitle);
+				getSupportActionBar().setTitle(mActivityTitle);
 				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 		};
@@ -782,44 +815,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		super.onDestroy();
    	}	
 	
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) 
-    {
-		super.onCreateOptionsMenu(menu);
-
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-    }
-
-    //MENU Listeners
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)  
-	{
-		switch (item.getItemId())
-		{
-			case R.id.ClipsMenuBtn:
-				//Openen van Clips View
-				Intent a = new Intent(getApplicationContext(), Clips.class);
-
-				//Put recordpath
-				a.putExtra("Record Path", getRecordPath());
-
-				startActivity(a);
-				break;
-
-			case R.id.liveMenuBtn:
-				//Openen van Live View
-				Intent b = new Intent(getApplicationContext(), MainActivity.class);
-
-				startActivity(b);
-				finish();
-				break;
-
-		}
-		return true;
-	}
-
 	protected void setUIDisconnected()
 	{
 		setTitle(R.string.app_name);

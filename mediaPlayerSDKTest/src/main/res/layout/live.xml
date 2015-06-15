@@ -134,7 +134,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="left|start"
         android:textStyle="bold"
-        android:textSize="30sp"
+        android:textSize="60sp"
         android:textColor="#fff8fbff"
         android:background="#C70003"
         />
