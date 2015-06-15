@@ -9,7 +9,8 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_short_name"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:theme="@style/Theme.AppCompat">
 
         <activity android:name="veg.mediaplayer.sdk.test.MainActivity"
             android:screenOrientation="portrait">

@@ -60,7 +60,7 @@ import veg.mediaplayer.sdk.MediaPlayer.PlayerNotifyCodes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerRecordFlags;
 import veg.mediaplayer.sdk.MediaPlayerConfig;
 
-public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback
+public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback
 {
 
 	//Equicam URL
@@ -340,8 +340,8 @@ public class MainActivity extends Activity implements OnClickListener, MediaPlay
 		multicastLock.setReferenceCounted(true);
 		multicastLock.acquire();
 		
-		getWindow().requestFeature(Window.FEATURE_PROGRESS);
-		getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
+//		getWindow().requestFeature(Window.FEATURE_PROGRESS);
+//		getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 		
 		setContentView(R.layout.live);
 		mthis = this;
