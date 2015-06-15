@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\classes.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\classes-c7022391de3b93313ac85c742b99c888797d4adb.jar" />
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\classes-bdcb7facf9c9d1e999788db5cf7b271cd13bacf2.jar" />
     </item>
     <item
         jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\libs\mediaplayersdk.jar"
