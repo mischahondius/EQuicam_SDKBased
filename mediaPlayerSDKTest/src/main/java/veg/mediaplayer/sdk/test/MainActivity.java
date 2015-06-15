@@ -8,8 +8,10 @@
 
 package veg.mediaplayer.sdk.test;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -20,6 +22,9 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,10 +33,13 @@ import android.view.View.OnTouchListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.content.SharedPreferences;
@@ -52,7 +60,7 @@ import veg.mediaplayer.sdk.MediaPlayer.PlayerNotifyCodes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerRecordFlags;
 import veg.mediaplayer.sdk.MediaPlayerConfig;
 
-public class MainActivity extends FragmentActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback
+public class MainActivity extends Activity implements OnClickListener, MediaPlayer.MediaPlayerCallback
 {
 
 	//Equicam URL
@@ -73,6 +81,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
 	private Chronometer					timer;
+	private ListView 					mDrawerList;
+	private DrawerLayout 				mDrawerLayout;
+	private ArrayAdapter<String> 		mAdapter;
+	private ActionBarDrawerToggle 		mDrawerToggle;
+	private String 						mActivityTitle;
 
 //    public Bitmap tmpThumbNail;
 //    public String tmpRecordFileName;
@@ -333,6 +346,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 		setContentView(R.layout.live);
 		mthis = this;
 
+		//CREATE HAMBURGER MENU
+		mDrawerList = (ListView)findViewById(R.id.navList);
+		mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+		mActivityTitle = getTitle().toString();
+
+		addDrawerItems();
+		setupDrawer();
+
+//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		getSupportActionBar().setHomeButtonEnabled(true);
+
 		//Get SharedPrefs
 		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		SharedSettings.getInstance(this).loadPrefSettings();
@@ -532,7 +556,75 @@ public class MainActivity extends FragmentActivity implements OnClickListener, M
 //
 //    }
 
-    
+	//Hamburger menu items toevoegen
+	private void addDrawerItems() {
+		String[] osArray = { "LIVE", "CLIPS", "CAMERA'S"};
+		mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+		mDrawerList.setAdapter(mAdapter);
+
+		mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+				switch (position)
+				{
+					//LIVE
+					case 0:
+
+						//Openen van Live View
+						Intent b = new Intent(getApplicationContext(), MainActivity.class);
+
+						startActivity(b);
+						finish();
+						break;
+
+					//CLIPS
+					case 1:
+
+						//Openen van Clips View
+						Intent a = new Intent(getApplicationContext(), Clips.class);
+
+						//Put recordpath
+						a.putExtra("Record Path", getRecordPath());
+
+						startActivity(a);
+						break;
+
+
+					//CAMERA's
+					case 2:
+						Toast.makeText(MainActivity.this, "Camera's volgen snel", Toast.LENGTH_SHORT).show();
+
+				}
+				return;
+
+			}
+		});
+	}
+
+	//Hamburger menu opstarten
+	private void setupDrawer() {
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpenStr, R.string.drawerDichtStr) {
+
+			/** Called when a drawer has settled in a completely open state. */
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+//				getSupportActionBar().setTitle("Navigation!");
+				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+			}
+
+			/** Called when a drawer has settled in a completely closed state. */
+			public void onDrawerClosed(View view) {
+				super.onDrawerClosed(view);
+//				getSupportActionBar().setTitle(mActivityTitle);
+				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+			}
+		};
+
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+	}
+
     public void onClick(View v) 
 	{
 		SharedSettings.getInstance().loadPrefSettings();

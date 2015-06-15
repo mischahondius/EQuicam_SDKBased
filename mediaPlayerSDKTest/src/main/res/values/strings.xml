@@ -21,5 +21,7 @@
     <string name="liveMenuBtnString">Live</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
     <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
+    <string name="drawerOpenStr">Drawer is nu open</string>
+    <string name="drawerDichtStr">Drawer is nu dicht</string>
 
 </resources>

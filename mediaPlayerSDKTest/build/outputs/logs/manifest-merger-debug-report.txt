@@ -18,6 +18,8 @@ ADDED from AndroidManifest.xml:2:1
 application
 ADDED from AndroidManifest.xml:8:5
 MERGED from com.android.support:support-v4:22.2.0:22:5
+MERGED from com.android.support:appcompat-v7:21.0.3:16:5
+MERGED from com.android.support:support-v4:22.2.0:22:5
 	android:label
 		ADDED from AndroidManifest.xml:11:9
 	android:icon
@@ -62,6 +64,8 @@ ADDED from AndroidManifest.xml:27:9
 		ADDED from AndroidManifest.xml:28:13
 uses-sdk
 ADDED from AndroidManifest.xml:35:2
+MERGED from com.android.support:support-v4:22.2.0:20:5
+MERGED from com.android.support:appcompat-v7:21.0.3:15:5
 MERGED from com.android.support:support-v4:22.2.0:20:5
 	android:targetSdkVersion
 		ADDED from AndroidManifest.xml:37:10
