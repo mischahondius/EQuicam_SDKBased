@@ -24,5 +24,6 @@
     <string name="drawerOpenStr">Drawer is nu open</string>
     <string name="drawerDichtStr">Drawer is nu dicht</string>
     <string name="hoofMenuStr">Hoofdmenu</string>
+    <string name="camerasTitleStr">Camera\'s</string>
 
 </resources>

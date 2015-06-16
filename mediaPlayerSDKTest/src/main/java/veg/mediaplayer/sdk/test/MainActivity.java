@@ -64,7 +64,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 {
 
 	//Equicam URL
-	private static final String camUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+//	public String camUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+	public String camUrl;
+
 
     //Record path
     public String videoDirectory;
@@ -81,6 +83,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
 	private Chronometer					timer;
+
+	//Drawer
 	private ListView 					mDrawerList;
 	private DrawerLayout 				mDrawerLayout;
 	private ArrayAdapter<String> 		mAdapter;
@@ -331,6 +335,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
     public void onCreate(Bundle savedInstanceState) 
 	{
+
+		camUrl = Cameras.getCurrentCameraUrl();
 
 		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
@@ -626,8 +632,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 					//CAMERA's
 					case 2:
-						Toast.makeText(MainActivity.this, "Camera's volgen snel", Toast.LENGTH_SHORT).show();
+						//Openen van Cameras View
+						Intent c = new Intent(getApplicationContext(), Cameras.class);
 
+						startActivity(c);
+						break;
 				}
 				return;
 
@@ -664,7 +673,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 		{
 
+			camUrl = Cameras.getCurrentCameraUrl();
+
 			player.getConfig().setConnectionUrl(camUrl);
+			Log.d("Camurl =", "" + camUrl);
+
 			if (player.getConfig().getConnectionUrl().isEmpty())
 				return;
 
@@ -739,6 +752,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
   	protected void onResume() 
 	{
+		camUrl = Cameras.getCurrentCameraUrl();
+
 		Log.e("SDL", "onResume()");
 		super.onResume();
 		if (player != null)
@@ -748,7 +763,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
   	@Override
 	protected void onStart() 
   	{
-      	Log.e("SDL", "onStart()");
+
+		camUrl = Cameras.getCurrentCameraUrl();
+
+		Log.e("SDL", "onStart()");
 		super.onStart();
 		if (player != null)
 			player.onStart();
@@ -768,6 +786,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
     @Override
     public void onBackPressed() 
     {
+
+		camUrl = Cameras.getCurrentCameraUrl();
 
 		player.Close();
 		if (!playing)

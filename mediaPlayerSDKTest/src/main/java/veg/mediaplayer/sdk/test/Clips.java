@@ -11,37 +11,41 @@ package veg.mediaplayer.sdk.test;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Video.Thumbnails;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import EQuicamApp.R;
 
-public class Clips extends ListActivity{
+public class Clips extends ListActivity {
 
   public String videoDirectory;
   public ArrayList <String> videoArrayList;
@@ -49,7 +53,6 @@ public class Clips extends ListActivity{
   public String [] videoArray;
   public HashMap<String,Bitmap> cacheBitmap;
   public HashMap<String,String> durationCache;
-
 
   public class MyVideoListAdapter extends ArrayAdapter<String> {
 
@@ -296,4 +299,5 @@ public class Clips extends ListActivity{
         }
         return durationStr;
     }
+
 }
