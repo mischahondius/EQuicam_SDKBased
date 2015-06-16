@@ -40,7 +40,8 @@
                     android:layout_alignParentRight="true"
                     android:hint="@string/urlHintStr"
                     android:textSize="12sp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:gravity="right" />
             </RelativeLayout>
 
         </TableRow>

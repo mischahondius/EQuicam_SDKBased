@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -54,10 +55,32 @@ public class Cameras extends Activity {
     public void onSubmit(View view){
 
         //alle info opslaan
-        String tmpCameraUrl = new String();
-        tmpCameraUrl = cameraURLeditText.getText().toString();
-        Toast.makeText(this, "Ingevoerde url: " + tmpCameraUrl, Toast.LENGTH_LONG).show();
+        String tmpCameraUrl = cameraURLeditText.getText().toString();
+        String tmpPoortNr = poortEditText.getText().toString();
+        String tmpGebrNaam = gebruikersNaamET.getText().toString();
+        String tmpWw = wwET.getText().toString();
+        String tmpNieuweUrl;
 
+
+        //als er een wachtwoord + gebruikersnaam is ingevoerd
+           if (!tmpGebrNaam.isEmpty() && !tmpWw.isEmpty()) {
+               //voeg ze samen tot 1 url
+               tmpNieuweUrl = "rtsp://" + tmpGebrNaam + ":" + tmpWw + "@" + tmpCameraUrl + ":" + tmpPoortNr;
+           }
+
+           else {
+                //voeg ze samen tot 1 url
+               tmpNieuweUrl = "rtsp://" + tmpCameraUrl + ":" + tmpPoortNr;
+           }
+
+
+        //set nieuwe url
+        setCameraUrl(tmpNieuweUrl);
+
+        Log.d("nieuwe url =", "" + tmpNieuweUrl);
+
+
+        finish();
     }
 
     //Get current cameraurl function
@@ -72,9 +95,8 @@ public class Cameras extends Activity {
 
 
     //Set camera url
-    public static String setCameraUrl(String newUrl){
+    public static void setCameraUrl(String newUrl){
         currentCameraUrl = newUrl;
-        return currentCameraUrl;
     }
 
 }
