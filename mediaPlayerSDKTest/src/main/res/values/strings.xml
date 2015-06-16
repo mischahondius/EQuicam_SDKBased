@@ -25,5 +25,6 @@
     <string name="drawerDichtStr">Drawer is nu dicht</string>
     <string name="hoofMenuStr">Hoofdmenu</string>
     <string name="camerasTitleStr">Camera\'s</string>
+    <string name="videoPoortTVStr">Videopoort:</string>
 
 </resources>
