@@ -26,5 +26,13 @@
     <string name="hoofMenuStr">Hoofdmenu</string>
     <string name="camerasTitleStr">Camera\'s</string>
     <string name="videoPoortTVStr">Videopoort:</string>
+    <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>
+    <string name="urlTVstr">Camera DDNS Url:</string>
+    <string name="poortHintStr">Bijvoorbeeld: 554</string>
+    <string name="gebruikersnaamTVstr">Gebruikersnaam:</string>
+    <string name="gebruikersnaamHintStr">Bijvoorbeeld: Admin</string>
+    <string name="wachtWoordTVstr">Wachtwoord:</string>
+    <string name="wwHintStr">******</string>
+    <string name="opslaanBtnStr">Opslaan</string>
 
 </resources>

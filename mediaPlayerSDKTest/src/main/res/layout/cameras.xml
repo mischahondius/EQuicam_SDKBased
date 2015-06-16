@@ -25,26 +25,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Camera DDNS Url:"
+                    android:text="@string/urlTVstr"
                     android:id="@+id/textView2"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:textSize="15sp" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/cameraURLeditText"
-                    android:autoText="false"
-                    android:editable="true"
-                    android:textIsSelectable="true"
-                    android:textColorHighlight="#ffc40015"
-                    android:selectAllOnFocus="true"
-                    android:inputType="textUri|textAutoComplete"
                     android:layout_alignTop="@+id/textView2"
                     android:layout_alignParentRight="true"
-                    android:gravity="right"
-                    android:layout_toRightOf="@+id/textView2" />
+                    android:hint="@string/urlHintStr"
+                    android:textSize="12sp"
+                    android:singleLine="true" />
             </RelativeLayout>
 
         </TableRow>
@@ -67,18 +63,19 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/videoPoortTVStr"
                     android:id="@+id/textView3"
-                    android:layout_below="@+id/cameraURLeditText"
-                    android:layout_toLeftOf="@+id/cameraURLeditText" />
+                    android:textSize="15sp" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/poortEditText"
-                    android:editable="true"
                     android:layout_alignTop="@+id/textView3"
                     android:gravity="right"
                     android:layout_alignParentRight="true"
-                    android:layout_toRightOf="@+id/textView3" />
+                    android:layout_toRightOf="@+id/textView3"
+                    android:hint="@string/poortHintStr"
+                    android:textSize="12sp"
+                    android:singleLine="true" />
             </RelativeLayout>
         </TableRow>
 
@@ -98,21 +95,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Gebruikersnaam:"
+                android:text="@string/gebruikersnaamTVstr"
                 android:id="@+id/textView4"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/cameraURLeditText"
-                android:layout_toLeftOf="@+id/cameraURLeditText" />
+                android:textSize="15sp" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText"
-                android:editable="true"
+                android:id="@+id/gebruikersNaamET"
                 android:layout_alignTop="@+id/textView4"
                 android:gravity="right"
                 android:layout_alignParentRight="true"
-                android:layout_toRightOf="@+id/textView4" />
+                android:layout_toRightOf="@+id/textView4"
+                android:hint="@string/gebruikersnaamHintStr"
+                android:textSize="12sp"
+                android:singleLine="true" />
         </RelativeLayout>
     </TableRow>
 
@@ -132,21 +130,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Wachtwoord:"
+                android:text="@string/wachtWoordTVstr"
                 android:id="@+id/textView5"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/cameraURLeditText"
-                android:layout_toLeftOf="@+id/cameraURLeditText" />
+                android:textSize="15sp" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
-                android:editable="true"
+                android:id="@+id/wwET"
+                android:editable="false"
                 android:layout_alignTop="@+id/textView5"
                 android:gravity="right"
                 android:layout_alignParentRight="true"
-                android:layout_toRightOf="@+id/textView5" />
+                android:layout_toRightOf="@+id/textView5"
+                android:hint="@string/wwHintStr"
+                android:textSize="12sp"
+                android:inputType="textPassword"
+                android:singleLine="true" />
         </RelativeLayout>
     </TableRow>
 
@@ -158,15 +159,16 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Opslaan "
+            android:text="@string/opslaanBtnStr"
             android:id="@+id/camerasSubmitBtn"
             android:layout_gravity="right"
             android:padding="10dp"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_marginTop="60dp"
+             android:layout_marginTop="60dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:onClick="onSubmit" />
+
     </RelativeLayout>
 
 

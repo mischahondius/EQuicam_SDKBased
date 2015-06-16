@@ -223,16 +223,24 @@
     <string name="drawerDichtStr">Drawer is nu dicht</string>
     <string name="drawerOpenStr">Drawer is nu open</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
+    <string name="gebruikersnaamHintStr">Bijvoorbeeld: Admin</string>
+    <string name="gebruikersnaamTVstr">Gebruikersnaam:</string>
     <string name="hoofMenuStr">Hoofdmenu</string>
     <string name="instellingenMenuString">Instellingen</string>
     <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
     <string name="liveMenuBtnString">Live</string>
+    <string name="opslaanBtnStr">Opslaan</string>
+    <string name="poortHintStr">Bijvoorbeeld: 554</string>
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>
+    <string name="urlTVstr">Camera DDNS Url:</string>
     <string name="videoPoortTVStr">Videopoort:</string>
+    <string name="wachtWoordTVstr">Wachtwoord:</string>
+    <string name="wwHintStr">******</string>
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>

@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import EQuicamApp.R;
 
@@ -20,6 +22,8 @@ public class Cameras extends Activity {
     private EditText                    cameraURLeditText;
     private Button                      camerasSubmitBtn;
     private EditText                    poortEditText;
+    private EditText                    gebruikersNaamET;
+    private EditText                    wwET;
 
     //Oncreate
     @Override
@@ -40,10 +44,19 @@ public class Cameras extends Activity {
         cameraURLeditText = (EditText) findViewById(R.id.cameraURLeditText);
         camerasSubmitBtn = (Button) findViewById(R.id.camerasSubmitBtn);
         poortEditText = (EditText) findViewById(R.id.poortEditText);
+        gebruikersNaamET = (EditText) findViewById(R.id.gebruikersNaamET);
+        wwET = (EditText) findViewById(R.id.wwET);
+        camerasSubmitBtn = (Button) findViewById(R.id.camerasSubmitBtn);
 
-        //set hint current urls
-        cameraURLeditText.setHint("Bijv. equicam.noip.me");
-        poortEditText.setHint("Bijv. 554");
+    }
+
+    //onclicklistener submit
+    public void onSubmit(View view){
+
+        //alle info opslaan
+        String tmpCameraUrl = new String();
+        tmpCameraUrl = cameraURLeditText.getText().toString();
+        Toast.makeText(this, "Ingevoerde url: " + tmpCameraUrl, Toast.LENGTH_LONG).show();
 
     }
 
