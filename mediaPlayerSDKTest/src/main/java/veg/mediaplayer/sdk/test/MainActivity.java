@@ -37,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.content.SharedPreferences;
@@ -80,6 +81,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private ImageButton					btnRecord;
 	private Chronometer					timer;
 	private ImageView					playIcon;
+	private ProgressBar					progressBar;
 
 	//Drawer
 	private ListView 					mDrawerList;
@@ -342,10 +344,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		multicastLock = wifi.createMulticastLock("multicastLock");
 		multicastLock.setReferenceCounted(true);
 		multicastLock.acquire();
-		
-//		getWindow().requestFeature(Window.FEATURE_PROGRESS);
-//		getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
-		
+
 		setContentView(R.layout.live);
 		mthis = this;
 
@@ -371,7 +370,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Get Player
 		player = (MediaPlayer)findViewById(R.id.playerView);
 
-        player.getSurfaceView().setZOrderOnTop(false);    // necessary
+        player.getSurfaceView().setZOrderOnTop(false);
         SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
         sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
@@ -393,6 +392,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		//Get player PLAY icon
 		playIcon = (ImageView) findViewById(R.id.playIcon);
+
+		//Get progressbar icon
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
@@ -595,6 +597,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		return super.onOptionsItemSelected(item);
 	}
 
+	//TODO icoontjes toevoegen?
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
 		String[] osArray = { getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
@@ -842,16 +845,20 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		playing = false;
 	}
 
+	//Tijdens verbinden
 	protected void setHideControls()
 	{
 		btnConnect.setVisibility(View.GONE);
 		playIcon.setVisibility(View.GONE);
 		recordCntrlsArea.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.VISIBLE);
 	}
 
+	//Wanneer nog niet verbonden
 	protected void setShowControls()
 	{
 		setTitle(R.string.app_name);
+		progressBar.setVisibility(View.GONE);
 		btnConnect.setVisibility(View.VISIBLE);
 		playIcon.setVisibility(View.VISIBLE);
 		recordCntrlsArea.setVisibility(View.INVISIBLE);
@@ -873,8 +880,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
         playerStatusText.setVisibility(View.INVISIBLE);
  		player.setVisibility(View.VISIBLE);
 		playerStatusText.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.GONE);
 
- 		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
+
+		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
 		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 		
 		setTitle("");
