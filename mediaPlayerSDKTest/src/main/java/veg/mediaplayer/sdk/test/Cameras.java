@@ -55,12 +55,28 @@ public class Cameras extends Activity {
     public void onSubmit(View view){
 
         //alle info opslaan
-        String tmpCameraUrl = cameraURLeditText.getText().toString();
-        String tmpPoortNr = poortEditText.getText().toString();
-        String tmpGebrNaam = gebruikersNaamET.getText().toString();
-        String tmpWw = wwET.getText().toString();
+        String tmpCameraUrl = cameraURLeditText.getText().toString().toLowerCase();
+        String tmpPoortNr = poortEditText.getText().toString().toLowerCase();
+        String tmpGebrNaam = gebruikersNaamET.getText().toString().toLowerCase();
+        String tmpWw = wwET.getText().toString().toLowerCase();
         String tmpNieuweUrl;
 
+
+        //als http:// er in zit:
+        if (tmpCameraUrl.contains("http") || tmpCameraUrl.contains("http://")){
+            try {
+                tmpCameraUrl = tmpCameraUrl.replace("http://", "");
+                tmpCameraUrl = tmpCameraUrl.replace("http", "");
+            }
+            catch (NullPointerException e){
+                System.out.println("no more http in the url!");
+            }
+
+            Log.d("url zonder http=", "" + tmpCameraUrl);
+
+        }
+
+        //todo: als poort empty --> 554 proberen
 
         //als er een wachtwoord + gebruikersnaam is ingevoerd
            if (!tmpGebrNaam.isEmpty() && !tmpWw.isEmpty()) {
