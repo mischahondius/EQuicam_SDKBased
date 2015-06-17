@@ -34,5 +34,8 @@
     <string name="wachtWoordTVstr">Wachtwoord:</string>
     <string name="wwHintStr">******</string>
     <string name="opslaanBtnStr">Opslaan</string>
+    <string name="liveDrawerStr">Live</string>
+    <string name="clipsDrawerStr">Clips</string>
+    <string name="cameraDrawerStr">Camera</string>
 
 </resources>

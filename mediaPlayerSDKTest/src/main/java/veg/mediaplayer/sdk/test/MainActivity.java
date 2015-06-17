@@ -35,6 +35,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
@@ -78,6 +79,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private ImageButton 				btnHighlight;
 	private ImageButton					btnRecord;
 	private Chronometer					timer;
+	private ImageView					playIcon;
 
 	//Drawer
 	private ListView 					mDrawerList;
@@ -369,7 +371,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Get Player
 		player = (MediaPlayer)findViewById(R.id.playerView);
 
-        player.getSurfaceView().setZOrderOnTop(true);    // necessary
+        player.getSurfaceView().setZOrderOnTop(false);    // necessary
         SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
         sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
@@ -388,6 +390,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		//Get timer
 		timer = (Chronometer) findViewById(R.id.timerView);
+
+		//Get player PLAY icon
+		playIcon = (ImageView) findViewById(R.id.playIcon);
 
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
@@ -592,7 +597,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
-		String[] osArray = { "Live", "Clips", "Camera's"};
+		String[] osArray = { getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
 		mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
 		mDrawerList.setAdapter(mAdapter);
 
@@ -840,14 +845,15 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	protected void setHideControls()
 	{
 		btnConnect.setVisibility(View.GONE);
+		playIcon.setVisibility(View.GONE);
 		recordCntrlsArea.setVisibility(View.VISIBLE);
 	}
 
 	protected void setShowControls()
 	{
 		setTitle(R.string.app_name);
-
 		btnConnect.setVisibility(View.VISIBLE);
+		playIcon.setVisibility(View.VISIBLE);
 		recordCntrlsArea.setVisibility(View.INVISIBLE);
 
 	}

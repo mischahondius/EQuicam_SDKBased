@@ -219,7 +219,9 @@
     <string name="app_about_title">Over</string>
     <string name="app_name">Live</string>
     <string name="app_short_name">Live</string>
+    <string name="cameraDrawerStr">Camera</string>
     <string name="camerasTitleStr">Camera</string>
+    <string name="clipsDrawerStr">Clips</string>
     <string name="drawerDichtStr">Drawer is nu dicht</string>
     <string name="drawerOpenStr">Drawer is nu open</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
@@ -228,6 +230,7 @@
     <string name="hoofMenuStr">Hoofdmenu</string>
     <string name="instellingenMenuString">Instellingen</string>
     <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
+    <string name="liveDrawerStr">Live</string>
     <string name="liveMenuBtnString">Live</string>
     <string name="opslaanBtnStr">Opslaan</string>
     <string name="poortHintStr">Bijvoorbeeld: 554</string>

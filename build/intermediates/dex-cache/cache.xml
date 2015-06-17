@@ -9,20 +9,6 @@
         <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\classes-bdcb7facf9c9d1e999788db5cf7b271cd13bacf2.jar" />
     </item>
     <item
-        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\libs\mediaplayersdk.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="798b8d29f597d9357f0f4d0369dd98de296d4adf">
-        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\mediaplayersdk-e9c654875e41cac32eaed9f84d7a9d27a69f2b02.jar" />
-    </item>
-    <item
-        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\libs\internal_impl-22.2.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-7781d3c5d836747bcbd5fe80cf89c12041f5e163.jar" />
-    </item>
-    <item
         jar="C:\Users\Equifilm\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -35,6 +21,20 @@
         revision="21.1.2"
         sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
         <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\classes-3184515a7a75fc701cd0e6a646873d5dd0338927.jar" />
+    </item>
+    <item
+        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\libs\mediaplayersdk.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="798b8d29f597d9357f0f4d0369dd98de296d4adf">
+        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\mediaplayersdk-e9c654875e41cac32eaed9f84d7a9d27a69f2b02.jar" />
+    </item>
+    <item
+        jar="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="C:\Users\Equifilm\Desktop\Prog Project\EQuicam_SDKBased\mediaPlayerSDKTest\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-7781d3c5d836747bcbd5fe80cf89c12041f5e163.jar" />
     </item>
 
 </items>
