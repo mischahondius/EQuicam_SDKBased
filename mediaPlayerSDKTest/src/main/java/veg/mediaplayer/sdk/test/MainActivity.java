@@ -8,10 +8,8 @@
 
 package veg.mediaplayer.sdk.test;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -20,8 +18,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -44,7 +40,6 @@ import android.widget.TextView;
 import android.view.inputmethod.InputMethodManager;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.view.*;
@@ -336,7 +331,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
     public void onCreate(Bundle savedInstanceState) 
 	{
 
-		camUrl = Cameras.getCurrentCameraUrl();
+		camUrl = Camera.getCurrentCameraUrl();
 
 		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
@@ -632,8 +627,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 					//CAMERA's
 					case 2:
-						//Openen van Cameras View
-						Intent c = new Intent(getApplicationContext(), Cameras.class);
+						//Openen van Camera View
+						Intent c = new Intent(getApplicationContext(), Camera.class);
 
 						startActivity(c);
 						break;
@@ -673,7 +668,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 		{
 
-			camUrl = Cameras.getCurrentCameraUrl();
+			camUrl = Camera.getCurrentCameraUrl();
 
 			player.getConfig().setConnectionUrl(camUrl);
 			Log.d("Camurl =", "" + camUrl);
@@ -752,7 +747,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
   	protected void onResume() 
 	{
-		camUrl = Cameras.getCurrentCameraUrl();
+		camUrl = Camera.getCurrentCameraUrl();
 
 		Log.e("SDL", "onResume()");
 		super.onResume();
@@ -764,7 +759,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	protected void onStart() 
   	{
 
-		camUrl = Cameras.getCurrentCameraUrl();
+		camUrl = Camera.getCurrentCameraUrl();
 
 		Log.e("SDL", "onStart()");
 		super.onStart();
@@ -787,7 +782,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
     public void onBackPressed() 
     {
 
-		camUrl = Cameras.getCurrentCameraUrl();
+		camUrl = Camera.getCurrentCameraUrl();
 
 		player.Close();
 		if (!playing)

@@ -16,7 +16,7 @@ import EQuicamApp.R;
 /**
  * Created by Equifilm on 16-6-2015.
  */
-public class Cameras extends Activity {
+public class Camera extends Activity {
 
     private static final String         defaultUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
     public static String                currentCameraUrl = defaultUrl;
@@ -76,7 +76,25 @@ public class Cameras extends Activity {
 
         }
 
-        //todo: als poort empty --> 554 proberen
+        //als er rtsp:// is ingevuld, weghalen
+        if (tmpCameraUrl.startsWith("rtsp")){
+
+            try {
+                tmpCameraUrl = tmpCameraUrl.replace("rtsp://", "");
+                tmpCameraUrl = tmpCameraUrl.replace("rtsp", "");
+            }
+
+            catch (NullPointerException e){
+                System.out.println("no more rtsp in the url!");
+            }
+
+            Log.d("url zonder rtsp=", "" + tmpCameraUrl);
+        }
+
+        //If poort empty -> vul 554 in
+        if (tmpPoortNr.isEmpty()){
+            tmpPoortNr = "554";
+        }
 
         //als er een wachtwoord + gebruikersnaam is ingevoerd
            if (!tmpGebrNaam.isEmpty() && !tmpWw.isEmpty()) {

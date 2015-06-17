@@ -33,7 +33,7 @@
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="veg.mediaplayer.sdk.test.Cameras"
+            android:name="veg.mediaplayer.sdk.test.Camera"
             android:label="@string/camerasTitleStr"
             android:screenOrientation="portrait" >
         </activity>

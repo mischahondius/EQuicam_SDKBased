@@ -219,7 +219,7 @@
     <string name="app_about_title">Over</string>
     <string name="app_name">Live</string>
     <string name="app_short_name">Live</string>
-    <string name="camerasTitleStr">Camera\'s</string>
+    <string name="camerasTitleStr">Camera</string>
     <string name="drawerDichtStr">Drawer is nu dicht</string>
     <string name="drawerOpenStr">Drawer is nu open</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
@@ -237,7 +237,7 @@
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>
-    <string name="urlTVstr">Camera DDNS Url:</string>
+    <string name="urlTVstr">Camera URL:</string>
     <string name="videoPoortTVStr">Videopoort:</string>
     <string name="wachtWoordTVstr">Wachtwoord:</string>
     <string name="wwHintStr">******</string>
