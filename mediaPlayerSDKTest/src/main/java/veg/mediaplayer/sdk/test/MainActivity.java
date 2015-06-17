@@ -10,6 +10,9 @@ package veg.mediaplayer.sdk.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -395,6 +398,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		//Get progressbar icon
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+		//kleur aanpassen naar rood
+		progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
 
         //Recordbuttonlistener
         btnRecord = (ImageButton) findViewById(R.id.button_record);
