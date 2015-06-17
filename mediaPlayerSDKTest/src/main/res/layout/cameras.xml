@@ -41,7 +41,10 @@
                     android:hint="@string/urlHintStr"
                     android:textSize="12sp"
                     android:singleLine="true"
-                    android:gravity="right" />
+                    android:gravity="right"
+                    android:inputType="text"
+                    android:maxLines="2"
+                    android:maxLength="50" />
             </RelativeLayout>
 
         </TableRow>
@@ -76,7 +79,9 @@
                     android:layout_toRightOf="@+id/textView3"
                     android:hint="@string/poortHintStr"
                     android:textSize="12sp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:maxLength="5" />
             </RelativeLayout>
         </TableRow>
 
@@ -125,7 +130,10 @@
                 android:layout_toRightOf="@+id/textView4"
                 android:hint="@string/gebruikersnaamHintStr"
                 android:textSize="12sp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="text" />
 
         </RelativeLayout>
     </TableRow>
@@ -163,7 +171,9 @@
                 android:hint="@string/wwHintStr"
                 android:textSize="12sp"
                 android:inputType="textPassword"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:maxLines="1"
+                android:maxLength="20" />
         </RelativeLayout>
 
     </TableRow>
