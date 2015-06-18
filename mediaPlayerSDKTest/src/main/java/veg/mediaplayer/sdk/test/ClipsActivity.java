@@ -39,25 +39,22 @@ public class ClipsActivity extends ListActivity {
       public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList fileNames) {
           super(context, textViewResourceId, fileNames);
 
-          //Als ClipsCache nog niet bestaat, maak hem aan, anders overslaan
-          if (clipCache == null){
-              clipCache = new HashMap<>(fileNames.size());
+      //Todo: clipcache updated check via boolean?
+          clipCache = new HashMap<>(fileNames.size());
 
-              //Maak cache aan voor clips
-              initClipCache(fileNames.size());
-          }
+          //Maak cache aan voor clips
+          initClipCache(fileNames.size());
       }
 
-      //Method to make a cache containing clips
+      //Functie voor het opzetten van een ClipCache
       public void initClipCache(int size) {
           for (int i = 0; i < size; i++) {
 
               //nieuwe clip aanmaken
               Clip tmpClip = new Clip(sortedVideoArrayList.get(i));
 
-              //Sla op in cache
+              //Sla Clip op in cache
               clipCache.put(sortedVideoArrayList.get(i), tmpClip);
-
           }
       }
 

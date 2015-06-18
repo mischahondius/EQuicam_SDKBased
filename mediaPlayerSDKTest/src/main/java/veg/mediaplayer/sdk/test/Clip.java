@@ -6,6 +6,12 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import EQuicamApp.R;
 
 /**
@@ -27,30 +33,27 @@ public class Clip {
         this.bestandsNaam = bestandsNaam;
         this.bestandsMap = MainActivity.getRecordPath();
         this.bestandsLocatie = this.bestandsMap + "/" + this.bestandsNaam;
-        this.verkijgAfpeelDuurVanMetadata();
+        this.getMetaData();
         this.setDuimNagel();
         this.setDatum();
         this.setTijd();
     }
 
-    public void verkijgAfpeelDuurVanMetadata() {
+    public void getMetaData() {
 
-        Log.d("Files", "GetDuration functie aangeroepen met path:" + this.bestandsLocatie);
         MediaMetadataRetriever MetaDataOphaler = new MediaMetadataRetriever();
 
         try {
-            Log.d("Files", "Datasource path:" + this.bestandsLocatie);
-
             MetaDataOphaler.setDataSource(this.bestandsLocatie);
             this.afspeelDuur = MetaDataOphaler.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            this.datum = MetaDataOphaler.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
 
-            if (this.afspeelDuur != null) {
-                Log.d("Files", "Duration get succesvol, duration =" + this.afspeelDuur);
-            }
+            if (this.afspeelDuur != null) {}
 
             if (this.afspeelDuur == null) {
-                Log.d("Files", "Duration get NIET succesvol, duration =" + this.afspeelDuur);
+                this.afspeelDuur = "0";
             }
+
         } catch (Exception e) {
             this.afspeelDuur = "0";
             Log.d("Files", "Exception e");
@@ -99,50 +102,51 @@ public class Clip {
     }
 
     public String getDatum(){
+
+//        tmp String aanmaken
+          String tmpDatum = this.bestandsNaam;
+
+//        Gooi underscores weg
+          tmpDatum = tmpDatum.replace("_", "");
+
+        DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss", Locale.GERMAN);
+        Date date = new Date();
+        try {
+            date = format.parse(tmpDatum);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //datum back to string
+        tmpDatum = date.toString();
+
+        //DAG                                       DATUM                             MAAND                            JAAR
+        tmpDatum = tmpDatum.substring(0, 3) + " " + tmpDatum.substring(8, 10) + " " + tmpDatum.substring(4, 7) + " " + tmpDatum.substring(25, 29);
+
+        tmpDatum = tmpDatum.replace("Mon", "Maandag");
+        tmpDatum = tmpDatum.replace("Tue", "Dinsdag");
+        tmpDatum = tmpDatum.replace("Wed", "Woensdag");
+        tmpDatum = tmpDatum.replace("Thu", "Donderdag");
+        tmpDatum = tmpDatum.replace("Fri", "Vrijdag");
+        tmpDatum = tmpDatum.replace("Sat", "Zaterdag");
+        tmpDatum = tmpDatum.replace("Sun", "Zondag");
+
+        tmpDatum = tmpDatum.replace("Jan", "januari");
+        tmpDatum = tmpDatum.replace("Feb", "februari");
+        tmpDatum = tmpDatum.replace("Mar", "maart");
+        tmpDatum = tmpDatum.replace("Apr", "april");
+        tmpDatum = tmpDatum.replace("May", "mei");
+        tmpDatum = tmpDatum.replace("Jun", "juni");
+        tmpDatum = tmpDatum.replace("Jul", "juli");
+        tmpDatum = tmpDatum.replace("Aug", "augustus");
+        tmpDatum = tmpDatum.replace("Sep", "september");
+        tmpDatum = tmpDatum.replace("Oct", "oktober");
+        tmpDatum = tmpDatum.replace("Nov", "november");
+        tmpDatum = tmpDatum.replace("Dec", "december");
+
+        this.datum = tmpDatum;
         return this.datum;
     }
-
-
-//        //todo
-//        //tmp String aanmaken
-////        String tmpFileName = this.bestandsNaam;
-//
-////        //Gooi eind weg
-////        tmpFileName = tmpFileName.substring(0, Math.min(tmpFileName.length(), 14));
-////
-////        //gooi underscores weg
-////        tmpFileName = tmpFileName.replace('_', ' ');
-////
-////        //Voeg "/" toe
-////        tmpFileName = tmpFileName.substring(0, 12) + "/" + tmpFileName.substring(12, tmpFileName.length());
-////        tmpFileName = tmpFileName.substring(0, 15) + "/" + tmpFileName.substring(15, tmpFileName.length());
-//
-//        //sla datum op in aparte string
-////        this.datum = tmpFileName.substring(7, 18);
-////
-////        //TODO datum naar woord?
-////        DateFormat format = new SimpleDateFormat(" yyyy/MM/dd", Locale.ENGLISH);
-////        Date date = new Date();
-////        try {
-////            date = format.parse(datum);
-////        } catch (ParseException e) {
-////            e.printStackTrace();
-////        }
-////
-//////        //datum back to string
-//////        datum = date.toString();
-////
-////        Log.d("Files", "datum: " + datum);
-////
-////        //Gooi tijd weg
-////        this.datum = "" + datum.substring(0, 10) + ", " + datum.substring(datum.length() - 4, datum.length());
-////        Log.d("Files", "datum zonder tijd: " + datum);
-////
-//////        //voeg datum in tmpfilename
-//////        tmpFileName = tmpFileName.substring(0, 6) + " " + datum + tmpFileName.substring(18, tmpFileName.length());
-//////        Log.d("Files", "alles bij elkaar: " + tmpFileName);
-//
-//    }
 
     public void setTijd () {
         this.tijd = "00:00";
@@ -151,7 +155,6 @@ public class Clip {
 
     public String getTijd () {
         //todo
-        this.tijd = "00:00";
         return this.tijd;
     }
 
