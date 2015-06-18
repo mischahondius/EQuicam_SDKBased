@@ -6,11 +6,7 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import EQuicamApp.R;
 
 /**
  * Created by Equifilm on 18-6-2015.
@@ -30,9 +26,9 @@ public class Clip {
     public Clip(String bestandsNaam){
         this.bestandsNaam = bestandsNaam;
         this.bestandsMap = MainActivity.getRecordPath();
-        this.bestandsLocatie = bestandsMap + "/" + this.bestandsNaam;
+        this.bestandsLocatie = this.bestandsMap + "/" + this.bestandsNaam;
         this.verkijgAfpeelDuurVanMetadata();
-        this.duimNagelAanmaken();
+        this.setDuimNagel();
         this.setDatum();
         this.setTijd();
     }
@@ -62,13 +58,35 @@ public class Clip {
         } finally {
             MetaDataOphaler.release();
         }
+
+        if (this.afspeelDuur != null) {
+
+            //omzetten naar minuten en seconden
+            int tmpDuratieInt = Integer.parseInt(afspeelDuur);
+            tmpDuratieInt = tmpDuratieInt/1000;
+
+            long h = tmpDuratieInt / 3600;
+            long m = (tmpDuratieInt - h * 3600) / 60;
+            long s = tmpDuratieInt - (h * 3600 + m * 60);
+
+            if (m == 1){
+                this.afspeelDuur = m + " minuut " + s + " seconden";
+            }
+
+            else {
+                this.afspeelDuur = m + " minuten " + s + " seconden";
+            }
+        }
+        else{
+            this.afspeelDuur = "Niet beschikbaar";
+        }
     }
 
     public String getAfspeelDuur(){
         return this.afspeelDuur;
     }
 
-    public void duimNagelAanmaken (){
+    public void setDuimNagel(){
         this.duimNagel = ThumbnailUtils.createVideoThumbnail(this.bestandsLocatie, MediaStore.Video.Thumbnails.MINI_KIND);
     }
 
@@ -78,6 +96,10 @@ public class Clip {
 
     public void setDatum() {
         this.datum = "10 april 2015";
+    }
+
+    public String getDatum(){
+        return this.datum;
     }
 
 
@@ -127,4 +149,13 @@ public class Clip {
         //todo
     }
 
+    public String getTijd () {
+        //todo
+        this.tijd = "00:00";
+        return this.tijd;
+    }
+
+    public String getBestandsLocatie(){
+        return this.bestandsLocatie;
+    }
 }

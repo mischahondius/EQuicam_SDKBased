@@ -1,7 +1,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="fill_parent"
+android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:orientation="horizontal"
     android:paddingLeft="10dp"
@@ -51,33 +51,48 @@ android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Salinero"
-                android:id="@+id/textView"
-                android:layout_weight="0.2"
-                android:gravity="bottom|left" />
+                android:id="@+id/naamPaardTV"
+                android:layout_weight="0.3"
+                android:gravity="left|top"
+                android:paddingTop="5dp" />
 
             <TextView
-        android:id="@+id/dateTime"
+        android:id="@+id/datumTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            android:layout_weight="0.20"
-            android:padding="5dp"
-            android:textStyle="normal"
+            android:layout_weight="0.2"
+                android:textStyle="normal"
             android:textSize="10dp"
-            android:text="Datum en tijd"
-                android:singleLine="false"
-                android:gravity="left|top" />
+            android:text="Datum"
+                android:singleLine="true"
+                android:gravity="left|top"
+                android:paddingTop="5dp"
+                android:paddingLeft="2dp" />
+
+            <TextView
+                android:id="@+id/tijdTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:textStyle="normal"
+                android:textSize="10dp"
+                android:text="Tijd"
+                android:singleLine="true"
+                android:gravity="left|top"
+                android:paddingLeft="2dp" />
 
             <TextView
                 android:id="@+id/duratieTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.20"
-                android:padding="5dp"
+                android:layout_weight="0.2"
                 android:textStyle="normal"
                 android:textSize="10dp"
                 android:text="Duratie"
                 android:singleLine="true"
-                android:gravity="left|top" />
+                android:gravity="left|top"
+                android:paddingBottom="10dp"
+                android:paddingLeft="2dp" />
         </LinearLayout>
 
     </FrameLayout>
