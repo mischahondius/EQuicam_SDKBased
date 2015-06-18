@@ -11,7 +11,6 @@ package veg.mediaplayer.sdk.test;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
@@ -64,9 +63,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 {
 
 	//Equicam URL
-//	public String camUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
 	public String camUrl;
-
 
     //Record path
     public String videoDirectory;
@@ -320,7 +317,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
     //RecordPath Ophalen
-    public String getRecordPath()
+    public static String getRecordPath()
     {
     	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
     		      Environment.DIRECTORY_DCIM), "EQuicam Clips");
@@ -337,8 +334,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
     public void onCreate(Bundle savedInstanceState) 
 	{
-
-		camUrl = Camera.getCurrentCameraUrl();
 
 		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
@@ -546,7 +541,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 ////
 ////
 ////        //TODO Create thumbnail
-////        tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Video.Thumbnails.MINI_KIND);
+////        tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Clip.Thumbnails.MINI_KIND);
 ////        Log.d("Yo", "" + tmpThumbNail);
 ////        Log.d("Filename", "" + filename);
 ////
@@ -576,7 +571,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		mDrawerToggle.syncState();
 	}
 
+	//Saving state, last camera url
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
+
+		@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
@@ -630,7 +631,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					case 1:
 
 						//Openen van Clips View
-						Intent a = new Intent(getApplicationContext(), Clips.class);
+						Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
 
 						//Put recordpath
 						a.putExtra("Record Path", getRecordPath());
@@ -641,8 +642,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 					//CAMERA's
 					case 2:
-						//Openen van Camera View
-						Intent c = new Intent(getApplicationContext(), Camera.class);
+						//Openen van CameraActivity View
+						Intent c = new Intent(getApplicationContext(), CameraActivity.class);
 
 						startActivity(c);
 						break;
@@ -682,7 +683,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 		{
 
-			camUrl = Camera.getCurrentCameraUrl();
+			camUrl = CameraActivity.getCurrentCameraUrl();
 
 			player.getConfig().setConnectionUrl(camUrl);
 			Log.d("Camurl =", "" + camUrl);
@@ -748,6 +749,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
  
 	protected void onPause()
 	{
+
 		Log.e("SDL", "onPause()");
 		super.onPause();
 
@@ -756,12 +758,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		
 		if (player != null)
 			player.onPause();
-	}
+			}
 
 	@Override
   	protected void onResume() 
 	{
-		camUrl = Camera.getCurrentCameraUrl();
 
 		Log.e("SDL", "onResume()");
 		super.onResume();
@@ -773,22 +774,21 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	protected void onStart() 
   	{
 
-		camUrl = Camera.getCurrentCameraUrl();
-
 		Log.e("SDL", "onStart()");
 		super.onStart();
 		if (player != null)
 			player.onStart();
+
 	}
 
   	@Override
 	protected void onStop() 
   	{
-  		Log.e("SDL", "onStop()");
+
+		Log.e("SDL", "onStop()");
 		super.onStop();
 		if (player != null)
 			player.onStop();
-		
 
 	}
 
@@ -796,7 +796,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
     public void onBackPressed() 
     {
 
-		camUrl = Camera.getCurrentCameraUrl();
+		camUrl = CameraActivity.getCurrentCameraUrl();
 
 		player.Close();
 		if (!playing)
@@ -840,7 +840,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (multicastLock != null) {
 		    multicastLock.release();
 		    multicastLock = null;
-		}		
+		}
+
+		SharedSettings.getInstance().savePrefSettings();
+
+
 		super.onDestroy();
    	}	
 	
@@ -1033,6 +1037,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
     	{
     		task.execute(params);
     	}
-    }  
+    }
 
 }

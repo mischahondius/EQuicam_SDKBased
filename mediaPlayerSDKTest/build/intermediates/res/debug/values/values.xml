@@ -241,6 +241,7 @@
     <eat-comment/>
     <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>
     <string name="urlTVstr">Camera URL:</string>
+    <string name="videoNietAanwezigStr">Video is beschadigd.</string>
     <string name="videoPoortTVStr">Videopoort:</string>
     <string name="wachtWoordTVstr">Wachtwoord:</string>
     <string name="wwHintStr">******</string>

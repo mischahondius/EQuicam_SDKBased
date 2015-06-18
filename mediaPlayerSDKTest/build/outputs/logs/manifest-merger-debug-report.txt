@@ -46,7 +46,7 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:20:17
 	android:name
 		ADDED from AndroidManifest.xml:20:27
-activity#veg.mediaplayer.sdk.test.Clips
+activity#veg.mediaplayer.sdk.test.ClipsActivity
 ADDED from AndroidManifest.xml:23:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:27:13
@@ -56,7 +56,7 @@ ADDED from AndroidManifest.xml:23:9
 		ADDED from AndroidManifest.xml:26:13
 	android:name
 		ADDED from AndroidManifest.xml:24:13
-activity#veg.mediaplayer.sdk.test.FullScreenVideoPlayer
+activity#veg.mediaplayer.sdk.test.FullScreenVideoActivity
 ADDED from AndroidManifest.xml:29:9
 	android:label
 		ADDED from AndroidManifest.xml:31:13
@@ -66,7 +66,7 @@ ADDED from AndroidManifest.xml:29:9
 		ADDED from AndroidManifest.xml:32:13
 	android:name
 		ADDED from AndroidManifest.xml:30:13
-activity#veg.mediaplayer.sdk.test.Camera
+activity#veg.mediaplayer.sdk.test.CameraActivity
 ADDED from AndroidManifest.xml:35:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:38:13

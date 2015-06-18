@@ -37,5 +37,6 @@
     <string name="liveDrawerStr">Live</string>
     <string name="clipsDrawerStr">Clips</string>
     <string name="cameraDrawerStr">Camera</string>
+    <string name="videoNietAanwezigStr">Video is beschadigd.</string>
 
 </resources>

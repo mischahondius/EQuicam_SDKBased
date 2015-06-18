@@ -21,19 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="veg.mediaplayer.sdk.test.Clips"
+            android:name="veg.mediaplayer.sdk.test.ClipsActivity"
             android:label="@string/ClipsTitleStr"
             android:theme="@android:style/Theme.Black"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="veg.mediaplayer.sdk.test.FullScreenVideoPlayer"
+            android:name="veg.mediaplayer.sdk.test.FullScreenVideoActivity"
             android:label="@string/fullScreenVideoPlNameStr"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="veg.mediaplayer.sdk.test.Camera"
+            android:name="veg.mediaplayer.sdk.test.CameraActivity"
             android:label="@string/camerasTitleStr"
             android:screenOrientation="portrait" >
         </activity>
