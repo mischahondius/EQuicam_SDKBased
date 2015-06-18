@@ -38,5 +38,9 @@
     <string name="clipsDrawerStr">Clips</string>
     <string name="cameraDrawerStr">Camera</string>
     <string name="videoNietAanwezigStr">Video is beschadigd.</string>
+    <string name="SalineroHarcodedStr">Salinero</string>
+    <string name="datumHardcodedStr">Datum</string>
+    <string name="tijdHardcodedStr">Tijd</string>
+    <string name="afspeelduurHardcodedStr">Duratie</string>
 
 </resources>

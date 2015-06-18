@@ -1,3 +1,11 @@
+/*
+ *
+ * Mischa Hondius, 6053017.
+ * University of Amsterdam
+ * SDK Used by Video Experts Group
+ *
+ */
+
 package veg.mediaplayer.sdk.test;
 
 import android.graphics.Bitmap;
@@ -14,9 +22,6 @@ import java.util.Locale;
 
 import EQuicamApp.R;
 
-/**
- * Created by Equifilm on 18-6-2015.
- */
 public class Clip {
 
     //Een clip bezit de volgende eigenschappen
@@ -47,8 +52,6 @@ public class Clip {
             MetaDataOphaler.setDataSource(this.bestandsLocatie);
             this.afspeelDuur = MetaDataOphaler.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
             this.datum = MetaDataOphaler.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
-
-            if (this.afspeelDuur != null) {}
 
             if (this.afspeelDuur == null) {
                 this.afspeelDuur = "0";
@@ -98,16 +101,11 @@ public class Clip {
     }
 
     public void setDatum() {
-        this.datum = "10 april 2015";
-    }
-
-    public String getDatum(){
-
 //        tmp String aanmaken
-          String tmpDatum = this.bestandsNaam;
+        String tmpDatum = this.bestandsNaam;
 
 //        Gooi underscores weg
-          tmpDatum = tmpDatum.replace("_", "");
+        tmpDatum = tmpDatum.replace("_", "");
 
         DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss", Locale.GERMAN);
         Date date = new Date();
@@ -145,16 +143,19 @@ public class Clip {
         tmpDatum = tmpDatum.replace("Dec", "december");
 
         this.datum = tmpDatum;
+    }
+
+    public String getDatum(){
         return this.datum;
     }
 
     public void setTijd () {
-        this.tijd = "00:00";
-        //todo
+        String tmpTijd = this.bestandsNaam;
+        tmpTijd = tmpTijd.substring(10, 12) + ":" + tmpTijd.substring(12, 14) + " uur";
+        this.tijd = tmpTijd;
     }
 
     public String getTijd () {
-        //todo
         return this.tijd;
     }
 

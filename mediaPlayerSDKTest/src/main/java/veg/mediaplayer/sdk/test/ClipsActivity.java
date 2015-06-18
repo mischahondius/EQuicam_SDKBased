@@ -12,7 +12,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ public class ClipsActivity extends ListActivity {
 
   public class MyVideoListAdapter extends ArrayAdapter<String> {
 
-      public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList fileNames) {
+      public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList<String> fileNames) {
           super(context, textViewResourceId, fileNames);
 
       //Todo: clipcache updated check via boolean?
@@ -68,15 +67,17 @@ public class ClipsActivity extends ListActivity {
       }
 
       //Set Afspeelduur
-      //TODO datum in Nederlands en dagnummer op andere plek
       TextView duratieTV = (TextView)row.findViewById(R.id.duratieTV);
       String afspeelDuur = clipCache.get(sortedVideoArrayList.get(position)).getAfspeelDuur();
       duratieTV.setText(afspeelDuur);
 
       //Set Datum
       TextView datumTV = (TextView)row.findViewById(R.id.datumTV);
-      String tmpDatum = clipCache.get(sortedVideoArrayList.get(position)).getDatum();
-      datumTV.setText(tmpDatum);
+      datumTV.setText(clipCache.get(sortedVideoArrayList.get(position)).getDatum());
+
+      //Set Tijd
+      TextView tijdTV = (TextView)row.findViewById(R.id.tijdTV);
+      tijdTV.setText(clipCache.get(sortedVideoArrayList.get(position)).getTijd());
 
       //Set Duimnagel
       ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
@@ -125,11 +126,9 @@ public class ClipsActivity extends ListActivity {
       //Get files from directory
       File f = new File(videoDirectory);
       File file[] = f.listFiles();
-      Log.d("Files", "Size: "+ file.length);
 
-    //iterate over files heen
+      //iterate over files heen
       for (File aFile : file) {
-          Log.d("Files", "FileName:" + aFile.getName());
           videoArrayList.add(aFile.getName());
       }
 

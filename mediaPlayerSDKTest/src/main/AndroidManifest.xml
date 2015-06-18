@@ -23,7 +23,6 @@
         <activity
             android:name="veg.mediaplayer.sdk.test.ClipsActivity"
             android:label="@string/ClipsTitleStr"
-            android:theme="@android:style/Theme.Black"
             android:screenOrientation="portrait" >
         </activity>
         <activity

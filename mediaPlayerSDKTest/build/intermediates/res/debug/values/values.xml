@@ -189,6 +189,7 @@
     <string name="OpnameGestartString">"Opname gestart"</string>
     <string name="OpnameGestoptString">"Opname gestopt"</string>
     <string name="OpnieuwVerbindingMaken">Aan het verbinden...</string>
+    <string name="SalineroHarcodedStr">Salinero</string>
     <string name="Slechts2MinutenOpnameString">U kunt slechts 2 minuten opnemen.</string>
     <string name="StartOpnameString">Start Opname</string>
     <string name="StartRecord">Opnemen</string>
@@ -216,12 +217,14 @@
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Instellingen</string>
+    <string name="afspeelduurHardcodedStr">Duratie</string>
     <string name="app_about_title">Over</string>
     <string name="app_name">Live</string>
     <string name="app_short_name">Live</string>
     <string name="cameraDrawerStr">Camera</string>
     <string name="camerasTitleStr">Camera</string>
     <string name="clipsDrawerStr">Clips</string>
+    <string name="datumHardcodedStr">Datum</string>
     <string name="drawerDichtStr">Drawer is nu dicht</string>
     <string name="drawerOpenStr">Drawer is nu open</string>
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
@@ -239,6 +242,7 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="tijdHardcodedStr">Tijd</string>
     <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>
     <string name="urlTVstr">Camera URL:</string>
     <string name="videoNietAanwezigStr">Video is beschadigd.</string>
