@@ -10,8 +10,10 @@ package veg.mediaplayer.sdk.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.ThumbnailUtils;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -20,6 +22,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -50,6 +53,7 @@ import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import android.preference.PreferenceManager;
 import EQuicamApp.R;
@@ -443,12 +447,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						btnHighlight.clearAnimation();
 						btnHighlight.setVisibility(View.INVISIBLE);
 
-                        //Call make thumbnail functie
-//                        saveThumbnail(tmpRecordFileName);
-
 						//stop timer
 						timer.stop();
-						timer.getBase();
 					}
 				}
 			}
@@ -491,6 +491,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 					//stop opname
 					if (player != null) {
+
 						player.RecordStop();
 						String tmpRecordFileName = player.RecordGetFileName(1);
 
@@ -500,13 +501,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						btnHighlight.clearAnimation();
 						btnHighlight.setVisibility(View.INVISIBLE);
 
-						//Call make thumbnail functie
-//                        saveThumbnail(tmpRecordFileName);
-
 						//stop timer
 						timer.stop();
-						timer.getBase();
-
 					}
 				}
 
@@ -527,43 +523,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		setShowControls();
         
     }
-
-//    //Thumbnail opslaan
-//    public void saveThumbnail(String filename)
-//    {
-//
-////        //TODO sleep for 5 seconds test
-////        try {
-////            Thread.sleep(10000);
-////        } catch(InterruptedException ex) {
-////            Thread.currentThread().interrupt();
-////        }
-////
-////
-////        //TODO Create thumbnail
-////        tmpThumbNail = ThumbnailUtils.createVideoThumbnail(filename, MediaStore.Clip.Thumbnails.MINI_KIND);
-////        Log.d("Yo", "" + tmpThumbNail);
-////        Log.d("Filename", "" + filename);
-////
-////
-////        //replace .mp4 with .jpg
-////        if (filename.endsWith(".mp4")) {
-////            filename = filename.substring(0, filename.length() - 4) + ".jpg";
-////        }
-////
-////		//TODO Save file to thumbnails folder
-////        try {
-////            FileOutputStream out = new FileOutputStream (filename);
-////            tmpThumbNail.compress(Bitmap.CompressFormat.JPEG, 60, out);
-////            out.flush();
-////            out.close();
-////        } catch(Exception e) {
-////
-////            Log.v(TAG, "EXEPTION=" + e);
-////
-////        }
-//
-//    }
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {

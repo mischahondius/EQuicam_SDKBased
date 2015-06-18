@@ -9,11 +9,15 @@
 package veg.mediaplayer.sdk.test;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,10 +32,14 @@ public class Clip {
     private String              bestandsNaam;
     private String              bestandsMap;
     private String              bestandsLocatie;
+
+    private Bitmap              duimNagel;
+    private String              duimNagelMap;
+    private String              duimNagelLocatie;
+
     private String              datum;
     private String              tijd;
     private String              afspeelDuur;
-    private Bitmap              duimNagel;
 
     //Clip constructor
     public Clip(String bestandsNaam){
@@ -93,7 +101,7 @@ public class Clip {
     }
 
     public void setDuimNagel(){
-        this.duimNagel = ThumbnailUtils.createVideoThumbnail(this.bestandsLocatie, MediaStore.Video.Thumbnails.MINI_KIND);
+        duimNagelNaarMap();
     }
 
     public Bitmap getDuimNagel(){
@@ -161,5 +169,54 @@ public class Clip {
 
     public String getBestandsLocatie(){
         return this.bestandsLocatie;
+    }
+
+    //DuimNagel wegschrijven naar map
+    public void duimNagelNaarMap()
+    {
+
+        //Als Duimnagellocatie nog leeg is, vul hem dan pas in!
+        if (duimNagelLocatie == null) {
+            //Mapje maken voor thumbs
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM), "EQuicam Thumbnails");
+
+            if (! mediaStorageDir.exists()){
+                if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())){
+//                    Log.e(TAG, "<=getRecordPath() failed to create directory path="+mediaStorageDir.getPath());
+                }
+            }
+            this.duimNagelMap = mediaStorageDir.getPath();
+
+            //print duinagelmap
+            Log.v("", "Duimnagel MAP=" + this.duimNagelMap);
+
+
+            Bitmap tmpThumbNail = ThumbnailUtils.createVideoThumbnail(this.bestandsLocatie, MediaStore.Video.Thumbnails.MINI_KIND);
+
+            //replace .mp4 with .jpg
+            if (this.bestandsLocatie.endsWith(".mp4")) {
+                this.duimNagelLocatie =  this.duimNagelMap + "/" + this.bestandsNaam.substring(0, this.bestandsNaam.length() - 4) + ".jpg";
+
+                Log.v("", "Duimnagel Locatie na mp4/jpg switch=" + this.duimNagelLocatie);
+                Log.v("", "Bestandslocatie=" + this.bestandsLocatie);
+
+            }
+
+            try {
+                FileOutputStream out = new FileOutputStream(this.duimNagelLocatie);
+                tmpThumbNail.compress(Bitmap.CompressFormat.JPEG, 30, out);
+                out.flush();
+                out.close();
+
+                this.duimNagel = BitmapFactory.decodeFile(this.duimNagelLocatie);
+
+            } catch (Exception e) {
+                //todo
+            }
+
+
+        }
+
     }
 }
