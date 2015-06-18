@@ -33,7 +33,6 @@ public class Clip {
     private String              bestandsMap;
     private String              bestandsLocatie;
 
-    private Bitmap              duimNagel;
     private String              duimNagelMap;
     private String              duimNagelLocatie;
 
@@ -105,7 +104,7 @@ public class Clip {
     }
 
     public Bitmap getDuimNagel(){
-        return this.duimNagel;
+        return BitmapFactory.decodeFile(this.duimNagelLocatie);
     }
 
     public void setDatum() {
@@ -188,19 +187,11 @@ public class Clip {
             }
             this.duimNagelMap = mediaStorageDir.getPath();
 
-            //print duinagelmap
-            Log.v("", "Duimnagel MAP=" + this.duimNagelMap);
-
-
             Bitmap tmpThumbNail = ThumbnailUtils.createVideoThumbnail(this.bestandsLocatie, MediaStore.Video.Thumbnails.MINI_KIND);
 
             //replace .mp4 with .jpg
             if (this.bestandsLocatie.endsWith(".mp4")) {
                 this.duimNagelLocatie =  this.duimNagelMap + "/" + this.bestandsNaam.substring(0, this.bestandsNaam.length() - 4) + ".jpg";
-
-                Log.v("", "Duimnagel Locatie na mp4/jpg switch=" + this.duimNagelLocatie);
-                Log.v("", "Bestandslocatie=" + this.bestandsLocatie);
-
             }
 
             try {
@@ -209,14 +200,9 @@ public class Clip {
                 out.flush();
                 out.close();
 
-                this.duimNagel = BitmapFactory.decodeFile(this.duimNagelLocatie);
-
             } catch (Exception e) {
                 //todo
             }
-
-
         }
-
     }
 }

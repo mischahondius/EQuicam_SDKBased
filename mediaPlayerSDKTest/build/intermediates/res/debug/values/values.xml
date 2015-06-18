@@ -230,6 +230,7 @@
     <string name="fullScreenVideoPlNameStr">FullScreenVideoPlayer</string>
     <string name="gebruikersnaamHintStr">Bijvoorbeeld: Admin</string>
     <string name="gebruikersnaamTVstr">Gebruikersnaam:</string>
+    <string name="geenClipsStr">Er zijn momenteel nog geen clips beschikbaar. Ga terug naar het Live scherm om opnames te maken.</string>
     <string name="hoofMenuStr">Hoofdmenu</string>
     <string name="instellingenMenuString">Instellingen</string>
     <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>

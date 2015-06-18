@@ -12,12 +12,15 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.RawRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,21 +85,20 @@ public class ClipsActivity extends ListActivity {
       //Set Duimnagel
       ImageView imageThumbnail = (ImageView)row.findViewById(R.id.Thumbnail);
 
-      //check of niet leeg, als leeg, equifilm thumb
       // Anders duimnagel ophalen van clip
       if (clipCache.get(sortedVideoArrayList.get(position)) != null)
       {
         imageThumbnail.setImageBitmap(clipCache.get(sortedVideoArrayList.get(position)).getDuimNagel());
       }
 
-    //Dit was even nodig
-    final int tmpPosition = position;
+        //Dit was even nodig
+        final int tmpPosition = position;
 
-    //setonClickListener voor rij
-    row.setOnClickListener(new View.OnClickListener() {
+        //setonClickListener voor rij
+        row.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
 
             //Open fulscreen View voor video
             Intent i = new Intent(getApplicationContext(), FullScreenVideoActivity.class);
@@ -105,8 +107,8 @@ public class ClipsActivity extends ListActivity {
             i.putExtra("VideoLocation", clipCache.get(sortedVideoArrayList.get(tmpPosition)).getBestandsLocatie());
 
             startActivity(i);
-            }
-        });
+        }
+    });
 
       return row;
     }
@@ -143,5 +145,10 @@ public class ClipsActivity extends ListActivity {
 
       //SetListAdapter
       setListAdapter(new MyVideoListAdapter(ClipsActivity.this, R.layout.videoitemfragment, sortedVideoArrayList));
+
+      //Als lijst leeg is
+      if (sortedVideoArrayList.isEmpty()) {
+          Toast.makeText(this, getString(R.string.geenClipsOmWeerTeGevenStr), Toast.LENGTH_LONG).show();
+      }
   }
 }
