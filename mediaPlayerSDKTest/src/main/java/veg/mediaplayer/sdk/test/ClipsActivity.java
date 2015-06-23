@@ -9,6 +9,7 @@
 package veg.mediaplayer.sdk.test;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,44 +21,32 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import android.os.Handler;
 import EQuicamApp.R;
 
 public class ClipsActivity extends ListActivity {
 
-  public String videoDirectory;
-  public ArrayList <String> videoArrayList;
-  public ArrayList <String> sortedVideoArrayList;
-  public String [] videoArray;
-  public HashMap<String, Clip> clipCache;
+    //Todo: kan alles private worden?
+  public String                         videoDirectory;
+  public ArrayList <String>             videoArrayList;
+  public ArrayList <String>             sortedVideoArrayList;
+  public String []                      videoArray;
+  public HashMap<String, Clip>          clipCache;
 
   public class MyVideoListAdapter extends ArrayAdapter<String> {
 
       public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList<String> fileNames) {
           super(context, textViewResourceId, fileNames);
 
-      //Todo: clipcache updated check via boolean?
           clipCache = new HashMap<>(fileNames.size());
 
           //Maak cache aan voor clips
           initClipCache(fileNames.size());
-      }
-
-      //Functie voor het opzetten van een ClipCache
-      public void initClipCache(int size) {
-          for (int i = 0; i < size; i++) {
-
-              //nieuwe clip aanmaken
-              Clip tmpClip = new Clip(sortedVideoArrayList.get(i));
-
-              //Sla Clip op in cache
-              clipCache.put(sortedVideoArrayList.get(i), tmpClip);
-          }
       }
 
     @Override
@@ -119,7 +108,8 @@ public class ClipsActivity extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
 
-    videoArrayList = new ArrayList<>();
+      //Maak arraylist om te vullen met video's
+      videoArrayList = new ArrayList<>();
 
       //GET recordpath from intent
       Intent intent = getIntent();
@@ -145,10 +135,23 @@ public class ClipsActivity extends ListActivity {
 
       //SetListAdapter
       setListAdapter(new MyVideoListAdapter(ClipsActivity.this, R.layout.videoitemfragment, sortedVideoArrayList));
-
+//
       //Als lijst leeg is
       if (sortedVideoArrayList.isEmpty()) {
           Toast.makeText(this, getString(R.string.geenClipsOmWeerTeGevenStr), Toast.LENGTH_LONG).show();
       }
   }
+
+    //Functie voor het opzetten van een ClipCache
+    public void initClipCache(int size) {
+        for (int i = 0; i < size; i++) {
+
+            //nieuwe clip aanmaken
+            Clip tmpClip = new Clip(sortedVideoArrayList.get(i));
+
+            //Sla Clip op in cache
+            clipCache.put(sortedVideoArrayList.get(i), tmpClip);
+        }
+
+    }
 }

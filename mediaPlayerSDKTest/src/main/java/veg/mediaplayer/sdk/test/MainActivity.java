@@ -62,284 +62,280 @@ import veg.mediaplayer.sdk.MediaPlayer.PlayerModes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerNotifyCodes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerRecordFlags;
 import veg.mediaplayer.sdk.MediaPlayerConfig;
+import android.app.ProgressDialog;
+import android.os.Handler;
 
-public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback
-{
+
+
+public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback {
 
 	//Equicam URL
 	public String camUrl;
 
-    //Record path
-    public String videoDirectory;
+	//Record path
+	public String videoDirectory;
 
-    //tag voor logs
-    private static final String TAG 	 = "EQuicamAPP";
+	//tag voor logs
+	private static final String TAG = "EQuicamAPP";
 
 	//Record split time (meer dan de maximale opname tijd)
 	int rec_split_time = 240;
 
 	//Buttons MAINActivity
-    private Button						btnConnect;
-	private FrameLayout					recordCntrlsArea;
-	private ImageButton 				btnHighlight;
-	private ImageButton					btnRecord;
-	private Chronometer					timer;
-	private ImageView					playIcon;
-	private ProgressBar					progressBar;
+	private Button btnConnect;
+	private FrameLayout recordCntrlsArea;
+	private ImageButton btnHighlight;
+	private ImageButton btnRecord;
+	private Chronometer timer;
+	private ImageView playIcon;
+	private ProgressBar progressBar;
 
 	//Drawer
-	private ListView 					mDrawerList;
-	private DrawerLayout 				mDrawerLayout;
-	private ArrayAdapter<String> 		mAdapter;
-	private ActionBarDrawerToggle 		mDrawerToggle;
-	private String 						mActivityTitle;
+	private ListView mDrawerList;
+	private DrawerLayout mDrawerLayout;
+	private ArrayAdapter<String> mAdapter;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private String mActivityTitle;
 
-//    public Bitmap tmpThumbNail;
-//    public String tmpRecordFileName;
+	//Progress dialoog voor laden clips
+	private ProgressDialog barProgressDialog;
+	private Handler updateBarHandler;
 
 	//Is Playing/Is Recording checks
-	private boolean						is_record = false;
-	private boolean 					playing = false;
+	private boolean is_record = false;
+	private boolean playing = false;
 
-	private StatusProgressTask 			mProgressTask = null;
-	private SharedPreferences 			settings;
-    private SharedPreferences.Editor 	editor;
-    private MediaPlayer 				player = null;
-    private MainActivity 				mthis = null;
-    private TextView 					playerStatusText = null;
-    private MulticastLock 				multicastLock = null;
-	private enum PlayerStates
-	{
-	  	Busy,
-	  	ReadyForUse
+	private StatusProgressTask mProgressTask = null;
+	private SharedPreferences settings;
+	private SharedPreferences.Editor editor;
+	private MediaPlayer player = null;
+	private MainActivity mthis = null;
+	private TextView playerStatusText = null;
+	private MulticastLock multicastLock = null;
+
+	private enum PlayerStates {
+		Busy,
+		ReadyForUse
 	}
 
-    private enum PlayerConnectType
-	{
-	  	Normal,
-	  	Reconnecting
+	private enum PlayerConnectType {
+		Normal,
+		Reconnecting
 	}
-    
+
 	private PlayerStates player_state = PlayerStates.ReadyForUse;
 	private PlayerConnectType reconnect_type = PlayerConnectType.Normal;
 	private int mOldMsg = 0;
 
 	// Event handler
-    private Handler handler = new Handler()
-    {
-        String strText = "Verbinden";
+	private Handler handler = new Handler() {
+		String strText = "Verbinden";
 
-        @Override
-        public void handleMessage(Message msg)
-        {
-            PlayerNotifyCodes status = (PlayerNotifyCodes) msg.obj;
-            switch (status)
-            {
-                case CP_CONNECT_STARTING:
-                    if (reconnect_type == PlayerConnectType.Reconnecting)
-                        strText = "Opnieuw aan het verbinden";
-                    else
-                        strText = "Verbinden";
+		@Override
+		public void handleMessage(Message msg) {
+			PlayerNotifyCodes status = (PlayerNotifyCodes) msg.obj;
+			switch (status) {
+				case CP_CONNECT_STARTING:
+					if (reconnect_type == PlayerConnectType.Reconnecting)
+						strText = "Opnieuw aan het verbinden";
+					else
+						strText = "Verbinden";
 
-                    startProgressTask(strText);
-	        		
-	        		player_state = PlayerStates.Busy;
-	    			showStatusView();
-	    			
-	    			reconnect_type = PlayerConnectType.Normal;
-	    			setHideControls();
-	    			break;
-	                
-		    	case VRP_NEED_SURFACE:
-		    		player_state = PlayerStates.Busy;
-		    		showVideoView();
+					startProgressTask(strText);
+
+					player_state = PlayerStates.Busy;
+					showStatusView();
+
+					reconnect_type = PlayerConnectType.Normal;
+					setHideControls();
 					break;
-	
-		    	case PLP_PLAY_SUCCESSFUL:
-		    		player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-	    			playerStatusText.setText("");
-		    		setTitle(R.string.app_name);
-			        break;
-	                
-	        	case PLP_CLOSE_STARTING:
-	        		player_state = PlayerStates.Busy;
-	        		stopProgressTask();
-	    			playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setUIDisconnected();
-	    			break;
-	                
-	        	case PLP_CLOSE_SUCCESSFUL:
-	        		player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			System.gc();
-	    			setShowControls();
-	    			setUIDisconnected();
-	                break;
-	                
-	        	case PLP_CLOSE_FAILED:
-	        		player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setShowControls();
-	    			setUIDisconnected();
-	   			break;
-	               
-	        	case CP_CONNECT_FAILED:
-	        		player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setShowControls();
-	    			setUIDisconnected();
-	    			break;
-	                
-	            case PLP_BUILD_FAILED:
-	            	player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setShowControls();
-	    			setUIDisconnected();
-	    			break;
-	                
-	            case PLP_PLAY_FAILED:
-	            	player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setShowControls();
-	    			setUIDisconnected();
-	    			break;
-	                
-	            case PLP_ERROR:
-	            	player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setShowControls();
-	    			setUIDisconnected();
-	    			break;
-	                
-	            case CP_INTERRUPTED:
-	            	player_state = PlayerStates.ReadyForUse;
-	        		stopProgressTask();
-                    playerStatusText.setText(getString(R.string.GeenVerbindingString));
-	    			showStatusView();
-	    			setShowControls();
-	    			setUIDisconnected();
-	    			break;
 
-	            case CP_RECORD_STARTED:
-	            	Log.v(TAG, "=handleMessage CP_RECORD_STARTED");
-	            	{
-	            		String sFile = player.RecordGetFileName(1);
-	            	}
-	            	break;
+				case VRP_NEED_SURFACE:
+					player_state = PlayerStates.Busy;
+					showVideoView();
+					break;
 
-	            case CP_RECORD_STOPPED:
-	            	Log.v(TAG, "=handleMessage CP_RECORD_STOPPED");
-	            	{
-	            		String sFile = player.RecordGetFileName(0);
-	            	}
-	            	break;
+				case PLP_PLAY_SUCCESSFUL:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText("");
+					setTitle(R.string.app_name);
+					break;
 
-	            //case CONTENT_PROVIDER_ERROR_DISCONNECTED:
-	            case CP_STOPPED:
-	            case VDP_STOPPED:
-	            case VRP_STOPPED:
-	            case ADP_STOPPED:
-	            case ARP_STOPPED:
-	            	if (player_state != PlayerStates.Busy)
-	            	{
-		        		stopProgressTask();
-	            		player_state = PlayerStates.Busy;
-	            		player.Close();
-                        playerStatusText.setText(getString(R.string.GeenVerbindingString));
-		    			showStatusView();
-		    			player_state = PlayerStates.ReadyForUse;
-		    			setShowControls();
-		    			setUIDisconnected();
-	            	}
-	                break;
-	
-	            case CP_ERROR_DISCONNECTED:
-	            	if (player_state != PlayerStates.Busy)
-	            	{
-	            		player_state = PlayerStates.Busy;
-	            		player.Close();
+				case PLP_CLOSE_STARTING:
+					player_state = PlayerStates.Busy;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setUIDisconnected();
+					break;
 
-                        playerStatusText.setText(getString(R.string.GeenVerbindingString));
-		    			showStatusView();
-		    			player_state = PlayerStates.ReadyForUse;
-		    			setUIDisconnected();
+				case PLP_CLOSE_SUCCESSFUL:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					System.gc();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case PLP_CLOSE_FAILED:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case CP_CONNECT_FAILED:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case PLP_BUILD_FAILED:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case PLP_PLAY_FAILED:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case PLP_ERROR:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case CP_INTERRUPTED:
+					player_state = PlayerStates.ReadyForUse;
+					stopProgressTask();
+					playerStatusText.setText(getString(R.string.GeenVerbindingString));
+					showStatusView();
+					setShowControls();
+					setUIDisconnected();
+					break;
+
+				case CP_RECORD_STARTED:
+					Log.v(TAG, "=handleMessage CP_RECORD_STARTED");
+				{
+					String sFile = player.RecordGetFileName(1);
+				}
+				break;
+
+				case CP_RECORD_STOPPED:
+					Log.v(TAG, "=handleMessage CP_RECORD_STOPPED");
+				{
+					String sFile = player.RecordGetFileName(0);
+				}
+				break;
+
+				//case CONTENT_PROVIDER_ERROR_DISCONNECTED:
+				case CP_STOPPED:
+				case VDP_STOPPED:
+				case VRP_STOPPED:
+				case ADP_STOPPED:
+				case ARP_STOPPED:
+					if (player_state != PlayerStates.Busy) {
+						stopProgressTask();
+						player_state = PlayerStates.Busy;
+						player.Close();
+						playerStatusText.setText(getString(R.string.GeenVerbindingString));
+						showStatusView();
+						player_state = PlayerStates.ReadyForUse;
+						setShowControls();
+						setUIDisconnected();
+					}
+					break;
+
+				case CP_ERROR_DISCONNECTED:
+					if (player_state != PlayerStates.Busy) {
+						player_state = PlayerStates.Busy;
+						player.Close();
+
+						playerStatusText.setText(getString(R.string.GeenVerbindingString));
+						showStatusView();
+						player_state = PlayerStates.ReadyForUse;
+						setUIDisconnected();
 
 						Toast.makeText(getApplicationContext(), getString(R.string.Slechts2MinutenOpnameString),
-								   Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_SHORT).show();
 
-	            	}
-	                break;
-	            default:
-	            	player_state = PlayerStates.Busy;
-	        }
-	    }
+					}
+					break;
+				default:
+					player_state = PlayerStates.Busy;
+			}
+		}
 	};
 
 	// callback from Native Player 
 	@Override
-	public int OnReceiveData(ByteBuffer buffer, int size, long pts) 
-	{
+	public int OnReceiveData(ByteBuffer buffer, int size, long pts) {
 		Log.e(TAG, "Form Native Player OnReceiveData: size: " + size + ", pts: " + pts);
 		return 0;
 	}
 
 	// All events are sent to event handlers
 	@Override
-	public int Status(int arg)
-	{
-		
+	public int Status(int arg) {
+
 		PlayerNotifyCodes status = PlayerNotifyCodes.forValue(arg);
 		if (handler == null || status == null)
 			return 0;
-		
+
 		Log.e(TAG, "Form Native Player status: " + arg);
-	    switch (PlayerNotifyCodes.forValue(arg)) 
-	    {
-	        default:     
+		switch (PlayerNotifyCodes.forValue(arg)) {
+			default:
 				Message msg = new Message();
 				msg.obj = status;
 				handler.removeMessages(mOldMsg);
 				mOldMsg = msg.what;
 				handler.sendMessage(msg);
-	    }
-	    
+		}
+
 		return 0;
 	}
 
-    //RecordPath Ophalen
-    public static String getRecordPath()
-    {
-    	File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-    		      Environment.DIRECTORY_DCIM), "EQuicam Clips");
-    	
-	    if (! mediaStorageDir.exists()){
-	        if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())){
-	            Log.e(TAG, "<=getRecordPath() failed to create directory path="+mediaStorageDir.getPath());
-	            return "";
-	        }
-	    }
-	    return mediaStorageDir.getPath();
-    }
+	//RecordPath Ophalen
+	public static String getRecordPath() {
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_DCIM), "EQuicam Clips");
+
+		if (!mediaStorageDir.exists()) {
+			if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())) {
+				Log.e(TAG, "<=getRecordPath() failed to create directory path=" + mediaStorageDir.getPath());
+				return "";
+			}
+		}
+		return mediaStorageDir.getPath();
+	}
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 
-		setTitle(R.string.app_name);
+		//Maak handler aan voor progress dialog
+		updateBarHandler = new Handler();
+
+//		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
 
 		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -351,8 +347,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		mthis = this;
 
 		//CREATE HAMBURGER MENU
-		mDrawerList = (ListView)findViewById(R.id.navList);
-		mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.navList);
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mActivityTitle = getTitle().toString();
 
 		addDrawerItems();
@@ -367,14 +363,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		SharedSettings.getInstance().savePrefSettings();
 
 		//Get Player status textview
-		playerStatusText 	= (TextView)findViewById(R.id.playerStatusText);
+		playerStatusText = (TextView) findViewById(R.id.playerStatusText);
 
 		//Get Player
-		player = (MediaPlayer)findViewById(R.id.playerView);
+		player = (MediaPlayer) findViewById(R.id.playerView);
 
-        player.getSurfaceView().setZOrderOnTop(false);
-        SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
-        sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
+		player.getSurfaceView().setZOrderOnTop(false);
+		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
+		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
 
 		//Get BtnConnect button
 		btnConnect = (Button) findViewById(R.id.button_connect);
@@ -386,8 +382,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Get Highlight flash button
 		btnHighlight = (ImageButton) findViewById(R.id.button_record_flash);
 
-        //Get and save Record path
-        videoDirectory = getRecordPath();
+		//Get and save Record path
+		videoDirectory = getRecordPath();
 
 		//Get timer
 		timer = (Chronometer) findViewById(R.id.timerView);
@@ -401,21 +397,21 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//kleur aanpassen naar rood
 		progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
 
-        //Recordbuttonlistener
-        btnRecord = (ImageButton) findViewById(R.id.button_record);
-        btnRecord.setOnClickListener( new OnClickListener(){
+		//Recordbuttonlistener
+		btnRecord = (ImageButton) findViewById(R.id.button_record);
+		btnRecord.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				is_record = !is_record;
 
-				if(is_record){
+				if (is_record) {
 
 					//start opname
-					if(player != null){
+					if (player != null) {
 						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
 						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
 						player.RecordStart();
-                        Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 
 
 						//knipper rec button
@@ -433,17 +429,17 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						timer.setBase(SystemClock.elapsedRealtime());
 						timer.start();
 
-                    }
-				}else{
+					}
+				} else {
 
 					//stop opname
-					if(player != null){
+					if (player != null) {
 						player.RecordStop();
-                        String tmpRecordFileName = player.RecordGetFileName(1);
+						String tmpRecordFileName = player.RecordGetFileName(1);
 
-                        Log.v(TAG, "Record filename=" + tmpRecordFileName);
+						Log.v(TAG, "Record filename=" + tmpRecordFileName);
 
-                        Toast.makeText(getApplicationContext(),getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
 						btnHighlight.clearAnimation();
 						btnHighlight.setVisibility(View.INVISIBLE);
 
@@ -453,7 +449,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				}
 			}
 
-		        });
+		});
 
 		//TODO dubbele code
 		//Highlightbuttonlistener
@@ -508,10 +504,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 			}
 		});
-        
-        //Dit moet blijven staan om te kunnen klikken op scherm
+
+		//Dit moet blijven staan om te kunnen klikken op scherm
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
-        layout.setOnTouchListener(new OnTouchListener() {
+		layout.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				if (getWindow() != null && getWindow().getCurrentFocus() != null && getWindow().getCurrentFocus().getWindowToken() != null)
@@ -521,8 +517,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		});
 
 		setShowControls();
-        
-    }
+
+	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -536,7 +532,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		super.onSaveInstanceState(outState);
 	}
 
-		@Override
+	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
@@ -566,7 +562,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//TODO icoontjes toevoegen?
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
-		String[] osArray = { getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
+		String[] osArray = {getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
 		mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
 		mDrawerList.setAdapter(mAdapter);
 
@@ -574,8 +570,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-				switch (position)
-				{
+				switch (position) {
 					//LIVE
 					case 0:
 
@@ -589,14 +584,18 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					//CLIPS
 					case 1:
 
-						//Openen van Clips View
-						Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
+						//Start dialoog venster op nieuwe thread
+						if (launchRingDialog()) {
 
-						//Put recordpath
-						a.putExtra("Record Path", getRecordPath());
+							//Openen van Clips View
+							Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
 
-						startActivity(a);
-						break;
+							//Put recordpath
+							a.putExtra("Record Path", getRecordPath());
+
+							startActivity(a);
+							break;
+						}
 
 
 					//CAMERA's
@@ -636,11 +635,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
 
-    public void onClick(View v) 
-	{
+	public void onClick(View v) {
 		SharedSettings.getInstance().loadPrefSettings();
-		if (player != null)
-		{
+		if (player != null) {
 
 			camUrl = CameraActivity.getCurrentCameraUrl();
 
@@ -652,86 +649,80 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 
 			player.Close();
-			if (playing)
-			{
-    			setUIDisconnected();
-			}
-			else
-			{
-    	    	SharedSettings sett = SharedSettings.getInstance();
-    			boolean bPort = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
-    	    	int aspect = bPort ? 1 : sett.rendererEnableAspectRatio;
-    	    	
-    	    	MediaPlayerConfig conf = new MediaPlayerConfig();
-    	    	
-    	    	player.setVisibility(View.INVISIBLE);
-    	    	
-    	    	conf.setConnectionUrl(player.getConfig().getConnectionUrl());
-    			
-    	    	conf.setConnectionNetworkProtocol(sett.connectionProtocol);
-    	    	conf.setConnectionDetectionTime(sett.connectionDetectionTime);
-    	    	conf.setConnectionBufferingTime(sett.connectionBufferingTime);
-    	    	conf.setDecodingType(sett.decoderType);
-    	    	conf.setRendererType(sett.rendererType);
+			if (playing) {
+				setUIDisconnected();
+			} else {
+				SharedSettings sett = SharedSettings.getInstance();
+				boolean bPort = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
+				int aspect = bPort ? 1 : sett.rendererEnableAspectRatio;
+
+				MediaPlayerConfig conf = new MediaPlayerConfig();
+
+				player.setVisibility(View.INVISIBLE);
+
+				conf.setConnectionUrl(player.getConfig().getConnectionUrl());
+
+				conf.setConnectionNetworkProtocol(sett.connectionProtocol);
+				conf.setConnectionDetectionTime(sett.connectionDetectionTime);
+				conf.setConnectionBufferingTime(sett.connectionBufferingTime);
+				conf.setDecodingType(sett.decoderType);
+				conf.setRendererType(sett.rendererType);
 				conf.setSynchroEnable(sett.synchroEnable);
-    	    	conf.setSynchroNeedDropVideoFrames(sett.synchroNeedDropVideoFrames);
-    	    	conf.setEnableColorVideo(sett.rendererEnableColorVideo);
-    	    	conf.setEnableAspectRatio(aspect);
-    	    	conf.setDataReceiveTimeout(30000);
-    	    	conf.setNumberOfCPUCores(0);
-    	    	
-    	    	//record config
-    	    	if(is_record){
-    	    		int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START); //1 - auto start    	    		
-    	    		conf.setRecordPath(getRecordPath());
+				conf.setSynchroNeedDropVideoFrames(sett.synchroNeedDropVideoFrames);
+				conf.setEnableColorVideo(sett.rendererEnableColorVideo);
+				conf.setEnableAspectRatio(aspect);
+				conf.setDataReceiveTimeout(30000);
+				conf.setNumberOfCPUCores(0);
+
+				//record config
+				if (is_record) {
+					int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START); //1 - auto start
+					conf.setRecordPath(getRecordPath());
 					conf.setRecordFlags(record_flags);
-    	    		conf.setRecordSplitTime(0);
+					conf.setRecordSplitTime(0);
 					conf.setRecordSplitSize(0);
-    	    	}else{
-    	    		conf.setRecordPath("");
-    	    		conf.setRecordFlags(0);
-    	    		conf.setRecordSplitTime(0);
-    	    		conf.setRecordSplitSize(0);
-    	    	}
-    	    	Log.v(TAG, "conf record="+is_record);
-    	    	
+				} else {
+					conf.setRecordPath("");
+					conf.setRecordFlags(0);
+					conf.setRecordSplitTime(0);
+					conf.setRecordSplitSize(0);
+				}
+				Log.v(TAG, "conf record=" + is_record);
+
 				// Open Player	
-        	    player.Open(conf, mthis);
+				player.Open(conf, mthis);
 
 				//record only
 				conf.setMode(PlayerModes.PP_MODE_RECORD);
-				
+
 				playing = true;
 			}
 		}
-    }
- 
-	protected void onPause()
-	{
+	}
+
+	protected void onPause() {
 
 		Log.e("SDL", "onPause()");
 		super.onPause();
 
 		editor = settings.edit();
 		editor.commit();
-		
+
 		if (player != null)
 			player.onPause();
-			}
+	}
 
 	@Override
-  	protected void onResume() 
-	{
+	protected void onResume() {
 
 		Log.e("SDL", "onResume()");
 		super.onResume();
 		if (player != null)
 			player.onResume();
-  	}
+	}
 
-  	@Override
-	protected void onStart() 
-  	{
+	@Override
+	protected void onStart() {
 
 		Log.e("SDL", "onStart()");
 		super.onStart();
@@ -740,9 +731,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	}
 
-  	@Override
-	protected void onStop() 
-  	{
+	@Override
+	protected void onStop() {
 
 		Log.e("SDL", "onStop()");
 		super.onStop();
@@ -751,72 +741,65 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	}
 
-    @Override
-    public void onBackPressed() 
-    {
+	@Override
+	public void onBackPressed() {
 
 		camUrl = CameraActivity.getCurrentCameraUrl();
 
 		player.Close();
-		if (!playing)
-		{
-	  		super.onBackPressed();
-	  		return;			
+		if (!playing) {
+			super.onBackPressed();
+			return;
 		}
 
 		setUIDisconnected();
-    }
-  	
-  	@Override
-  	public void onWindowFocusChanged(boolean hasFocus) 
-  	{
-  		Log.e("SDL", "onWindowFocusChanged(): " + hasFocus);
-  		super.onWindowFocusChanged(hasFocus);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		Log.e("SDL", "onWindowFocusChanged(): " + hasFocus);
+		super.onWindowFocusChanged(hasFocus);
 		if (player != null)
 			player.onWindowFocusChanged(hasFocus);
-  	}
+	}
 
-  	@Override
-  	public void onLowMemory() 
-  	{
-  		Log.e("SDL", "onLowMemory()");
-  		super.onLowMemory();
+	@Override
+	public void onLowMemory() {
+		Log.e("SDL", "onLowMemory()");
+		super.onLowMemory();
 		if (player != null)
 			player.onLowMemory();
-  	}
+	}
 
-  	@Override
-  	protected void onDestroy() 
-  	{
-  		Log.e("SDL", "onDestroy()");
+	@Override
+	protected void onDestroy() {
+		Log.e("SDL", "onDestroy()");
 
 		if (player != null)
 			player.onDestroy();
-		
+
 		stopProgressTask();
 		System.gc();
-		
+
 		if (multicastLock != null) {
-		    multicastLock.release();
-		    multicastLock = null;
+			multicastLock.release();
+			multicastLock = null;
 		}
 
 		SharedSettings.getInstance().savePrefSettings();
 
 
 		super.onDestroy();
-   	}	
-	
-	protected void setUIDisconnected()
-	{
+	}
+
+	protected void setUIDisconnected() {
 		setTitle(R.string.app_name);
 		btnConnect.setText(getString(R.string.VerbindenString));
 		playing = false;
 	}
 
 	//Tijdens verbinden
-	protected void setHideControls()
-	{
+	protected void setHideControls() {
 		btnConnect.setVisibility(View.GONE);
 		playIcon.setVisibility(View.GONE);
 		recordCntrlsArea.setVisibility(View.VISIBLE);
@@ -824,8 +807,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	//Wanneer nog niet verbonden
-	protected void setShowControls()
-	{
+	protected void setShowControls() {
 		setTitle(R.string.app_name);
 		progressBar.setVisibility(View.GONE);
 		btnConnect.setVisibility(View.VISIBLE);
@@ -834,8 +816,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	}
 
-	private void showStatusView() 
-	{
+	private void showStatusView() {
 		player.setVisibility(View.INVISIBLE);
 		playerStatusText.setVisibility(View.INVISIBLE);
 		//player.setAlpha(0.0f);
@@ -843,159 +824,164 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 
 	}
-	
-	private void showVideoView() 
-	{
-        playerStatusText.setVisibility(View.INVISIBLE);
- 		player.setVisibility(View.VISIBLE);
+
+	private void showVideoView() {
+		playerStatusText.setVisibility(View.INVISIBLE);
+		player.setVisibility(View.VISIBLE);
 		playerStatusText.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.GONE);
 
 
 		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
 		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
-		
+
 		setTitle("");
 	}
-    
-	private void startProgressTask(String text)
-	{
+
+	private void startProgressTask(String text) {
 		stopProgressTask();
-	    
-	    mProgressTask = new StatusProgressTask(text);
-	    executeAsyncTask(mProgressTask, text);
+
+		mProgressTask = new StatusProgressTask(text);
+		executeAsyncTask(mProgressTask, text);
 	}
-	
-	private void stopProgressTask()
-	{
+
+	private void stopProgressTask() {
 		playerStatusText.setText("");
 		setTitle(R.string.app_name);
-		
-       	if (mProgressTask != null)
-	    {
-       		mProgressTask.stopTask();
-	    	mProgressTask.cancel(true);
-	    }
+
+		if (mProgressTask != null) {
+			mProgressTask.stopTask();
+			mProgressTask.cancel(true);
+		}
 	}
 
-	private class StatusProgressTask extends AsyncTask<String, Void, Boolean> 
-    {
-       	String strProgressTextSrc;
-       	String strProgressText;
-        Rect bounds = new Rect();
-    	boolean stop = false;
-      	
-       	public StatusProgressTask(String text)
-       	{
-        	stop = false;
-       		strProgressTextSrc = text;
-       	}
-       	
-       	public void stopTask() { stop = true; }
-       	
-        @Override
-        protected void onPreExecute() 
-        {
-        	super.onPreExecute();
-        }
+	private class StatusProgressTask extends AsyncTask<String, Void, Boolean> {
+		String strProgressTextSrc;
+		String strProgressText;
+		Rect bounds = new Rect();
+		boolean stop = false;
 
-        @Override
-        protected Boolean doInBackground(String... params) 
-        {
-            try 
-            {
-                if (stop) return true;
+		public StatusProgressTask(String text) {
+			stop = false;
+			strProgressTextSrc = text;
+		}
 
-                String maxText = getString(R.string.GeenVerbindingString) + ".....";
-                int len = maxText.length();
-            	playerStatusText.getPaint().getTextBounds(maxText, 0, len, bounds);
+		public void stopTask() {
+			stop = true;
+		}
 
-               	strProgressText = strProgressTextSrc + "...";
-                
-            	Runnable uiRunnable;
-                uiRunnable = new Runnable()
-                {
-                    public void run()
-                    {
-                        if (stop) return;
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
 
-    	                playerStatusText.setText(strProgressText);
-    	            	
-    	            	RelativeLayout.LayoutParams layoutParams = 
-    	            		    (RelativeLayout.LayoutParams)playerStatusText.getLayoutParams();
-    	           		
-    	           		layoutParams.width = bounds.width();
-    	           		playerStatusText.setLayoutParams(layoutParams);        	
+		@Override
+		protected Boolean doInBackground(String... params) {
+			try {
+				if (stop) return true;
+
+				String maxText = getString(R.string.GeenVerbindingString) + ".....";
+				int len = maxText.length();
+				playerStatusText.getPaint().getTextBounds(maxText, 0, len, bounds);
+
+				strProgressText = strProgressTextSrc + "...";
+
+				Runnable uiRunnable;
+				uiRunnable = new Runnable() {
+					public void run() {
+						if (stop) return;
+
+						playerStatusText.setText(strProgressText);
+
+						RelativeLayout.LayoutParams layoutParams =
+								(RelativeLayout.LayoutParams) playerStatusText.getLayoutParams();
+
+						layoutParams.width = bounds.width();
+						playerStatusText.setLayoutParams(layoutParams);
 //    	            	playerStatusText.setGravity(Gravity.NO_GRAVITY);
-    	            	
-                        synchronized(this) { this.notify(); }
-                    }
-                };
-                
-               	int nCount = 4;
-              	do
-            	{
-                    try
-                    {
-                    	Thread.sleep(300);
-                    }
-                    catch ( InterruptedException e ) { stop = true; }
-                   
-                    if (stop) break;
-                    
-                	if (nCount <= 3)
-                	{
-                		strProgressText = strProgressTextSrc;
-                		for (int i = 0; i < nCount; i++)
-                			strProgressText = strProgressText + ".";
-                	}
-                    
-                    synchronized ( uiRunnable )
-                    {
-                    	runOnUiThread(uiRunnable);
-                        try
-                        {
-                            uiRunnable.wait();
-                        }
-                        catch ( InterruptedException e ) { stop = true; }
-                    }
-                    
-                    if (stop) break;
-                    
-                    nCount++;
-                    if (nCount > 3)
-                    {
-                    	nCount = 1;
-                    	strProgressText = strProgressTextSrc;
-                    }
-            	}
-              	
-            	while(!isCancelled());
-            } 
-            catch (Exception e)
-            {
-            }
-            return true;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean result) 
-        {
-            super.onPostExecute(result);
-            mProgressTask = null;
-        }
-        @Override
-        protected void onCancelled() 
-        {
-            super.onCancelled();
-        }
-    }
-	
-    static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) 
-    {
-    	{
-    		task.execute(params);
-    	}
-    }
+						synchronized (this) {
+							this.notify();
+						}
+					}
+				};
 
+				int nCount = 4;
+				do {
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						stop = true;
+					}
+
+					if (stop) break;
+
+					if (nCount <= 3) {
+						strProgressText = strProgressTextSrc;
+						for (int i = 0; i < nCount; i++)
+							strProgressText = strProgressText + ".";
+					}
+
+					synchronized (uiRunnable) {
+						runOnUiThread(uiRunnable);
+						try {
+							uiRunnable.wait();
+						} catch (InterruptedException e) {
+							stop = true;
+						}
+					}
+
+					if (stop) break;
+
+					nCount++;
+					if (nCount > 3) {
+						nCount = 1;
+						strProgressText = strProgressTextSrc;
+					}
+				}
+
+				while (!isCancelled());
+			} catch (Exception e) {
+			}
+			return true;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			super.onPostExecute(result);
+			mProgressTask = null;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+	}
+
+	static public <T> void executeAsyncTask(AsyncTask<T, ?, ?> task, T... params) {
+		{
+			task.execute(params);
+		}
+	}
+
+	//Progress dialoogvenster functie
+	public boolean launchRingDialog() {
+		final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Clips laden ...", "Even geduld s.v.p. ...", true);
+		ringProgressDialog.setCancelable(true);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					// Todo: evt hier videocache aanmaken
+					Thread.sleep(5000);
+
+				} catch (Exception e) {
+
+				}
+				ringProgressDialog.dismiss();
+			}
+		}).start();
+
+		return  true;
+	}
 }
