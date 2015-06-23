@@ -24,8 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import EQuicamApp.R;
-
 public class Clip {
 
     //Een clip bezit de volgende eigenschappen
@@ -40,10 +38,13 @@ public class Clip {
     private String              tijd;
     private String              afspeelDuur;
 
+    //tag voor logs
+    private static final String 		TAG = "EQuicamAPP";
+
     //Clip constructor
     public Clip(String bestandsNaam){
         this.bestandsNaam = bestandsNaam;
-        this.bestandsMap = MainActivity.getRecordPath();
+        this.bestandsMap = MainActivity.getOpnameMap();
         this.bestandsLocatie = this.bestandsMap + "/" + this.bestandsNaam;
         this.getMetaData();
         this.setDuimNagel();
@@ -182,7 +183,7 @@ public class Clip {
 
             if (! mediaStorageDir.exists()){
                 if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())){
-//                    Log.e(TAG, "<=getRecordPath() failed to create directory path="+mediaStorageDir.getPath());
+                    Log.e(TAG, "Niet gelukt op opnamepad voor Thumbnails aan te maken");
                 }
             }
             this.duimNagelMap = mediaStorageDir.getPath();

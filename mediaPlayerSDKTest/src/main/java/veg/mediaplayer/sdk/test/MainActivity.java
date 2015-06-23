@@ -62,11 +62,11 @@ import android.app.ProgressDialog;
 
 public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback {
 
-	//Equicam URL
+	//URL van de camera
 	public String 						camUrl;
 
-	//Record path
-	public String 						videoDirectory;
+	//Opname map locatie
+	public String 						opnameMap;
 
 	//tag voor logs
 	private static final String 		TAG = "EQuicamAPP";
@@ -74,11 +74,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Record split time (meer dan de maximale opname tijd, dus geen split)
 	int 								rec_split_time = 240;
 
-	//Buttons MAINActivity
+	//Buttons MainActivity
 	private Button 						btnConnect;
 	private FrameLayout 				recordCntrlsArea;
 	private ImageButton					btnHighlight;
-	private ImageButton 				btnRecord;
 	private Chronometer 				timer;
 	private ImageView 					playIcon;
 	private ProgressBar 				progressBar;
@@ -114,7 +113,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private int mOldMsg = 0;
 
 	// Event handler voor de player
-	// vangt alle mogelijke errors + terugkoppeling van de player op
 	private Handler handler = new Handler() {
 		String strText = "Verbinden";
 
@@ -301,8 +299,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		return 0;
 	}
 
-	//RecordPath Ophalen
-	public static String getRecordPath() {
+	//Opname map aanmaken indien nodig, en locatie ophalen
+	public static String getOpnameMap() {
 		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
 				Environment.DIRECTORY_DCIM), "EQuicam Clips");
 
@@ -320,11 +318,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		super.onCreate(savedInstanceState);
 
+		//Wifi gedoe van SDK ??
 		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		multicastLock = wifi.createMulticastLock("multicastLock");
 		multicastLock.setReferenceCounted(true);
 		multicastLock.acquire();
 
+		//View laden
 		setContentView(R.layout.live);
 		mthis = this;
 
@@ -363,7 +363,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		btnHighlight = (ImageButton) findViewById(R.id.button_record_flash);
 
 		//Get and save Record path
-		videoDirectory = getRecordPath();
+		opnameMap = getOpnameMap();
 
 		//Get timer
 		timer = (Chronometer) findViewById(R.id.timerView);
@@ -374,112 +374,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Get progressbar icon
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-		//kleur aanpassen naar rood
+		//Progressbar kleur aanpassen naar rood
 		progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
-
-		//Recordbuttonlistener
-		btnRecord = (ImageButton) findViewById(R.id.button_record);
-		btnRecord.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				is_record = !is_record;
-
-				if (is_record) {
-
-					//start opname
-					if (player != null) {
-						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
-						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
-						player.RecordStart();
-						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
-
-						//knipper rec button
-						Animation mAnimation = new AlphaAnimation(0, 1);
-						mAnimation.setDuration(1000);
-						mAnimation.setInterpolator(new LinearInterpolator());
-						mAnimation.setRepeatCount(Animation.INFINITE);
-						mAnimation.setRepeatMode(Animation.REVERSE);
-						btnHighlight.startAnimation(mAnimation);
-
-						//make visible knopje
-						btnHighlight.setVisibility(View.VISIBLE);
-
-						//start timer
-						timer.setBase(SystemClock.elapsedRealtime());
-						timer.start();
-
-					}
-				} else {
-
-					//stop opname
-					if (player != null) {
-						player.RecordStop();
-						String tmpRecordFileName = player.RecordGetFileName(1);
-
-						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
-						btnHighlight.clearAnimation();
-						btnHighlight.setVisibility(View.INVISIBLE);
-
-						//stop timer
-						timer.stop();
-					}
-				}
-			}
-
-		});
-
-		//TODO dubbele code
-		//Highlightbuttonlistener
-		btnHighlight.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				is_record = !is_record;
-
-				if (is_record) {
-
-					//start opname
-					if (player != null) {
-						int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
-						player.RecordSetup(getRecordPath(), record_flags, rec_split_time, 0, "");
-						player.RecordStart();
-						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
-
-
-						//knipper rec button
-						//make visible knopje
-
-						Animation mAnimation = new AlphaAnimation(0, 1);
-						mAnimation.setDuration(1000);
-						mAnimation.setInterpolator(new LinearInterpolator());
-						mAnimation.setRepeatCount(Animation.INFINITE);
-						mAnimation.setRepeatMode(Animation.REVERSE);
-						btnHighlight.startAnimation(mAnimation);
-						btnHighlight.setVisibility(View.VISIBLE);
-
-						//start timer
-						timer.setBase(SystemClock.elapsedRealtime());
-						timer.start();
-					}
-				} else {
-
-					//stop opname
-					if (player != null) {
-
-						player.RecordStop();
-						String tmpRecordFileName = player.RecordGetFileName(1);
-
-						Log.v(TAG, "Record filename=" + tmpRecordFileName);
-
-						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
-						btnHighlight.clearAnimation();
-						btnHighlight.setVisibility(View.INVISIBLE);
-
-						//stop timer
-						timer.stop();
-					}
-				}
-			}
-		});
 
 		//Dit moet blijven staan om te kunnen klikken op scherm
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_view);
@@ -564,7 +460,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 							Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
 
 							//Put recordpath
-							a.putExtra("Record Path", getRecordPath());
+							a.putExtra("Record Path", getOpnameMap());
 
 							startActivity(a);
 							break;
@@ -660,7 +556,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				//Recorder instellen
 				if (is_record) {
 					int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START); //1 - auto start
-					conf.setRecordPath(getRecordPath());
+					conf.setRecordPath(getOpnameMap());
 					conf.setRecordFlags(record_flags);
 					conf.setRecordSplitTime(0);
 					conf.setRecordSplitSize(0);
@@ -822,6 +718,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	private void stopProgressTask() {
+
 		playerStatusText.setText("");
 
 		if (mProgressTask != null) {
@@ -958,5 +855,58 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}).start();
 
 		return  true;
+	}
+
+	//Start opname functie
+	public void startOpname(){
+
+		int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
+		player.RecordSetup(getOpnameMap(), record_flags, rec_split_time, 0, "");
+		player.RecordStart();
+		Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
+
+		//Start knipperen van rec button
+		Animation mAnimation = new AlphaAnimation(0, 1);
+		mAnimation.setDuration(1000);
+		mAnimation.setInterpolator(new LinearInterpolator());
+		mAnimation.setRepeatCount(Animation.INFINITE);
+		mAnimation.setRepeatMode(Animation.REVERSE);
+		btnHighlight.startAnimation(mAnimation);
+		btnHighlight.setVisibility(View.VISIBLE);
+
+		//start timer
+		timer.setBase(SystemClock.elapsedRealtime());
+		timer.start();
+	}
+
+	//Stop opname functie
+	public void stopOpname(){
+
+		player.RecordStop();
+		Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
+		btnHighlight.clearAnimation();
+		btnHighlight.setVisibility(View.INVISIBLE);
+
+		//stop timer
+		timer.stop();
+	}
+
+	public void recordBtnonClickListener(View view) {
+		is_record = !is_record;
+
+		if (is_record) {
+
+			//start opname, als de player bestaat
+			if (player != null) {
+				startOpname();
+			}
+
+		} else {
+
+			//stop opname, als de player bestaat
+			if (player != null) {
+				stopOpname();
+			}
+		}
 	}
 }

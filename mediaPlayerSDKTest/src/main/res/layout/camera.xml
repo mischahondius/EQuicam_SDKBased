@@ -185,7 +185,6 @@
                 android:minWidth="180dp"
                 android:maxWidth="180dp" />
         </LinearLayout>
-
     </TableRow>
 
     <RelativeLayout
@@ -207,6 +206,4 @@
             android:layout_marginTop="80dp" />
 
     </RelativeLayout>
-
-
 </LinearLayout>
