@@ -219,8 +219,8 @@
     <string name="action_settings">Instellingen</string>
     <string name="afspeelduurHardcodedStr">Duratie</string>
     <string name="app_about_title">Over</string>
-    <string name="app_name">Live</string>
-    <string name="app_short_name">Live</string>
+    <string name="app_name">EQuicam App</string>
+    <string name="app_short_name">EQuicam App</string>
     <string name="cameraDrawerStr">Camera</string>
     <string name="camerasTitleStr">Camera</string>
     <string name="clipsDrawerStr">Clips</string>
@@ -232,7 +232,7 @@
     <string name="gebruikersnaamTVstr">Gebruikersnaam:</string>
     <string name="geenClipsOmWeerTeGevenStr">Er zijn nog geen clips om weer te geven.</string>
     <string name="geenClipsStr">Er zijn momenteel nog geen clips beschikbaar. Ga terug naar het Live scherm om opnames te maken.</string>
-    <string name="hoofMenuStr">Hoofdmenu</string>
+    <string name="hoofdMenuStr">Hoofdmenu</string>
     <string name="instellingenMenuString">Instellingen</string>
     <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
     <string name="liveDrawerStr">Live</string>

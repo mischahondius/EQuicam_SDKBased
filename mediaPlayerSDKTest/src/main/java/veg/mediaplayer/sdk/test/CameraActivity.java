@@ -15,7 +15,7 @@ import EQuicamApp.R;
  */
 public class CameraActivity extends Activity {
 
-    private static final String         defaultUrl = "rtsp://live:6mxNfzAG@equicam.noip.me:554/?inst=1/?audio_mode=0/?enableaudio=1/?h26x=4";
+    private static final String         defaultUrl = "rtsp://74.106.249.39:554";
     public static String                currentCameraUrl = defaultUrl;
     private EditText                    cameraURLeditText;
     private EditText                    poortEditText;

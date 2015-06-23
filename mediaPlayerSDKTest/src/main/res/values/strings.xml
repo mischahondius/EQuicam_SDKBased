@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Live</string>
-    <string name="app_short_name">Live</string>
+    <string name="app_name">EQuicam App</string>
+    <string name="app_short_name">EQuicam App</string>
     <string name="app_about_title">Over</string>
     <string name="action_settings">Instellingen</string>
     <string name="StartRecord">Opnemen</string>
@@ -23,7 +23,7 @@
     <string name="lengteNietBeschikbaarStr">Lengte niet beschikbaar</string>
     <string name="drawerOpenStr">Drawer is nu open</string>
     <string name="drawerDichtStr">Drawer is nu dicht</string>
-    <string name="hoofMenuStr">Hoofdmenu</string>
+    <string name="hoofdMenuStr">Hoofdmenu</string>
     <string name="camerasTitleStr">Camera</string>
     <string name="videoPoortTVStr">Videopoort:</string>
     <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>

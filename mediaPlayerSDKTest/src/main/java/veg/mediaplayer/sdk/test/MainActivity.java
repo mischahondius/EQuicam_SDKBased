@@ -10,10 +10,8 @@ package veg.mediaplayer.sdk.test;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.media.ThumbnailUtils;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 import android.os.AsyncTask;
@@ -22,7 +20,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,7 +50,6 @@ import android.view.*;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import android.preference.PreferenceManager;
 import EQuicamApp.R;
@@ -63,71 +59,62 @@ import veg.mediaplayer.sdk.MediaPlayer.PlayerNotifyCodes;
 import veg.mediaplayer.sdk.MediaPlayer.PlayerRecordFlags;
 import veg.mediaplayer.sdk.MediaPlayerConfig;
 import android.app.ProgressDialog;
-import android.os.Handler;
-
-
 
 public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback {
 
 	//Equicam URL
-	public String camUrl;
+	public String 						camUrl;
 
 	//Record path
-	public String videoDirectory;
+	public String 						videoDirectory;
 
 	//tag voor logs
-	private static final String TAG = "EQuicamAPP";
+	private static final String 		TAG = "EQuicamAPP";
 
-	//Record split time (meer dan de maximale opname tijd)
-	int rec_split_time = 240;
+	//Record split time (meer dan de maximale opname tijd, dus geen split)
+	int 								rec_split_time = 240;
 
 	//Buttons MAINActivity
-	private Button btnConnect;
-	private FrameLayout recordCntrlsArea;
-	private ImageButton btnHighlight;
-	private ImageButton btnRecord;
-	private Chronometer timer;
-	private ImageView playIcon;
-	private ProgressBar progressBar;
+	private Button 						btnConnect;
+	private FrameLayout 				recordCntrlsArea;
+	private ImageButton					btnHighlight;
+	private ImageButton 				btnRecord;
+	private Chronometer 				timer;
+	private ImageView 					playIcon;
+	private ProgressBar 				progressBar;
 
-	//Drawer
-	private ListView mDrawerList;
-	private DrawerLayout mDrawerLayout;
-	private ArrayAdapter<String> mAdapter;
-	private ActionBarDrawerToggle mDrawerToggle;
-	private String mActivityTitle;
-
-	//Progress dialoog voor laden clips
-	private ProgressDialog barProgressDialog;
-	private Handler updateBarHandler;
+	//Hamburger Menu
+	private ListView					hamBurgerOptiesLijst;
+	private DrawerLayout				hamBurgerLayout;
+	private ArrayAdapter<String> 		hamBurgerArrayAdapter;
+	private ActionBarDrawerToggle 		hamBurgerActionBarToggle;
 
 	//Is Playing/Is Recording checks
-	private boolean is_record = false;
-	private boolean playing = false;
+	private boolean 					is_record = false;
+	private boolean 					playing = false;
 
-	private StatusProgressTask mProgressTask = null;
-	private SharedPreferences settings;
-	private SharedPreferences.Editor editor;
-	private MediaPlayer player = null;
-	private MainActivity mthis = null;
-	private TextView playerStatusText = null;
-	private MulticastLock multicastLock = null;
+	private StatusProgressTask 			mProgressTask = null;
+	private SharedPreferences 			settings;
+	private SharedPreferences.Editor 	editor;
+	private MediaPlayer 				player = null;
+	private MainActivity 				mthis = null;
+	private TextView 					playerStatusText = null;
+	private MulticastLock 				multicastLock = null;
 
 	private enum PlayerStates {
 		Busy,
 		ReadyForUse
 	}
-
 	private enum PlayerConnectType {
 		Normal,
 		Reconnecting
 	}
-
 	private PlayerStates player_state = PlayerStates.ReadyForUse;
 	private PlayerConnectType reconnect_type = PlayerConnectType.Normal;
 	private int mOldMsg = 0;
 
-	// Event handler
+	// Event handler voor de player
+	// vangt alle mogelijke errors + terugkoppeling van de player op
 	private Handler handler = new Handler() {
 		String strText = "Verbinden";
 
@@ -159,7 +146,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					player_state = PlayerStates.ReadyForUse;
 					stopProgressTask();
 					playerStatusText.setText("");
-					setTitle(R.string.app_name);
 					break;
 
 				case PLP_CLOSE_STARTING:
@@ -235,14 +221,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					break;
 
 				case CP_RECORD_STARTED:
-					Log.v(TAG, "=handleMessage CP_RECORD_STARTED");
+					Log.v(TAG, "Opname gestart");
 				{
 					String sFile = player.RecordGetFileName(1);
 				}
 				break;
 
 				case CP_RECORD_STOPPED:
-					Log.v(TAG, "=handleMessage CP_RECORD_STOPPED");
+					Log.v(TAG, "Opname gestopt");
 				{
 					String sFile = player.RecordGetFileName(0);
 				}
@@ -322,7 +308,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		if (!mediaStorageDir.exists()) {
 			if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())) {
-				Log.e(TAG, "<=getRecordPath() failed to create directory path=" + mediaStorageDir.getPath());
+				Log.e(TAG, "Niet gelukt om EQuicam Clips Map aan te maken" + mediaStorageDir.getPath());
 				return "";
 			}
 		}
@@ -332,10 +318,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
-		//Maak handler aan voor progress dialog
-		updateBarHandler = new Handler();
-
-//		setTitle(R.string.app_name);
 		super.onCreate(savedInstanceState);
 
 		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -346,18 +328,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		setContentView(R.layout.live);
 		mthis = this;
 
-		//CREATE HAMBURGER MENU
-		mDrawerList = (ListView) findViewById(R.id.navList);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mActivityTitle = getTitle().toString();
-
+		//Hamburger Drawer Menu opzetten
+		hamBurgerOptiesLijst = (ListView) findViewById(R.id.navList);
+		hamBurgerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		addDrawerItems();
 		setupDrawer();
-
+		getSupportActionBar().setTitle(R.string.liveDrawerStr);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
-		//Get SharedPrefs
+		//Get SharedPrefs, waarin alle Player instellingen zich bevinden
 		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		SharedSettings.getInstance(this).loadPrefSettings();
 		SharedSettings.getInstance().savePrefSettings();
@@ -413,7 +393,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						player.RecordStart();
 						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 
-
 						//knipper rec button
 						Animation mAnimation = new AlphaAnimation(0, 1);
 						mAnimation.setDuration(1000);
@@ -436,8 +415,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					if (player != null) {
 						player.RecordStop();
 						String tmpRecordFileName = player.RecordGetFileName(1);
-
-						Log.v(TAG, "Record filename=" + tmpRecordFileName);
 
 						Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
 						btnHighlight.clearAnimation();
@@ -501,7 +478,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						timer.stop();
 					}
 				}
-
 			}
 		});
 
@@ -517,13 +493,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		});
 
 		setShowControls();
-
 	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		mDrawerToggle.syncState();
+		hamBurgerActionBarToggle.syncState();
 	}
 
 	//Saving state, last camera url
@@ -535,7 +510,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
+		hamBurgerActionBarToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
@@ -546,13 +521,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		int id = item.getItemId();
 
-		// Activate the navigation drawer toggle
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
+		// Toggle inschakelen van het Hamburger Menu
+		if (hamBurgerActionBarToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
 
@@ -563,10 +536,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
 		String[] osArray = {getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
-		mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
-		mDrawerList.setAdapter(mAdapter);
+		hamBurgerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+		hamBurgerOptiesLijst.setAdapter(hamBurgerArrayAdapter);
 
-		mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		hamBurgerOptiesLijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -598,7 +571,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						}
 
 
-					//CAMERA's
+						//CAMERA's
 					case 2:
 						//Openen van CameraActivity View
 						Intent c = new Intent(getApplicationContext(), CameraActivity.class);
@@ -612,30 +585,39 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		});
 	}
 
-	//Hamburger menu opstarten
+	//Hamburger menu set up
 	private void setupDrawer() {
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawerOpenStr, R.string.drawerDichtStr) {
+		hamBurgerActionBarToggle = new ActionBarDrawerToggle(this, hamBurgerLayout, R.string.drawerOpenStr, R.string.drawerDichtStr) {
 
-			/** Called when a drawer has settled in a completely open state. */
+			//Wanneer Drawer volledig open is
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
-				getSupportActionBar().setTitle(getString(R.string.hoofMenuStr));
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				getSupportActionBar().setTitle(getString(R.string.hoofdMenuStr));
+
+				// Update menubalk
+				invalidateOptionsMenu();
 			}
 
-			/** Called when a drawer has settled in a completely closed state. */
+			//Wanneer Drawer volledig dicht is
 			public void onDrawerClosed(View view) {
 				super.onDrawerClosed(view);
-				getSupportActionBar().setTitle(mActivityTitle);
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				getSupportActionBar().setTitle(R.string.liveDrawerStr);
+
+				// Update menubalk
+				invalidateOptionsMenu();
 			}
 		};
 
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		hamBurgerActionBarToggle.setDrawerIndicatorEnabled(true);
+		hamBurgerLayout.setDrawerListener(hamBurgerActionBarToggle);
 	}
 
+	//Onclick functie voor verbinden met camera
 	public void onClick(View v) {
+
+		//Timer op nul
+		timer.setBase(SystemClock.elapsedRealtime());
+
 		SharedSettings.getInstance().loadPrefSettings();
 		if (player != null) {
 
@@ -644,10 +626,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			player.getConfig().setConnectionUrl(camUrl);
 			Log.d("Camurl =", "" + camUrl);
 
+			//Check of Cameraadres niet leeg is
 			if (player.getConfig().getConnectionUrl().isEmpty())
 				return;
 
-
+			//Wanneer player wordt afgesloten
 			player.Close();
 			if (playing) {
 				setUIDisconnected();
@@ -655,13 +638,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				SharedSettings sett = SharedSettings.getInstance();
 				boolean bPort = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
 				int aspect = bPort ? 1 : sett.rendererEnableAspectRatio;
-
 				MediaPlayerConfig conf = new MediaPlayerConfig();
 
+				//Verberg player
 				player.setVisibility(View.INVISIBLE);
 
+				//Player instellen
 				conf.setConnectionUrl(player.getConfig().getConnectionUrl());
-
 				conf.setConnectionNetworkProtocol(sett.connectionProtocol);
 				conf.setConnectionDetectionTime(sett.connectionDetectionTime);
 				conf.setConnectionBufferingTime(sett.connectionBufferingTime);
@@ -674,7 +657,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				conf.setDataReceiveTimeout(30000);
 				conf.setNumberOfCPUCores(0);
 
-				//record config
+				//Recorder instellen
 				if (is_record) {
 					int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START); //1 - auto start
 					conf.setRecordPath(getRecordPath());
@@ -687,14 +670,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					conf.setRecordSplitTime(0);
 					conf.setRecordSplitSize(0);
 				}
-				Log.v(TAG, "conf record=" + is_record);
 
-				// Open Player	
+				// Player openen
 				player.Open(conf, mthis);
 
-				//record only
+				//Niet kijken, wel recorden
 				conf.setMode(PlayerModes.PP_MODE_RECORD);
 
+				//Boolean setten: aan het afspelen momenteel
 				playing = true;
 			}
 		}
@@ -793,12 +776,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	protected void setUIDisconnected() {
-		setTitle(R.string.app_name);
 		btnConnect.setText(getString(R.string.VerbindenString));
 		playing = false;
 	}
 
-	//Tijdens verbinden
+	//Tijdens verbinden: wat te laten zien
 	protected void setHideControls() {
 		btnConnect.setVisibility(View.GONE);
 		playIcon.setVisibility(View.GONE);
@@ -806,14 +788,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		progressBar.setVisibility(View.VISIBLE);
 	}
 
-	//Wanneer nog niet verbonden
+	//Wanneer nog niet verbonden: wat te laten zien
 	protected void setShowControls() {
-		setTitle(R.string.app_name);
 		progressBar.setVisibility(View.GONE);
 		btnConnect.setVisibility(View.VISIBLE);
 		playIcon.setVisibility(View.VISIBLE);
 		recordCntrlsArea.setVisibility(View.INVISIBLE);
-
 	}
 
 	private void showStatusView() {
@@ -830,12 +810,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		player.setVisibility(View.VISIBLE);
 		playerStatusText.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.GONE);
-
-
 		SurfaceHolder sfhTrackHolder = player.getSurfaceView().getHolder();
 		sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
-
-		setTitle("");
 	}
 
 	private void startProgressTask(String text) {
@@ -847,7 +823,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	private void stopProgressTask() {
 		playerStatusText.setText("");
-		setTitle(R.string.app_name);
 
 		if (mProgressTask != null) {
 			mProgressTask.stopTask();
