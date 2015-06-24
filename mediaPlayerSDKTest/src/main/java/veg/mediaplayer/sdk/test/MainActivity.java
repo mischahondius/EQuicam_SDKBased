@@ -9,7 +9,6 @@
 package veg.mediaplayer.sdk.test;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -88,12 +87,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Hamburger Menu
 	private ListView					hamBurgerOptiesLijst;
 	private DrawerLayout				hamBurgerLayout;
-	private ArrayAdapter<String> 		hamBurgerArrayAdapter;
 	private ActionBarDrawerToggle 		hamBurgerActionBarToggle;
 
-	//Is Playing/Is Recording checks
-	private boolean 					is_record = false;
-	private boolean 					playing = false;
+	//Bools
+	private boolean 					opnameAangevraagd = false;
+	private boolean 					aanHetAfspelen = false;
+	private boolean						aanHetOpnemen = false;
 
 	private StatusProgressTask 			mProgressTask = null;
 	private MediaPlayer 				player = null;
@@ -101,6 +100,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private TextView 					playerStatusText = null;
 	private MulticastLock 				multicastLock = null;
 
+	//SDK instellingen
 	private enum PlayerStates {
 		Busy,
 		ReadyForUse
@@ -109,10 +109,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		Normal,
 		Reconnecting
 	}
-	private PlayerStates player_state = PlayerStates.ReadyForUse;
-	private PlayerConnectType reconnect_type = PlayerConnectType.Normal;
-	private int mOldMsg = 0;
+	private PlayerStates 				player_state = PlayerStates.ReadyForUse;
+	private PlayerConnectType 			reconnect_type = PlayerConnectType.Normal;
+	private int 						mOldMsg = 0;
 
+	//Bool voor check of het inladen van clips klaar is
 	public static boolean 				doneLoadingClips = false;
 
 	// Event handler voor de player
@@ -274,14 +275,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}
 	};
 
-	// callback from Native Player 
+	// callback van de Native Player
 	@Override
 	public int OnReceiveData(ByteBuffer buffer, int size, long pts) {
 		Log.e(TAG, "Form Native Player OnReceiveData: size: " + size + ", pts: " + pts);
 		return 0;
 	}
 
-	// All events are sent to event handlers
+	// Alle feedback van player gaat via de handler
 	@Override
 	public int Status(int arg) {
 
@@ -436,7 +437,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
 		String[] osArray = {getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
-		hamBurgerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+		ArrayAdapter<String> hamBurgerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
 		hamBurgerOptiesLijst.setAdapter(hamBurgerArrayAdapter);
 
 		hamBurgerOptiesLijst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -457,27 +458,44 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					//CLIPS
 					case 1:
 
-						//Start dialoog venster op nieuwe thread
-						if (launchRingDialog()) {
-
-							//Openen van Clips View
-							Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
-
-							//Put recordpath
-							a.putExtra("Record Path", getOpnameMap());
-
-							startActivity(a);
+						//als aan het opnemen, geef melding
+						if (aanHetOpnemen){
+							Toast.makeText(getApplicationContext(), "Stop eerst de opname.", Toast.LENGTH_SHORT).show();
 							break;
+						}
+
+						else {
+							//Start dialoog venster op nieuwe thread
+							if (launchRingDialog()) {
+
+								//Openen van Clips View
+								Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
+
+								//Put recordpath
+								a.putExtra("Record Path", getOpnameMap());
+
+								startActivity(a);
+								break;
+							}
 						}
 
 
 						//CAMERA's
 					case 2:
-						//Openen van CameraActivity View
-						Intent c = new Intent(getApplicationContext(), CameraActivity.class);
 
-						startActivity(c);
-						break;
+						//als aan het opnemen, geef melding
+						if (aanHetOpnemen){
+							Toast.makeText(getApplicationContext(), "Stop eerst de opname.", Toast.LENGTH_SHORT).show();
+							break;
+						}
+
+						else {
+							//Openen van CameraActivity View
+							Intent c = new Intent(getApplicationContext(), CameraActivity.class);
+
+							startActivity(c);
+							break;
+						}
 				}
 				return;
 
@@ -533,7 +551,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 			//Wanneer player wordt afgesloten
 			player.Close();
-			if (playing) {
+			if (aanHetAfspelen) {
 				setUIDisconnected();
 			} else {
 
@@ -560,8 +578,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				conf.setNumberOfCPUCores(0);
 
 				//Recorder instellen
-				if (is_record) {
-					int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START); //1 - auto start
+				if (opnameAangevraagd) {
+					int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START);
 					conf.setRecordPath(getOpnameMap());
 					conf.setRecordFlags(record_flags);
 					conf.setRecordSplitTime(0);
@@ -580,7 +598,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				conf.setMode(PlayerModes.PP_MODE_RECORD);
 
 				//Boolean setten: aan het afspelen momenteel
-				playing = true;
+				aanHetAfspelen = true;
 			}
 		}
 	}
@@ -623,6 +641,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		super.onStop();
 		if (player != null)
 			player.onStop();
+
+		//als aan het opnemen, stop opname
+		if (aanHetOpnemen){
+			stopOpname();
+		}
 	}
 
 	@Override
@@ -640,6 +663,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			multicastLock = null;
 		}
 
+		//als aan het opnemen, stop opname
+		if (aanHetOpnemen){
+			stopOpname();
+		}
+
 		SharedSettings.getInstance().savePrefSettings();
 		super.onDestroy();
 	}
@@ -648,9 +676,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	public void onBackPressed() {
 
 		player.Close();
-		if (!playing) {
+		if (!aanHetAfspelen) {
 			super.onBackPressed();
 			return;
+		}
+
+		//als aan het opnemen, stop opname
+		if (aanHetOpnemen){
+			stopOpname();
 		}
 
 		setUIDisconnected();
@@ -676,7 +709,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	protected void setUIDisconnected() {
 		btnConnect.setText(getString(R.string.VerbindenString));
-		playing = false;
+		aanHetAfspelen = false;
 	}
 
 	//Tijdens verbinden: wat te laten zien
@@ -873,6 +906,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
 		player.RecordSetup(getOpnameMap(), record_flags, rec_split_time, 0, "");
 		player.RecordStart();
+
+		//Aan het opnemen boolean setten
+		aanHetOpnemen = true;
+
 		Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestartString), Toast.LENGTH_SHORT).show();
 
 		//Start knipperen van rec button
@@ -893,6 +930,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	public void stopOpname(){
 
 		player.RecordStop();
+		aanHetOpnemen = false;
+
 		Toast.makeText(getApplicationContext(), getString(R.string.OpnameGestoptString), Toast.LENGTH_SHORT).show();
 		btnHighlight.clearAnimation();
 		btnHighlight.setVisibility(View.INVISIBLE);
@@ -903,9 +942,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Recbutn Listener
 	public void recordBtnonClickListener(View view) {
-		is_record = !is_record;
+		opnameAangevraagd = !opnameAangevraagd;
 
-		if (is_record) {
+		if (opnameAangevraagd) {
 
 			//start opname, als de player bestaat
 			if (player != null) {
