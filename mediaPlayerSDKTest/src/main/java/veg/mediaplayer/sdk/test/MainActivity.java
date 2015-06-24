@@ -62,8 +62,8 @@ import android.app.ProgressDialog;
 
 public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback {
 
-	//URL van de camera
-	public String 						camUrl;
+//	//URL van de camera
+//	public String 						camUrl;
 
 	//Opname map locatie
 	public String 						opnameMap;
@@ -82,6 +82,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private ImageView 					playIcon;
 	private ProgressBar 				progressBar;
 
+	//Sharedprefs
+	private static final int 			PREFERENCE_MODE_PRIVATE = 0;
+	private SharedPreferences           sharedPrefs;
+	private SharedPreferences.Editor 	sharedPrefsEditor;
+
 	//Hamburger Menu
 	private ListView					hamBurgerOptiesLijst;
 	private DrawerLayout				hamBurgerLayout;
@@ -93,8 +98,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private boolean 					playing = false;
 
 	private StatusProgressTask 			mProgressTask = null;
-	private SharedPreferences 			settings;
-	private SharedPreferences.Editor 	editor;
 	private MediaPlayer 				player = null;
 	private MainActivity 				mthis = null;
 	private TextView 					playerStatusText = null;
@@ -338,7 +341,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		//Get SharedPrefs, waarin alle Player instellingen zich bevinden
-		settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 		SharedSettings.getInstance(this).loadPrefSettings();
 		SharedSettings.getInstance().savePrefSettings();
 
@@ -397,7 +400,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		hamBurgerActionBarToggle.syncState();
 	}
 
-	//Saving state, last camera url
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -517,10 +519,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		SharedSettings.getInstance().loadPrefSettings();
 		if (player != null) {
 
-			camUrl = CameraActivity.getCurrentCameraUrl();
-
-			player.getConfig().setConnectionUrl(camUrl);
-			Log.d("Camurl =", "" + camUrl);
+			player.getConfig().setConnectionUrl(CameraActivity.getCurrentCameraUrl());
+			Log.d("Camurl =", "" + CameraActivity.getCurrentCameraUrl());
 
 			//Check of Cameraadres niet leeg is
 			if (player.getConfig().getConnectionUrl().isEmpty())
@@ -584,15 +584,19 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		Log.e("SDL", "onPause()");
 		super.onPause();
 
-		editor = settings.edit();
-		editor.commit();
+		sharedPrefsEditor = sharedPrefs.edit();
+		sharedPrefsEditor.commit();
 
 		if (player != null)
 			player.onPause();
+
+		saveCamUrltoSharedPrefs();
 	}
 
 	@Override
 	protected void onResume() {
+
+		saveCamUrltoSharedPrefs();
 
 		Log.e("SDL", "onResume()");
 		super.onResume();
@@ -600,8 +604,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			player.onResume();
 	}
 
+	//Todo Sharedprefs
 	@Override
 	protected void onStart() {
+
+		saveCamUrltoSharedPrefs();
 
 		Log.e("SDL", "onStart()");
 		super.onStart();
@@ -618,36 +625,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 			player.onStop();
 
-	}
-
-	@Override
-	public void onBackPressed() {
-
-		camUrl = CameraActivity.getCurrentCameraUrl();
-
-		player.Close();
-		if (!playing) {
-			super.onBackPressed();
-			return;
-		}
-
-		setUIDisconnected();
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		Log.e("SDL", "onWindowFocusChanged(): " + hasFocus);
-		super.onWindowFocusChanged(hasFocus);
-		if (player != null)
-			player.onWindowFocusChanged(hasFocus);
-	}
-
-	@Override
-	public void onLowMemory() {
-		Log.e("SDL", "onLowMemory()");
-		super.onLowMemory();
-		if (player != null)
-			player.onLowMemory();
+		saveCamUrltoSharedPrefs();
 	}
 
 	@Override
@@ -667,8 +645,44 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		SharedSettings.getInstance().savePrefSettings();
 
+		saveCamUrltoSharedPrefs();
 
 		super.onDestroy();
+	}
+
+	@Override
+	public void onBackPressed() {
+
+		player.Close();
+		if (!playing) {
+			super.onBackPressed();
+			return;
+		}
+
+		setUIDisconnected();
+
+		saveCamUrltoSharedPrefs();
+
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+
+		Log.e("SDL", "onWindowFocusChanged(): " + hasFocus);
+		super.onWindowFocusChanged(hasFocus);
+		if (player != null)
+			player.onWindowFocusChanged(hasFocus);
+
+		saveCamUrltoSharedPrefs();
+
+	}
+
+	@Override
+	public void onLowMemory() {
+		Log.e("SDL", "onLowMemory()");
+		super.onLowMemory();
+		if (player != null)
+			player.onLowMemory();
 	}
 
 	protected void setUIDisconnected() {
@@ -908,5 +922,35 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				stopOpname();
 			}
 		}
+	}
+
+	public void saveCamUrltoSharedPrefs(){
+
+		//Voorbereiden van editor
+		sharedPrefs = getPreferences(PREFERENCE_MODE_PRIVATE);
+		sharedPrefsEditor = sharedPrefs.edit();
+
+		//commit prefs
+		sharedPrefsEditor.putString("camUrl", CameraActivity.getCurrentCameraUrl());
+		sharedPrefsEditor.commit();
+
+		Log.v(TAG, "camurl GESET in sharedprefs:" + CameraActivity.getCurrentCameraUrl());
+
+	}
+
+	public void getCamUrlfromSharedPrefs(){
+
+		//Voorbereiden van editor
+		sharedPrefs = getPreferences(PREFERENCE_MODE_PRIVATE);
+
+		//KRIJG NIKS TERUG
+		String ERROR = "IK KRIJG NIKS TERUG uit sharedprefs";
+
+	    //set in CAmeraActivity
+		CameraActivity.setCameraUrl(sharedPrefs.getString("camUrl", ERROR));
+
+		//log om te checken wat gebeurt
+		Log.v(TAG, "camurl geget van sharedprefs:" + sharedPrefs.getString("camUrl", ERROR));
+
 	}
 }

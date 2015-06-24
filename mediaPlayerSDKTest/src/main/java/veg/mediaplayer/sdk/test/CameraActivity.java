@@ -1,6 +1,7 @@
 package veg.mediaplayer.sdk.test;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,27 +16,30 @@ import EQuicamApp.R;
  */
 public class CameraActivity extends Activity {
 
-    private static final String         defaultUrl = "rtsp://74.106.249.39:554";
-    public static String                currentCameraUrl = defaultUrl;
+//    private static final String         defaultUrl = "rtsp://74.106.249.39:554";
+    private static final String         defaultUrl = "default URL";
+
+    public  static String               currentCameraUrl;
     private EditText                    cameraURLeditText;
     private EditText                    poortEditText;
     private EditText                    gebruikersNaamET;
     private EditText                    wwET;
 
+
+//    //Sharedprefs
+//    private static final int 			            PREFERENCE_MODE_PRIVATE = 0;
+//    private static SharedPreferences                sharedPrefs;
+//    private static SharedPreferences.Editor 	    sharedPrefsEditor;
+
     //Oncreate
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Camera's");
+        setTitle("Camera");
         setContentView(R.layout.camera);
 
         //setkeyboard to appear directly
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-        //if empty
-        if (currentCameraUrl.isEmpty()) {
-            currentCameraUrl = defaultUrl;
-        }
 
         //get buttons
         cameraURLeditText = (EditText) findViewById(R.id.cameraURLeditText);
@@ -114,16 +118,22 @@ public class CameraActivity extends Activity {
     public static String getCurrentCameraUrl(){
 
         //if empty
-        if (currentCameraUrl.isEmpty()) {
+        if (currentCameraUrl == null) {
             currentCameraUrl = defaultUrl;
         }
+
         return currentCameraUrl;
     }
 
-
     //Set camera url
     public static void setCameraUrl(String newUrl){
-        currentCameraUrl = newUrl;
-    }
 
+        //if empty
+        if (newUrl == null) {
+        }
+
+        else{
+            currentCameraUrl = newUrl;
+        }
+   }
 }
