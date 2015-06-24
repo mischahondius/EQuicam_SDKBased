@@ -9,6 +9,7 @@
 package veg.mediaplayer.sdk.test;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -62,9 +63,6 @@ import android.app.ProgressDialog;
 
 public class MainActivity extends ActionBarActivity implements OnClickListener, MediaPlayer.MediaPlayerCallback {
 
-//	//URL van de camera
-//	public String 						camUrl;
-
 	//Opname map locatie
 	public String 						opnameMap;
 
@@ -114,6 +112,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private PlayerStates player_state = PlayerStates.ReadyForUse;
 	private PlayerConnectType reconnect_type = PlayerConnectType.Normal;
 	private int mOldMsg = 0;
+
+	public static boolean 				doneLoadingClips = false;
 
 	// Event handler voor de player
 	private Handler handler = new Handler() {
@@ -433,7 +433,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		return super.onOptionsItemSelected(item);
 	}
 
-	//TODO icoontjes toevoegen?
 	//Hamburger menu items toevoegen
 	private void addDrawerItems() {
 		String[] osArray = {getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
@@ -513,7 +512,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		hamBurgerLayout.setDrawerListener(hamBurgerActionBarToggle);
 	}
 
-	//Onclick functie voor verbinden met camera
+	//Verbinden met camera en beeld weergeven in player
 	public void onClick(View v) {
 
 		//Indien url 1x is afgespeeld, opslaan naar sharedprefs
@@ -537,6 +536,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			if (playing) {
 				setUIDisconnected();
 			} else {
+
 				SharedSettings sett = SharedSettings.getInstance();
 				boolean bPort = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
 				int aspect = bPort ? 1 : sett.rendererEnableAspectRatio;
@@ -595,18 +595,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		if (player != null)
 			player.onPause();
-
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
 	}
 
 	@Override
 	protected void onResume() {
-
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
 
 		Log.e("SDL", "onResume()");
 		super.onResume();
@@ -614,13 +606,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			player.onResume();
 	}
 
-	//Todo Sharedprefs
 	@Override
 	protected void onStart() {
-
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
 
 		Log.e("SDL", "onStart()");
 		super.onStart();
@@ -636,10 +623,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		super.onStop();
 		if (player != null)
 			player.onStop();
-
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
 	}
 
 	@Override
@@ -658,10 +641,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}
 
 		SharedSettings.getInstance().savePrefSettings();
-
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
 		super.onDestroy();
 	}
 
@@ -676,9 +655,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		setUIDisconnected();
 
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
 	}
 
 	@Override
@@ -688,11 +664,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		super.onWindowFocusChanged(hasFocus);
 		if (player != null)
 			player.onWindowFocusChanged(hasFocus);
-
-//		setCamUrltoSharedPrefs();
-//		getCamUrlfromSharedPrefs();
-
-
 	}
 
 	@Override
@@ -725,15 +696,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	private void showStatusView() {
+
 		player.setVisibility(View.INVISIBLE);
 		playerStatusText.setVisibility(View.INVISIBLE);
-		//player.setAlpha(0.0f);
 		playerStatusText.setVisibility(View.VISIBLE);
-
-
 	}
 
 	private void showVideoView() {
+
 		playerStatusText.setVisibility(View.INVISIBLE);
 		player.setVisibility(View.VISIBLE);
 		playerStatusText.setVisibility(View.VISIBLE);
@@ -743,8 +713,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	private void startProgressTask(String text) {
-		stopProgressTask();
 
+		stopProgressTask();
 		mProgressTask = new StatusProgressTask(text);
 		executeAsyncTask(mProgressTask, text);
 	}
@@ -760,6 +730,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	private class StatusProgressTask extends AsyncTask<String, Void, Boolean> {
+
 		String strProgressTextSrc;
 		String strProgressText;
 		Rect bounds = new Rect();
@@ -779,8 +750,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			super.onPreExecute();
 		}
 
+		//Verbinden tekst maken met wisselende puntjes
 		@Override
 		protected Boolean doInBackground(String... params) {
+
 			try {
 				if (stop) return true;
 
@@ -802,7 +775,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 						layoutParams.width = bounds.width();
 						playerStatusText.setLayoutParams(layoutParams);
-//    	            	playerStatusText.setGravity(Gravity.NO_GRAVITY);
 
 						synchronized (this) {
 							this.notify();
@@ -852,12 +824,14 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		@Override
 		protected void onPostExecute(Boolean result) {
+
 			super.onPostExecute(result);
 			mProgressTask = null;
 		}
 
 		@Override
 		protected void onCancelled() {
+
 			super.onCancelled();
 		}
 	}
@@ -870,19 +844,23 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Progress dialoogvenster functie
 	public boolean launchRingDialog() {
-		final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Clips laden ...", "Even geduld s.v.p. ...", true);
-		ringProgressDialog.setCancelable(true);
+
+		final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Clips laden ...", "Even geduld s.v.p.", true);
+		ringProgressDialog.setCancelable(false);
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					// Todo: evt hier videocache aanmaken
-					Thread.sleep(5000);
+				while (!doneLoadingClips) {
 
-				} catch (Exception e) {
-
+					//Wachten
 				}
+
+				//Reset doneloading
+				doneLoadingReSet();
+
 				ringProgressDialog.dismiss();
+
 			}
 		}).start();
 
@@ -923,6 +901,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		timer.stop();
 	}
 
+	//Recbutn Listener
 	public void recordBtnonClickListener(View view) {
 		is_record = !is_record;
 
@@ -942,6 +921,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}
 	}
 
+	//Camera url opslaan naar sharedprefs
 	public void setCamUrltoSharedPrefs(){
 
 		//Voorbereiden van editor
@@ -956,6 +936,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	}
 
+	//Cam url ophalen uit sharedprefs
 	public void getCamUrlfromSharedPrefs(){
 
 		//Voorbereiden van editor
@@ -969,4 +950,22 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		Log.d(TAG, "camurl in Cameraactivity opgeslagen als:" + CameraActivity.getCurrentCameraUrl());
 
 	}
+
+	//Doneloadingsetter
+	public static void doneLoadingSet (){
+		doneLoadingClips = true;
+		Log.d(TAG, "Klaar met clips laden!");
+
+	}
+
+	//Doneloadingresetter
+	public static void doneLoadingReSet() {
+		doneLoadingClips = false;
+		Log.d(TAG, "DoneLoading is gereset");
+
+	}
+
+
+
+
 }

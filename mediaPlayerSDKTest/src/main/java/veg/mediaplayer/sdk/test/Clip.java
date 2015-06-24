@@ -27,16 +27,20 @@ import java.util.Locale;
 public class Clip {
 
     //Een clip bezit de volgende eigenschappen
-    private String              bestandsNaam;
-    private String              bestandsMap;
-    private String              bestandsLocatie;
 
-    private String              duimNagelMap;
-    private String              duimNagelLocatie;
+    //Eigenschappen bestand
+    private String                      bestandsNaam;
+    private String                      bestandsMap;
+    private String                      bestandsLocatie;
 
-    private String              datum;
-    private String              tijd;
-    private String              afspeelDuur;
+    //Eigenschappen duimnagel
+    private String                      duimNagelMap;
+    private String                      duimNagelLocatie;
+
+    //Metadata
+    private String                      datum;
+    private String                      tijd;
+    private String                      afspeelDuur;
 
     //tag voor logs
     private static final String 		TAG = "EQuicamAPP";
@@ -109,6 +113,7 @@ public class Clip {
     }
 
     public void setDatum() {
+
 //        tmp String aanmaken
         String tmpDatum = this.bestandsNaam;
 
@@ -177,6 +182,7 @@ public class Clip {
 
         //Als Duimnagellocatie nog leeg is, vul hem dan pas in!
         if (duimNagelLocatie == null) {
+
             //Mapje maken voor thumbs
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_DCIM), "EQuicam Thumbnails");
@@ -202,7 +208,7 @@ public class Clip {
                 out.close();
 
             } catch (Exception e) {
-                //todo
+                Log.e(TAG, "Niet gelukt op Thumbnail weg te schrijven.");
             }
         }
     }

@@ -28,12 +28,11 @@ import EQuicamApp.R;
 
 public class ClipsActivity extends ListActivity {
 
-    //Todo: kan alles private worden?
-    public String                         videoDirectory;
-    public ArrayList <String>             videoArrayList;
-    public ArrayList <String>             sortedVideoArrayList;
-    public String []                      videoArray;
-    public HashMap<String, Clip>          clipCache;
+    private String                         videoDirectory;
+    private ArrayList <String>             videoArrayList;
+    private ArrayList <String>             sortedVideoArrayList;
+    private String []                      videoArray;
+    private HashMap<String, Clip>          clipCache;
 
     //Maximaal aantal clips in de clips view, ivm geheugen
     private final int                     clipsMax = 10;
@@ -95,11 +94,14 @@ public class ClipsActivity extends ListActivity {
                         i.putExtra("VideoLocation", clipCache.get(sortedVideoArrayList.get(tmpPosition)).getBestandsLocatie());
 
                         startActivity(i);
+
                     }
                 });
 
                 return row;
+
             }
+
     }
 
     //Oncreate
@@ -146,6 +148,9 @@ public class ClipsActivity extends ListActivity {
         if (sortedVideoArrayList.isEmpty()) {
             Toast.makeText(this, getString(R.string.geenClipsOmWeerTeGevenStr), Toast.LENGTH_LONG).show();
         }
+
+        //Set done loading voor mainactivity
+        MainActivity.doneLoadingSet();
     }
 
     //Functie voor het opzetten van een ClipCache

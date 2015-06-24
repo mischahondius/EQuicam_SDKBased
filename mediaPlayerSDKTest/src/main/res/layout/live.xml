@@ -138,15 +138,66 @@
 
 </RelativeLayout>
 
-    <!-- HAMBURGER MENU -->
-    <ListView
-        android:id="@+id/navList"
-        android:layout_width="300dp"
+    <!-- The navigation drawer -->
+    <RelativeLayout
+        android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:layout_gravity="left|start"
-        android:textStyle="bold"
-        android:textColor="#fff8fbff"
-        android:background="#C70003"
-        />
+        android:id="@+id/drawerPane"
+        android:layout_gravity="start">
+
+        <!-- Bovenbox -->
+        <RelativeLayout
+            android:id="@+id/bovenBox"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#333333"
+            android:padding="8dp" >
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher"
+                android:layout_marginTop="15dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/logo"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/equicamAppNaam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EQuicam App"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="4dp"
+                    android:text="V1.0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Hamburger opties -->
+        <ListView
+            android:id="@+id/navList"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/bovenBox"
+            android:choiceMode="singleChoice"
+            android:background="#A10000"/>
+
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>
