@@ -321,6 +321,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		super.onCreate(savedInstanceState);
 
+		//sharedprefs
+		getCamUrlfromSharedPrefs();
+
 		//Wifi gedoe van SDK ??
 		WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		multicastLock = wifi.createMulticastLock("multicastLock");
@@ -513,6 +516,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Onclick functie voor verbinden met camera
 	public void onClick(View v) {
 
+		//Indien url 1x is afgespeeld, opslaan naar sharedprefs
+		setCamUrltoSharedPrefs();
+
 		//Timer op nul
 		timer.setBase(SystemClock.elapsedRealtime());
 
@@ -590,13 +596,17 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 			player.onPause();
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
+
 	}
 
 	@Override
 	protected void onResume() {
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
+
 
 		Log.e("SDL", "onResume()");
 		super.onResume();
@@ -608,7 +618,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	@Override
 	protected void onStart() {
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
+
 
 		Log.e("SDL", "onStart()");
 		super.onStart();
@@ -625,7 +637,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 			player.onStop();
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
+
 	}
 
 	@Override
@@ -645,7 +659,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		SharedSettings.getInstance().savePrefSettings();
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
 
 		super.onDestroy();
 	}
@@ -661,7 +676,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		setUIDisconnected();
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
 
 	}
 
@@ -673,7 +689,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		if (player != null)
 			player.onWindowFocusChanged(hasFocus);
 
-		saveCamUrltoSharedPrefs();
+//		setCamUrltoSharedPrefs();
+//		getCamUrlfromSharedPrefs();
+
 
 	}
 
@@ -924,7 +942,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}
 	}
 
-	public void saveCamUrltoSharedPrefs(){
+	public void setCamUrltoSharedPrefs(){
 
 		//Voorbereiden van editor
 		sharedPrefs = getPreferences(PREFERENCE_MODE_PRIVATE);
@@ -934,7 +952,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		sharedPrefsEditor.putString("camUrl", CameraActivity.getCurrentCameraUrl());
 		sharedPrefsEditor.commit();
 
-		Log.v(TAG, "camurl GESET in sharedprefs:" + CameraActivity.getCurrentCameraUrl());
+		Log.d(TAG, "camurl GESET in sharedprefs:" + CameraActivity.getCurrentCameraUrl());
 
 	}
 
@@ -946,11 +964,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//KRIJG NIKS TERUG
 		String ERROR = "IK KRIJG NIKS TERUG uit sharedprefs";
 
-	    //set in CAmeraActivity
-		CameraActivity.setCameraUrl(sharedPrefs.getString("camUrl", ERROR));
+		String testtmp = sharedPrefs.getString("camUrl", ERROR);
 
 		//log om te checken wat gebeurt
-		Log.v(TAG, "camurl geget van sharedprefs:" + sharedPrefs.getString("camUrl", ERROR));
+		Log.d(TAG, "camurl geget van sharedprefs:" + testtmp);
+
+	    //set in CAmeraActivity
+		CameraActivity.setCameraUrl(sharedPrefs.getString("camUrl", ERROR));
+		Log.d(TAG, "camurl in Cameraactivity opgeslagen als:" + CameraActivity.getCurrentCameraUrl());
+
+
 
 	}
 }
