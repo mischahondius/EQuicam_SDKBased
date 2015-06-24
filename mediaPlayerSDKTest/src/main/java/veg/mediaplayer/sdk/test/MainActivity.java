@@ -845,24 +845,24 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	//Progress dialoogvenster functie
 	public boolean launchRingDialog() {
 
-		final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Clips laden ...", "Even geduld s.v.p.", true);
-		ringProgressDialog.setCancelable(false);
+		final ProgressDialog pd = ProgressDialog.show(this, "Clips laden", "Even geduld s.v.p.");
 
-		new Thread(new Runnable() {
+		Thread progressThread = new Thread() {
+
 			@Override
 			public void run() {
-				while (!doneLoadingClips) {
 
+				while (!doneLoadingClips) {
 					//Wachten
 				}
 
 				//Reset doneloading
 				doneLoadingReSet();
 
-				ringProgressDialog.dismiss();
-
+				pd.dismiss();
 			}
-		}).start();
+		};
+		progressThread.start();
 
 		return  true;
 	}
@@ -964,8 +964,4 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		Log.d(TAG, "DoneLoading is gereset");
 
 	}
-
-
-
-
 }
