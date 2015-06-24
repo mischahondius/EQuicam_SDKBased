@@ -29,127 +29,124 @@ import EQuicamApp.R;
 public class ClipsActivity extends ListActivity {
 
     //Todo: kan alles private worden?
-  public String                         videoDirectory;
-  public ArrayList <String>             videoArrayList;
-  public ArrayList <String>             sortedVideoArrayList;
-  public String []                      videoArray;
-  public HashMap<String, Clip>          clipCache;
+    public String                         videoDirectory;
+    public ArrayList <String>             videoArrayList;
+    public ArrayList <String>             sortedVideoArrayList;
+    public String []                      videoArray;
+    public HashMap<String, Clip>          clipCache;
 
-  //Maximaal aantal clips in de clips view, ivm geheugen
-  private final int                     clipsMax = 10;
+    //Maximaal aantal clips in de clips view, ivm geheugen
+    private final int                     clipsMax = 10;
 
-  public class MyVideoListAdapter extends ArrayAdapter<String> {
+    public class MyVideoListAdapter extends ArrayAdapter<String> {
 
-      public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList<String> fileNames) {
-          super(context, textViewResourceId, fileNames);
+        public MyVideoListAdapter(Context context, int textViewResourceId, ArrayList<String> fileNames) {
+            super(context, textViewResourceId, fileNames);
 
-          //Maak cache aan voor clips
-          clipCache = new HashMap<>(clipsMax);
-          initClipCache(clipsMax);
-      }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View row = convertView;
-
-
-        //If kleiner dan Maxsize doe dit anders niet
-        if (position < clipsMax) {
-            if (row == null) {
-                LayoutInflater inflater = getLayoutInflater();
-                row = inflater.inflate(R.layout.videoitemfragment, parent, false);
-            }
-
-            //Set Afspeelduur
-            TextView duratieTV = (TextView) row.findViewById(R.id.duratieTV);
-            String afspeelDuur = clipCache.get(sortedVideoArrayList.get(position)).getAfspeelDuur();
-            duratieTV.setText(afspeelDuur);
-
-            //Set Datum
-            TextView datumTV = (TextView) row.findViewById(R.id.datumTV);
-            datumTV.setText(clipCache.get(sortedVideoArrayList.get(position)).getDatum());
-
-            //Set Tijd
-            TextView tijdTV = (TextView) row.findViewById(R.id.tijdTV);
-            tijdTV.setText(clipCache.get(sortedVideoArrayList.get(position)).getTijd());
-
-            //Set Duimnagel
-            ImageView imageThumbnail = (ImageView) row.findViewById(R.id.Thumbnail);
-
-            // Anders duimnagel ophalen van clip
-            if (clipCache.get(sortedVideoArrayList.get(position)) != null) {
-                imageThumbnail.setImageBitmap(clipCache.get(sortedVideoArrayList.get(position)).getDuimNagel());
-            }
-
-            //Dit was even nodig
-            final int tmpPosition = position;
-
-            //setonClickListener voor rij
-            row.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    //Open fulscreen View voor video
-                    Intent i = new Intent(getApplicationContext(), FullScreenVideoActivity.class);
-
-                    //Geeg bestandslocatie mee aan FullScreen Player
-                    i.putExtra("VideoLocation", clipCache.get(sortedVideoArrayList.get(tmpPosition)).getBestandsLocatie());
-
-                    startActivity(i);
-                }
-            });
-
-            return row;
+            //Maak cache aan voor clips
+            clipCache = new HashMap<>(fileNames.size());
+            initClipCache(fileNames.size());
         }
 
-        return row;
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View row = convertView;
+
+                if (row == null) {
+                    LayoutInflater inflater = getLayoutInflater();
+                    row = inflater.inflate(R.layout.videoitemfragment, parent, false);
+                }
+
+                //Set Afspeelduur
+                TextView duratieTV = (TextView) row.findViewById(R.id.duratieTV);
+                String afspeelDuur = clipCache.get(sortedVideoArrayList.get(position)).getAfspeelDuur();
+                duratieTV.setText(afspeelDuur);
+
+                //Set Datum
+                TextView datumTV = (TextView) row.findViewById(R.id.datumTV);
+                datumTV.setText(clipCache.get(sortedVideoArrayList.get(position)).getDatum());
+
+                //Set Tijd
+                TextView tijdTV = (TextView) row.findViewById(R.id.tijdTV);
+                tijdTV.setText(clipCache.get(sortedVideoArrayList.get(position)).getTijd());
+
+                //Set Duimnagel
+                ImageView imageThumbnail = (ImageView) row.findViewById(R.id.Thumbnail);
+
+                // Anders duimnagel ophalen van clip
+                if (clipCache.get(sortedVideoArrayList.get(position)) != null) {
+                    imageThumbnail.setImageBitmap(clipCache.get(sortedVideoArrayList.get(position)).getDuimNagel());
+                }
+
+                //Dit was even nodig
+                final int tmpPosition = position;
+
+                //setonClickListener voor rij
+                row.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        //Open fulscreen View voor video
+                        Intent i = new Intent(getApplicationContext(), FullScreenVideoActivity.class);
+
+                        //Geeg bestandslocatie mee aan FullScreen Player
+                        i.putExtra("VideoLocation", clipCache.get(sortedVideoArrayList.get(tmpPosition)).getBestandsLocatie());
+
+                        startActivity(i);
+                    }
+                });
+
+                return row;
+            }
     }
-  }
 
-//Oncreate
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
+    //Oncreate
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-      //Maak arraylist om te vullen met video's
-      videoArrayList = new ArrayList<>(clipsMax);
+        //Maak arraylist om te vullen met video's
+        videoArrayList = new ArrayList<>();
 
-      //GET recordpath from intent
-      Intent intent = getIntent();
-      videoDirectory = intent.getStringExtra("Record Path");
+        //GET recordpath from intent
+        Intent intent = getIntent();
+        videoDirectory = intent.getStringExtra("Record Path");
 
-      //Get files uit videomap
-      File f = new File(videoDirectory);
-      File file[] = f.listFiles();
+        //Get files uit videomap
+        File f = new File(videoDirectory);
+        File file[] = f.listFiles();
 
-      //iterate over files heen
-      for (File aFile : file) {
+        //iterate over files heen
+        for (File aFile : file) {
 
-              videoArrayList.add(aFile.getName());
-      }
+            videoArrayList.add(aFile.getName());
+        }
 
-      //ArrayLijst omzetten naar Array
-      videoArray = videoArrayList.toArray(new String[videoArrayList.size()]);
+        //ArrayLijst omzetten naar Array
+        videoArray = videoArrayList.toArray(new String[videoArrayList.size()]);
 
-      //Array omkeren (nieuwste video's bovenaan)
-      Arrays.sort(videoArray, Collections.reverseOrder());
+        //Array omkeren (nieuwste video's bovenaan)
+        Arrays.sort(videoArray, Collections.reverseOrder());
 
-      //arraylist beperken tot x aantal items
-      videoArray = Arrays.copyOfRange(videoArray, 0, clipsMax);
+        //Als lijst groter is dan clipsMax
+        //arraylist beperken tot x aantal items
+        if (videoArray.length > clipsMax) {
+            videoArray = Arrays.copyOfRange(videoArray, 0, clipsMax);
+        }
 
-      //Array back to arraylist
-      sortedVideoArrayList = new ArrayList<>(Arrays.asList(videoArray));
+        //Array back to arraylist
+        sortedVideoArrayList = new ArrayList<>(Arrays.asList(videoArray));
 
-      //SetListAdapter
-      setListAdapter(new MyVideoListAdapter(ClipsActivity.this, R.layout.videoitemfragment, sortedVideoArrayList));
+        //SetListAdapter
+        setListAdapter(new MyVideoListAdapter(ClipsActivity.this, R.layout.videoitemfragment, sortedVideoArrayList));
 
-      //Als lijst leeg is
-      if (sortedVideoArrayList.isEmpty()) {
-          Toast.makeText(this, getString(R.string.geenClipsOmWeerTeGevenStr), Toast.LENGTH_LONG).show();
-      }
-  }
+        //Als lijst leeg is
+        if (sortedVideoArrayList.isEmpty()) {
+            Toast.makeText(this, getString(R.string.geenClipsOmWeerTeGevenStr), Toast.LENGTH_LONG).show();
+        }
+    }
 
     //Functie voor het opzetten van een ClipCache
     public void initClipCache(int size) {
@@ -161,6 +158,5 @@ public class ClipsActivity extends ListActivity {
             //Sla Clip op in cache
             clipCache.put(sortedVideoArrayList.get(i), tmpClip);
         }
-
     }
 }
