@@ -321,7 +321,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		super.onCreate(savedInstanceState);
 
-		//sharedprefs
+		//Get camera url van SharedPrefs
 		getCamUrlfromSharedPrefs();
 
 		//Wifi gedoe van SDK ??
@@ -961,19 +961,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Voorbereiden van editor
 		sharedPrefs = getPreferences(PREFERENCE_MODE_PRIVATE);
 
-		//KRIJG NIKS TERUG
-		String ERROR = "IK KRIJG NIKS TERUG uit sharedprefs";
-
-		String testtmp = sharedPrefs.getString("camUrl", ERROR);
-
 		//log om te checken wat gebeurt
-		Log.d(TAG, "camurl geget van sharedprefs:" + testtmp);
+		Log.d(TAG, "camurl geget van sharedprefs:" + CameraActivity.getCurrentCameraUrl());
 
 	    //set in CAmeraActivity
-		CameraActivity.setCameraUrl(sharedPrefs.getString("camUrl", ERROR));
+		CameraActivity.setCameraUrl(sharedPrefs.getString("camUrl", CameraActivity.getDefaultUrl()));
 		Log.d(TAG, "camurl in Cameraactivity opgeslagen als:" + CameraActivity.getCurrentCameraUrl());
-
-
 
 	}
 }

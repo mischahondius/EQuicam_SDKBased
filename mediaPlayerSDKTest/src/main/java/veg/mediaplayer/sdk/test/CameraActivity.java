@@ -16,20 +16,12 @@ import EQuicamApp.R;
  */
 public class CameraActivity extends Activity {
 
-//    private static final String         defaultUrl = "rtsp://74.106.249.39:554";
-    private static final String         defaultUrl = "default URL";
-
+    private static final String         defaultUrl = "rtsp://74.106.249.39:554";
     public  static String               currentCameraUrl;
     private EditText                    cameraURLeditText;
     private EditText                    poortEditText;
     private EditText                    gebruikersNaamET;
     private EditText                    wwET;
-
-
-//    //Sharedprefs
-//    private static final int 			            PREFERENCE_MODE_PRIVATE = 0;
-//    private static SharedPreferences                sharedPrefs;
-//    private static SharedPreferences.Editor 	    sharedPrefsEditor;
 
     //Oncreate
     @Override
@@ -117,7 +109,7 @@ public class CameraActivity extends Activity {
     //Get current cameraurl function
     public static String getCurrentCameraUrl(){
 
-        //if empty
+        //Als leeg, default url teruggeven
         if (currentCameraUrl == null) {
             currentCameraUrl = defaultUrl;
         }
@@ -129,11 +121,14 @@ public class CameraActivity extends Activity {
     public static void setCameraUrl(String newUrl){
 
         //if empty
-        if (newUrl == null) {
-        }
-
-        else{
-            currentCameraUrl = newUrl;
+        if (newUrl != null) {
+           currentCameraUrl = newUrl;
         }
    }
+
+    //Set camera url
+    public static String getDefaultUrl(){
+
+        return defaultUrl;
+    }
 }
