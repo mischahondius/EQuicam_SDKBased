@@ -94,14 +94,12 @@ public class ClipsActivity extends ListActivity {
                         i.putExtra("VideoLocation", clipCache.get(sortedVideoArrayList.get(tmpPosition)).getBestandsLocatie());
 
                         startActivity(i);
-
                     }
                 });
 
+                //Geef rowtje terug
                 return row;
-
             }
-
     }
 
     //Oncreate

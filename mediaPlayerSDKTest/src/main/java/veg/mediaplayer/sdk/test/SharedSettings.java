@@ -16,43 +16,46 @@ import android.util.Log;
 public class SharedSettings {
 
 	// misc
-	public boolean ShowNetworkStausControl = false;
-	public boolean AllowFullscreenMode = true;
-	public int LockPlayerViewOrientation = 0; // 0 - unlock, 1 - Landscape, 2 - Portrait, 3 - current
+	public boolean 							ShowNetworkStausControl = false;
+	public boolean 							AllowFullscreenMode = true;
+	public int 								LockPlayerViewOrientation = 0; // 0 - unlock, 1 - Landscape, 2 - Portrait, 3 - current
 
 	// ad control
-	public boolean AdShowForever = true;
-	public boolean AdShowWithCloseButton = false;
-	public boolean AdShowClickAndClose = false;
+	public boolean 							AdShowForever = true;
+	public boolean 							AdShowWithCloseButton = false;
+	public boolean 							AdShowClickAndClose = false;
 
 	// connection
-	public int connectionProtocol = -1;    // 0 - udp, 1 - tcp, 2 - http, -1 - AUTO
-	public int connectionDetectionTime = 5000;// in milliseconds
-	public int connectionBufferingTime = 3000;    // in milliseconds
+	public int 								connectionProtocol = -1;    // 0 - udp, 1 - tcp, 2 - http, -1 - AUTO
+	public int 								connectionDetectionTime = 5000;// in milliseconds
+	public int			 					connectionBufferingTime = 3000;    // in milliseconds
 
 	// decoder
-	public int decoderType = 1;                // 0 - soft, 1 - hard stagefright
+	public int 								decoderType = 1;                // 0 - soft, 1 - hard stagefright
 
 	// renderer
-	public int rendererType = 1;                // 0 - SDL, 1 - pure OpenGL
-	public int rendererEnableColorVideo = 1;    // 0 - grayscale, 1 - color
-	public int rendererEnableAspectRatio = 1;    // 0 - resize, 1 - aspect
+	public int 								rendererType = 1;                // 0 - SDL, 1 - pure OpenGL
+	public int 								rendererEnableColorVideo = 1;    // 0 - grayscale, 1 - color
+	public int 								rendererEnableAspectRatio = 1;    // 0 - resize, 1 - aspect
 
 	// synchro
-	public int synchroEnable = 1;                // enable audio video synchro
-	public int synchroNeedDropVideoFrames = 1;    // drop video frames if it older
+	public int 								synchroEnable = 1;                // enable audio video synchro
+	public int 								synchroNeedDropVideoFrames = 1;    // drop video frames if it older
 
-	public long OpenAdLastTime = 0;
-	private Context m_Context = null;
-	private SharedPreferences settings = null;
-	private SharedPreferences.Editor editor = null;
-	private static volatile SharedSettings _inst = null;
+	public long 							OpenAdLastTime = 0;
+	private Context 						m_Context = null;
+	private SharedPreferences 				settings = null;
+	private SharedPreferences.Editor 		editor = null;
+	private static volatile SharedSettings 	_inst = null;
 
 	private SharedSettings(final Context mContext) {
+
+		//Get context
 		m_Context = mContext;
 	}
 
 	public static synchronized SharedSettings getInstance(final Context mContext) {
+
 		if (_inst == null) {
 			_inst = new SharedSettings(mContext);
 			_inst.loadPrefSettings();
@@ -64,11 +67,14 @@ public class SharedSettings {
 	}
 
 	public static synchronized SharedSettings getInstance() {
+
 		return _inst;
 	}
 
+	//Playerinstellingen laden
 	public void loadPrefSettings() {
-		// load preferences settings to local variables
+
+			// load preferences settings to local variables
 		if (settings == null)
 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
 
@@ -95,7 +101,9 @@ public class SharedSettings {
 		Log.e("TV Player", "SharedSettings: Load settings.");
 	}
 
+	//Playerinstellingen opslaan
 	public void savePrefSettings() {
+
 		if (settings == null)
 			settings = PreferenceManager.getDefaultSharedPreferences(m_Context);
 

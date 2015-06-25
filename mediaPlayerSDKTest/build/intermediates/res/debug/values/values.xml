@@ -244,6 +244,7 @@
     <string name="status_bar_notification_info_overflow">999+</string>
     <!-- From: file:/C:/Users/Equifilm/Desktop/Prog%20Project/EQuicam_SDKBased/mediaPlayerSDKTest/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="stopEerstOpnameStr">Stop eerst de opname.</string>
     <string name="tijdHardcodedStr">Tijd</string>
     <string name="urlHintStr">Bijvoorbeeld: equicam.noip.me</string>
     <string name="urlTVstr">Camera URL:</string>

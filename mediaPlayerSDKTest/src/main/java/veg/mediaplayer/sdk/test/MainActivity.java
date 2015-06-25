@@ -155,7 +155,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					stopProgressTask();
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case PLP_CLOSE_SUCCESSFUL:
@@ -165,7 +165,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					showStatusView();
 					System.gc();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case PLP_CLOSE_FAILED:
@@ -174,7 +174,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case CP_CONNECT_FAILED:
@@ -183,7 +183,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case PLP_BUILD_FAILED:
@@ -192,7 +192,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case PLP_PLAY_FAILED:
@@ -201,7 +201,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case PLP_ERROR:
@@ -210,7 +210,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case CP_INTERRUPTED:
@@ -219,7 +219,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					playerStatusText.setText(getString(R.string.GeenVerbindingString));
 					showStatusView();
 					setShowControls();
-					setUIDisconnected();
+					setNietVerbondenMetCamera();
 					break;
 
 				case CP_RECORD_STARTED:
@@ -250,7 +250,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						showStatusView();
 						player_state = PlayerStates.ReadyForUse;
 						setShowControls();
-						setUIDisconnected();
+						setNietVerbondenMetCamera();
 					}
 					break;
 
@@ -262,7 +262,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 						playerStatusText.setText(getString(R.string.GeenVerbindingString));
 						showStatusView();
 						player_state = PlayerStates.ReadyForUse;
-						setUIDisconnected();
+						setNietVerbondenMetCamera();
 
 						Toast.makeText(getApplicationContext(), getString(R.string.Slechts2MinutenOpnameString),
 								Toast.LENGTH_SHORT).show();
@@ -275,7 +275,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}
 	};
 
-	// callback van de Native Player
+	// Callback van de Native Player
 	@Override
 	public int OnReceiveData(ByteBuffer buffer, int size, long pts) {
 		Log.e(TAG, "Form Native Player OnReceiveData: size: " + size + ", pts: " + pts);
@@ -429,14 +429,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 				switch (position) {
+
 					//LIVE
 					case 0:
 
-						//Openen van Live View
-						Intent b = new Intent(getApplicationContext(), MainActivity.class);
+						//Zitten we al in, dus drawer wegschuiven
+						hamBurgerLayout.closeDrawer(Gravity.LEFT);
 
-						startActivity(b);
-						finish();
 						break;
 
 					//CLIPS
@@ -444,9 +443,15 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 						//als aan het opnemen, geef melding
 						if (aanHetOpnemen) {
-							Toast.makeText(getApplicationContext(), "Stop eerst de opname.", Toast.LENGTH_SHORT).show();
+
+							Toast.makeText(getApplicationContext(), getString(R.string.stopEerstOpnameStr), Toast.LENGTH_SHORT).show();
 							break;
+
 						} else {
+
+							//Drawer ff wegschuiven
+							hamBurgerLayout.closeDrawer(Gravity.LEFT);
+
 							//Start dialoog venster op nieuwe thread
 							if (launchRingDialog()) {
 
@@ -457,23 +462,31 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 								a.putExtra("Record Path", getOpnameMap());
 
 								startActivity(a);
+
 								break;
 							}
 						}
 
 
-						//CAMERA's
+					//CAMERA
 					case 2:
 
 						//als aan het opnemen, geef melding
 						if (aanHetOpnemen) {
-							Toast.makeText(getApplicationContext(), "Stop eerst de opname.", Toast.LENGTH_SHORT).show();
+
+							Toast.makeText(getApplicationContext(), getString(R.string.stopEerstOpnameStr), Toast.LENGTH_SHORT).show();
 							break;
+
 						} else {
+
+							//Drawer ff wegschuiven
+							hamBurgerLayout.closeDrawer(Gravity.LEFT);
+
 							//Openen van CameraActivity View
 							Intent c = new Intent(getApplicationContext(), CameraActivity.class);
 
 							startActivity(c);
+
 							break;
 						}
 				}
@@ -485,6 +498,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Hamburger menu set up
 	private void setupDrawer() {
+
 		hamBurgerActionBarToggle = new ActionBarDrawerToggle(this, hamBurgerLayout, R.string.drawerOpenStr, R.string.drawerDichtStr) {
 
 			//Wanneer Drawer volledig open is
@@ -505,7 +519,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				invalidateOptionsMenu();
 			}
 		};
-
 		hamBurgerActionBarToggle.setDrawerIndicatorEnabled(true);
 		hamBurgerLayout.setDrawerListener(hamBurgerActionBarToggle);
 	}
@@ -532,7 +545,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			//Wanneer player wordt afgesloten
 			player.Close();
 			if (aanHetAfspelen) {
-				setUIDisconnected();
+				setNietVerbondenMetCamera();
 			} else {
 
 				SharedSettings sett = SharedSettings.getInstance();
@@ -663,7 +676,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			stopOpname();
 		}
 
-		setUIDisconnected();
+		setNietVerbondenMetCamera();
 
 	}
 
@@ -684,7 +697,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			player.onLowMemory();
 	}
 
-	protected void setUIDisconnected() {
+	protected void setNietVerbondenMetCamera() {
 		btnConnect.setText(getString(R.string.VerbindenString));
 		aanHetAfspelen = false;
 	}

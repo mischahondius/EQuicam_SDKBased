@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.widget.VideoView;
 import EQuicamApp.R;
 
-
 public class FullScreenVideoActivity extends Activity implements MediaPlayer.OnCompletionListener {
 
     @Override

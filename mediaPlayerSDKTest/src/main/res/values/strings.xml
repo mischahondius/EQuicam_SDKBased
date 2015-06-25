@@ -44,5 +44,6 @@
     <string name="afspeelduurHardcodedStr">Duratie</string>
     <string name="geenClipsStr">Er zijn momenteel nog geen clips beschikbaar. Ga terug naar het Live scherm om opnames te maken.</string>
     <string name="geenClipsOmWeerTeGevenStr">Er zijn nog geen clips om weer te geven.</string>
+    <string name="stopEerstOpnameStr">Stop eerst de opname.</string>
 
 </resources>
