@@ -12,10 +12,12 @@ De EQuicam App maakt het mogelijk om live videobeelden van EQuicam (ip camera) t
 
 **Sceenshots**
 <img src="/docs/ss1.png" width="400">
-![alt text](https://github.com/mischahondius/EQuicam_SDKBased/blob/master/docs/ss1.png "Screenshot")
-![alt text](https://github.com/mischahondius/EQuicam_SDKBased/blob/master/docs/ss2.png "Screenshot")
-
+<img src="/docs/ss2.png" width="400">
 
 **Beperkingen Gratis App**
 - 2 minuten bekijken en opnemen achter elkaar
 - Slechts laatste 10 clips terugkijken
+
+**Copyright**
+All rights reserved. Mischa Hondius 2015. 
+Based on VideoExpertsGroup SDK. All rights reserved.
