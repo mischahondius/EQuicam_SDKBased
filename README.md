@@ -11,8 +11,8 @@ De EQuicam App maakt het mogelijk om live videobeelden van EQuicam (ip camera) t
 - Terugkijken van clips
 
 **Sceenshots**
-![alt text](https://github.com/mischahondius/EQuicam_SDKBased/edit/master/docs/ss1.png "Screenshot")
-![alt text](https://github.com/mischahondius/EQuicam_SDKBased/edit/master/docs/ss2.png "Screenshot")
+![alt text](https://github.com/mischahondius/EQuicam_SDKBased/blob/master/docs/ss1.png "Screenshot")
+![alt text](https://github.com/mischahondius/EQuicam_SDKBased/blob/master/docs/ss2.png "Screenshot")
 
 
 **Beperkingen Gratis App**
