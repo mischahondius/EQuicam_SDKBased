@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private ActionBarDrawerToggle 		hamBurgerActionBarToggle;
 
 	//Bools
-	private boolean 					opnameAangevraagd = false;
+	private boolean 					recorderNietIngesteld = false;
 	private boolean 					aanHetAfspelen = false;
 	private boolean						aanHetOpnemen = false;
 
@@ -303,20 +303,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		return 0;
 	}
 
-	//Opname map aanmaken indien nodig, en locatie ophalen
-	public static String getOpnameMap() {
-		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_DCIM), "EQuicam Clips");
-
-		if (!mediaStorageDir.exists()) {
-			if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())) {
-				Log.e(TAG, "Niet gelukt om EQuicam Clips Map aan te maken" + mediaStorageDir.getPath());
-				return "";
-			}
-		}
-		return mediaStorageDir.getPath();
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -406,25 +392,23 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+
+		//Cornercaseje fix, nu hoef je niet 2x op rec te drukken, na weg van app tijdens opname
+		recorderNietIngesteld = false;
+
 		super.onSaveInstanceState(outState);
 	}
 
+	//Hamburger menu titel aanpassen, luisteren naar Drawer state
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
+
 		super.onConfigurationChanged(newConfig);
 		hamBurgerActionBarToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
-		int id = item.getItemId();
 
 		// Toggle inschakelen van het Hamburger Menu
 		if (hamBurgerActionBarToggle.onOptionsItemSelected(item)) {
@@ -459,12 +443,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					case 1:
 
 						//als aan het opnemen, geef melding
-						if (aanHetOpnemen){
+						if (aanHetOpnemen) {
 							Toast.makeText(getApplicationContext(), "Stop eerst de opname.", Toast.LENGTH_SHORT).show();
 							break;
-						}
-
-						else {
+						} else {
 							//Start dialoog venster op nieuwe thread
 							if (launchRingDialog()) {
 
@@ -484,12 +466,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 					case 2:
 
 						//als aan het opnemen, geef melding
-						if (aanHetOpnemen){
+						if (aanHetOpnemen) {
 							Toast.makeText(getApplicationContext(), "Stop eerst de opname.", Toast.LENGTH_SHORT).show();
 							break;
-						}
-
-						else {
+						} else {
 							//Openen van CameraActivity View
 							Intent c = new Intent(getApplicationContext(), CameraActivity.class);
 
@@ -542,10 +522,10 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		SharedSettings.getInstance().loadPrefSettings();
 		if (player != null) {
 
+			//CameraUrl doorgeven aan de player
 			player.getConfig().setConnectionUrl(CameraActivity.getCurrentCameraUrl());
-			Log.d("Camurl =", "" + CameraActivity.getCurrentCameraUrl());
 
-			//Check of Cameraadres niet leeg is
+			//Check of Cameraurl niet leeg is
 			if (player.getConfig().getConnectionUrl().isEmpty())
 				return;
 
@@ -578,7 +558,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				conf.setNumberOfCPUCores(0);
 
 				//Recorder instellen
-				if (opnameAangevraagd) {
+				if (recorderNietIngesteld) {
 					int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START);
 					conf.setRecordPath(getOpnameMap());
 					conf.setRecordFlags(record_flags);
@@ -593,8 +573,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 				// Player openen
 				player.Open(conf, mthis);
-
-				//Niet kijken, wel recorden
 				conf.setMode(PlayerModes.PP_MODE_RECORD);
 
 				//Boolean setten: aan het afspelen momenteel
@@ -631,7 +609,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		super.onStart();
 		if (player != null)
 			player.onStart();
-
 	}
 
 	@Override
@@ -900,10 +877,24 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		return  true;
 	}
 
+	//Opname map aanmaken indien nodig, en locatie ophalen
+	public static String getOpnameMap() {
+		File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_DCIM), "EQuicam Clips");
+
+		if (!mediaStorageDir.exists()) {
+			if (!(mediaStorageDir.mkdirs() || mediaStorageDir.isDirectory())) {
+				Log.e(TAG, "Niet gelukt om EQuicam Clips Map aan te maken" + mediaStorageDir.getPath());
+				return "";
+			}
+		}
+		return mediaStorageDir.getPath();
+	}
+
 	//Start opname functie
 	public void startOpname(){
 
-		int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME); //1 - auto start
+		int record_flags = PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_AUTO_START) | PlayerRecordFlags.forType(PlayerRecordFlags.PP_RECORD_SPLIT_BY_TIME);
 		player.RecordSetup(getOpnameMap(), record_flags, rec_split_time, 0, "");
 		player.RecordStart();
 
@@ -942,9 +933,9 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Recbutn Listener
 	public void recordBtnonClickListener(View view) {
-		opnameAangevraagd = !opnameAangevraagd;
+		recorderNietIngesteld = !recorderNietIngesteld;
 
-		if (opnameAangevraagd) {
+		if (recorderNietIngesteld) {
 
 			//start opname, als de player bestaat
 			if (player != null) {
@@ -953,11 +944,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 		} else {
 
-			//stop opname, als de player bestaat
-			if (player != null) {
+			//stop opname, als de player bestaat en aan het opnemen
+			if ((player != null) && (aanHetOpnemen) ) {
 				stopOpname();
 			}
 		}
+
 	}
 
 	//Camera url opslaan naar sharedprefs
@@ -992,15 +984,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 
 	//Doneloadingsetter
 	public static void doneLoadingSet (){
-		doneLoadingClips = true;
-		Log.d(TAG, "Klaar met clips laden!");
 
+		doneLoadingClips = true;
 	}
 
 	//Doneloadingresetter
 	public static void doneLoadingReSet() {
-		doneLoadingClips = false;
-		Log.d(TAG, "DoneLoading is gereset");
 
+		doneLoadingClips = false;
 	}
 }
