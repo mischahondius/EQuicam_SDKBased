@@ -28,7 +28,7 @@ import EQuicamApp.R;
 
 public class ClipsActivity extends ListActivity {
 
-    private String                         videoDirectory;
+    private String                         videoMap;
     private ArrayList <String>             videoArrayList;
     private ArrayList <String>             sortedVideoArrayList;
     private String []                      videoArray;
@@ -112,10 +112,10 @@ public class ClipsActivity extends ListActivity {
 
         //GET recordpath from intent
         Intent intent = getIntent();
-        videoDirectory = intent.getStringExtra("Record Path");
+        videoMap = intent.getStringExtra("Record Path");
 
         //Get files uit videomap
-        File f = new File(videoDirectory);
+        File f = new File(videoMap);
         File file[] = f.listFiles();
 
         //iterate over files heen

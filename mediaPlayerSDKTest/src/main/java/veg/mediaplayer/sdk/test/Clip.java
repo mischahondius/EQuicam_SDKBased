@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class Clip {
 
-    //Een clip bezit de volgende eigenschappen
+    //Een clip bezit de volgende eigenschappen:
 
     //Eigenschappen bestand
     private String                      bestandsNaam;

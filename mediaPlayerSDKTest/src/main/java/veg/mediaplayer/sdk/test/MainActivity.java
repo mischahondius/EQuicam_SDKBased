@@ -94,6 +94,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	private boolean 					aanHetAfspelen = false;
 	private boolean						aanHetOpnemen = false;
 
+	//Overige
 	private StatusProgressTask 			mProgressTask = null;
 	private MediaPlayer 				player = null;
 	private MainActivity 				mthis = null;
@@ -324,16 +325,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Hamburger Drawer Menu opzetten
 		hamBurgerOptiesLijst = (ListView) findViewById(R.id.navList);
 		hamBurgerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		addDrawerItems();
-		setupDrawer();
+		vulDeHamburgerMetOpties();
+		hamburgerSetUp();
 		getSupportActionBar().setTitle(R.string.liveDrawerStr);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		//Get SharedPrefs, waarin alle Player instellingen zich bevinden
 		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-		SharedSettings.getInstance(this).loadPrefSettings();
-		SharedSettings.getInstance().savePrefSettings();
+		PlayerInstellingen.getInstance(this).loadPrefSettings();
+		PlayerInstellingen.getInstance().savePrefSettings();
 
 		//Get Player status textview
 		playerStatusText = (TextView) findViewById(R.id.playerStatusText);
@@ -419,7 +420,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	//Hamburger menu items toevoegen
-	private void addDrawerItems() {
+	private void vulDeHamburgerMetOpties() {
 		String[] osArray = {getString(R.string.liveDrawerStr), getString(R.string.clipsDrawerStr), getString(R.string.cameraDrawerStr)};
 		ArrayAdapter<String> hamBurgerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
 		hamBurgerOptiesLijst.setAdapter(hamBurgerArrayAdapter);
@@ -453,7 +454,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 							hamBurgerLayout.closeDrawer(Gravity.LEFT);
 
 							//Start dialoog venster op nieuwe thread
-							if (launchRingDialog()) {
+							if (DialoogVensterWeergeven()) {
 
 								//Openen van Clips View
 								Intent a = new Intent(getApplicationContext(), ClipsActivity.class);
@@ -497,7 +498,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 	}
 
 	//Hamburger menu set up
-	private void setupDrawer() {
+	private void hamburgerSetUp() {
 
 		hamBurgerActionBarToggle = new ActionBarDrawerToggle(this, hamBurgerLayout, R.string.drawerOpenStr, R.string.drawerDichtStr) {
 
@@ -532,7 +533,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		//Timer op nul
 		timer.setBase(SystemClock.elapsedRealtime());
 
-		SharedSettings.getInstance().loadPrefSettings();
+		PlayerInstellingen.getInstance().loadPrefSettings();
 		if (player != null) {
 
 			//CameraUrl doorgeven aan de player
@@ -548,7 +549,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 				setNietVerbondenMetCamera();
 			} else {
 
-				SharedSettings sett = SharedSettings.getInstance();
+				PlayerInstellingen sett = PlayerInstellingen.getInstance();
 				boolean bPort = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
 				int aspect = bPort ? 1 : sett.rendererEnableAspectRatio;
 				MediaPlayerConfig conf = new MediaPlayerConfig();
@@ -658,7 +659,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 			stopOpname();
 		}
 
-		SharedSettings.getInstance().savePrefSettings();
+		PlayerInstellingen.getInstance().savePrefSettings();
 		super.onDestroy();
 	}
 
@@ -865,8 +866,8 @@ public class MainActivity extends ActionBarActivity implements OnClickListener, 
 		}
 	}
 
-	//Progress dialoogvenster functie
-	public boolean launchRingDialog() {
+	//Dialoogvenster functie
+	public boolean DialoogVensterWeergeven() {
 
 		final ProgressDialog pd = ProgressDialog.show(this, "Clips laden", "Even geduld s.v.p.");
 
