@@ -40,17 +40,12 @@ Er is voor gekozen om de opname knop te verbergen tot op het moment dat er daadw
 Door middel van de grote rode opvallende opnameknop kan er een opname worden gestart. Opname wordt bevestigt op meerdere manieren:
 - 1. Toast message
 - 2. Gloeiende opnameknop
-- 3. Opname duratie, er gaat een timer lopen (Nog in te voegen)
-- 4. Optioneel: rood lampje of REC rechtsboven in beeld videovenster
+- 3. Opname duratie, er gaat een timer lopen.
 
-<img src="/docs/LIVE_5.png" width="400">
-
-Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-message "Opname Gestopt".
-
-<img src="/docs/CLIPS_1.png" width="400">
+Stop opname wordt door het ongedaanmaken van bovenstaande bevestigt. De Toast-message "Opname Gestopt". Alle beslissingen van het DesignDoc zijn in stand gebleven. 
 
 **2. CLIPS**
-Een scherm waarbij een lijst van video's wordt weergegeven die met deze App zijn opgenomen. Een lijst met video inclusief thumbnails wordt weergegeven. Bovenin beeld blijft de videoplayer zichtbaar. Indien er een video wordt aangeklikt wordt deze direct geopend in de player. Doel is om hier ook Fullscreen mogelijk te maken. Ook door middel van een orientatie beweging naar landscape. 
+Een scherm waarbij een lijst van video's wordt weergegeven die met deze App zijn opgenomen. Een lijst met video's inclusief thumbnails wordt weergegeven. Er is afgeweken van het plan om een standaard videoplayer in beeld te houden bovenaan. Dit om zoveel mogelijk clips weer te kunnen geven in dit venster. Aangezien er nog een zoekfunctie ontbreekt is het voor de gebruiker fijn als er in één oogopslag zo veel mogelijk video's in beeld zijn. Dit maakt het makkelijker om de gewenste opname terug te vinden. Daarnaast wil men de video's terugkijken in fullscreen, aangezien er op klein scherm weinig te analyseren valt. Bij een klik op een clip wordt dan ook direct de full screen native player geladen. Bij het draaien naar landscape heeft de gebruiker al helemaal een full screen beeld. 
 
 NAVIGATIE
 - Doel is om 2 tabjes onder de actionbar weer te geven, mogelijkheid tot swipen tussen de twee hoofdschermen.
