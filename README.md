@@ -11,8 +11,10 @@ De EQuicam App maakt het mogelijk om live videobeelden van EQuicam (ip camera) t
 - Terugkijken van clips
 
 **Sceenshots**
+
 <img src="/docs/ss1.png" width="400">
 <img src="/docs/ss2.png" width="400">
+
 
 **Beperkingen Gratis App**
 - 2 minuten bekijken en opnemen achter elkaar
