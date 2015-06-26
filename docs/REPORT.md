@@ -3,13 +3,15 @@ Mischa Hondius, 6053017.
 
 **Kort:** live bekijken van videobeelden + opnemen en terugkijken van deze beelden.
 
-De EQuicam App maakt het mogelijk om live videobeelden van EQuicam (ip camera) te bekijken en op te nemen op je Android apparaat. De EQuicam is de eerste videocamera die volledig automatisch paard en ruiter in beeld brengt. De camera zoomt, pant en tilt zelf mee op basis van beeldherkenning. Hierbij is dus geen "tracking device" nodig. De combinatie EQuicam + app biedt ruiters en trainers binnen de hippische sport de mogelijkheid tot het gemakkelijk opnemen en analyseren van trainingen, zonder dat daarbij een dure cameraman aan ten pas hoeft  te komen.
+De EQuicam App maakt het mogelijk om live videobeelden van een EQuicam (ip camera) te bekijken en op te nemen op je Android apparaat. De EQuicam is de eerste videocamera die volledig automatisch paard en ruiter in beeld brengt. De camera zoomt, pant en tilt zelf mee op basis van beeldherkenning. Hierbij is dus geen "tracking device" nodig. De combinatie EQuicam + app biedt ruiters en trainers binnen de hippische sport de mogelijkheid tot het gemakkelijk opnemen en analyseren van trainingen, zonder dat daarbij een dure cameraman aan ten pas hoeft te komen.
 
-**Functionaliteit Minimale App**
+**Functionaliteit**
 - Verbinden met EQuicam
 - Live weergeven beeld camera
 - Opname live beeld
 - Terugkijken opgenomen clips
+
+Bovenstaande functionaliteit heb ik succesvol weten te implementeren. Ik heb gekozen om meer tijd te steken in design, gebruiksvriendelijkheid en het voorkomen van crashes bij cornercases. Hierdoor ben ik niet toe gekomen aan optionele functionaliteit zoals hieronder beschreven. Het minimum viable product staat naar mijn idee echter als een huis. Onderstaande ga ik graag in mijn vrije tijd toevoegen na de studie.
 
 **Optionele functionaliteit**
 - Zoekfunctie opgenomen clips
@@ -19,11 +21,14 @@ De EQuicam App maakt het mogelijk om live videobeelden van EQuicam (ip camera) t
 - Accounts, met eigen camera's daaronder
 - Favorieten (clips)
 
+
 **Schermen**
 
 De App zal bestaan uit slechts 2 schermen:
 1. LIVE
 2. CLIPS
+
+Ik ben afgeweken van bovenstaande op de volgende manier: er is één extra scherm toegevoegd: "Camera". Hier kan men de standaard camera url aanpassen, om zo een eigen camera te gebruiken met de app. In principe kan iedere IP camera/Webcam die een RTSP stream uitgeeft, met of zonder gebruikersnaam en wachtwoord, worden gebruikt met deze app. In eerste instantie wilde ik de cameraurl hardcoden voor de klant. Het is even de vraag of dit scherm ook daadwerkelijk zichbaar blijft voor de eindgebruiker in de toekomst, of dat deze slechts zichtbaar is voor bepaalde accounts (Admins). 
 
 **1. LIVE**
 Op dit scherm kan de gebruiker het live beeld van de camera bekijken. Om ongewenst dataverbruik te voorkomen dient te gebruiker doelbewust een verbinding te maken met de camera. Op dit moment is daar een aparte knop voor. Doel is om dit te veranderen in een tik op het lege videoscherm.
