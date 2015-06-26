@@ -56,8 +56,9 @@ Het idee was om 2 tabjes onder de actionbar weer te geven, mogelijkheid tot swip
 -Android MediaPlayer voor afspelen opgenomen MP4's. Hier is niet vanaf geweken. De native mediaPlayer van Android bleek perfect te werken en makkelijk aanpasbaar. Ik heb de vorige en volgende knoppen weggesloopt, om te voorkomen dat de gebruiker op die manier zapt tussen video's. Er moet doelbewust gebruik gemaakt worden van de app. Een video moet worden opgezocht op basis van de naam van het paard, de tijd en datum van opname en de thumbnail. Het is geen speeltje. Er is gekozen om de video automatisch af te sluiten wanneer de video klaar is met afspelen. Zo kan men direct een andere video selecteren om te bekijken. Wellicht dat dit nog aangepast dient te worden in de toekomst. Er valt ook wat voor te zeggen dat men de video misschien wil terugspoelen en nog eens bekijken, dan is het vervelend als het venster automatisch sluit. Hiervan ben ik mij bewust.
 
 **Data**
+
 - Er is gekozen om een harcoded Default camera in te stellen. Wanneer men een eerste keer de app opstart zal de camera worden opgeslagen naar sharedPrefs. Wanneer er eigen camera wordt ingesteld, zal deze, na tenminste éénmalig verbonden te zijn geweest, de default Camera Url overschrijven. Wanneer de app wordt afgesloten, of de telefoon opnieuw wordt opgestart, blijft de laatst gebruikte Camera Url in geheugen. In principe hoeft men dus slechts eenmalig de eigen camera in te voeren.
-- 
+- Daarnaast slaat de SDK code via de cameraInstellingen Activity alle camerainstellingen op naar de sharedPreferences. Hier gaat het om technische instellingen van de player, zoals de buffertijd, aspect ratio, en hoe met framedrops om te gaan.
 
 
 **Functies**
