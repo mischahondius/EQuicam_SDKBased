@@ -73,6 +73,10 @@ private boolean 					playing
 
 Het bleek inderdaad handig, noodzakelijk zelfs, om bij te houden of er werd opgenomen en of afgespeeld. Dit om te voorkomen dat een opname dubbel wordt ingestart. Ook kon hierdoor worden tegengegaan dat gebruikers van scherm wisselen tijdens opname, wat zeer ongewenst is. De app zou hierdoor ook crashen. Als er bijvoorbeeld tijdens opname naar "Clips" gegaan zou worden, zou ClipsActivity trachten een nieuwe clip aan te maken van de video die op dat moment nog "in de maak" is. Dit trekt de functie niet die de thumbnails maakt. Ook metadata kan nog niet worden uitgelezen. Heeft de App moeite mee. Deze cornercase is nu voorkomen. Ook bij het onderbroken worden door een belletje, het openen van een andere app, wordt gechecked of er wordt opgenomen, indien dat zo is, wordt de opname afgesloten. De namen van de bools zijn wel aangepast om consistentie in zowel taal als taalgebruik te bewerkstelligen. De bools heten dan ook "aanHetOpnemen" en "aanHetAfspelen".
 
+Er zijn heel wat functies geschreven, voornamelijk Getters en Setters. Dit voornamelijk voor het ophalen van de CameraUrl en het aanpassen daarvan. Daarnaast Getters en Setters voor de eigenschappen (metadata) van de Clips Objecten. Ik heb gekozen om van Clips een object te maken, zoals het hoort bij Object-Oriented programmeren. De Camera heb ik als Activity laten staan, aangezien er op dit moment wordt uitgegeaan van één camera op een EQuicam locatie. Op het moment dat ik de functionaliteit uitbreidt naar de optie om te LIVE schaken tussen camera's, zal er een Camera Klasse worden aangemaakt, zodat er meerdere Camera Objecten kunnen voorkomen. 
+
+
+
 
 
 
