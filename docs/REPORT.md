@@ -80,6 +80,8 @@ private boolean						is_record
 
 private boolean 					playing
 
+Het bleek inderdaad handig, noodzakelijk zelfs, om bij te houden of er werd opgenomen en of afgespeeld. Dit om te voorkomen dat een opname dubbel wordt ingestart. Ook kon hierdoor worden tegengegaan dat gebruikers van scherm wisselen tijdens opname, wat zeer ongewenst is. De app zou hierdoor ook crashen. Als er bijvoorbeeld tijdens opname naar "Clips" gegaan zou worden, zou ClipsActivity trachten een nieuwe clip aan te maken van de video die op dat moment nog "in de maak" is. Dit trekt de functie niet die de thumbnails maakt. Ook metadata kan nog niet worden uitgelezen. Heeft de App moeite mee. Deze cornercase is nu voorkomen. Ook bij het onderbroken worden door een belletje, het openen van een andere app, wordt gechecked of er wordt opgenomen, indien dat zo is, wordt de opname afgesloten.
+
 
 
 
